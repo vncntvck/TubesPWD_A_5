@@ -9,6 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&amp;family=Inter:wght@300;400;700&amp;display=swap" />
     <link rel="stylesheet" href="css/catalog.css" />
+    <!-- urutan penting: data dulu, baru skrip yang memakainya -->
+    <script src="js/cars.js" defer="defer"></script>
+    <script src="js/main.js" defer="defer"></script>
+    <script src="js/catalog.js" defer="defer"></script>
 </head>
 
 <body>
@@ -49,21 +53,18 @@
         <section class="banner">
             <div class="banner__inner">
                 <span class="banner__model">Mazda CX-30</span>
-                <h1 class="banner__title">Driver Beyond <br />Limits</h1>
-                <span class="banner__from">Start From <br /></span>
+                <h1 class="banner__title">Drive Beyond <br />Limits</h1>
+                <span class="banner__from">Start From</span>
                 <span class="banner__price">Rp 599.000.000</span>
             </div>
         </section>
 
-        <!-- FILTER -->
+        <!-- FILTER (pilihannya diisi otomatis oleh catalog.js dari cars.js) -->
         <div class="filter">
             <div class="filter__item">
                 <label for="category">Category</label>
                 <select id="category">
                     <option value="all">All Categories</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="suv">SUV</option>
-                    <option value="hatchback">Hatchback</option>
                 </select>
             </div>
 
@@ -71,88 +72,20 @@
                 <label for="brand">Brand</label>
                 <select id="brand">
                     <option value="all">All Brands</option>
-                    <option value="mazda">Mazda</option>
-                    <option value="toyota">Toyota</option>
-                    <option value="honda">Honda</option>
                 </select>
             </div>
         </div>
-            <!-- DAFTAR MOBIL -->
-        <div class="car-grid">
-            <div class="car-card">
-                <img src="/Frontend/Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="Mazda MX5 Miata" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Mazda CX 30</span>
-                <span class="car-card__price">Rp 948 juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_New/mazzda/Mazda RX7 FD.png" alt="Mazda RX-7" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Mazda MX5</span><span class="car-card__price">Rp 2.650 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_New/mazzda/Mazda RX8.png" alt="Mazda RX-8" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Mazda RX-8</span><span class="car-card__price">Rp 1.180 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
 
-            <div class="car-card">
-                <img src="Img/Mobil_New/toyota/Toyota Celica ST205.png" alt="Toyota Celica ST205" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Toyota Celica ST205</span><span class="car-card__price">Rp 1.975 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_New/toyota/GR SUPRA.png" alt="GR Supra" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">GR Supra (A90 / J29)</span><span class="car-card__price">Rp 2.245 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_New/toyota/Toyota MR2 SW20.png" alt="Toyota MR2" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Toyota MR2</span><span class="car-card__price">Rp 1.790 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-
-            <div class="car-card">
-                <img src="Img/Mobil_New/toyota/Toyota AE86 Trueno.jpeg" alt="Toyota AE86 Trueno" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Toyota AE86 Trueno</span><span class="car-card__price">Rp 1.850 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_Sec/avanza.webp" alt="Avanza" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Toyota Avanza (2022)
-                </span><span class="car-card__price">Rp 249 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_Sec/brio.webp" alt="Brio" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Honda Brio</span><span class="car-card__price">Rp 172 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-
-            <div class="car-card">
-                <img src="Img/Mobil_Sec/triton.webp" alt="Triton" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Triton (2021)</span><span class="car-card__price">Rp 272 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_Sec/l300.webp" alt="L300" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Mitsubishi L300</span><span class="car-card__price">Rp 185 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-            <div class="car-card">
-                <img src="Img/Mobil_Sec/elf.webp" alt="Suzuki Elf" class="car-card__img" />
-                <div class="car-card__info"><span class="car-card__name">Suzuki Elf  BOX NKR 55</span><span class="car-card__price">Rp 140 Juta</span></div>
-                <a href="detail.xhtml" class="car-card__link">Details</a>
-            </div>
-        </div>
+        <!-- DAFTAR MOBIL (kartu dibuat otomatis oleh catalog.js dari cars.js) -->
+        <div class="car-grid" id="carGrid"></div>
 
         <!-- TAGLINE / QUOTE BAWAH -->
         <div class="tagline" id="about">
             <h3 class="tagline__title">Your Journey, Your Story</h3>
             <p class="tagline__text">Find the car that reflects who you are, and make every journey extraordinary.</p>
         </div>
-
     </main>
+
     <footer class="footer">
         <div class="footer__inner">
             <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ" class="footer__logo" />
