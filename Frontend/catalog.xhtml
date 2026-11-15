@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>CARIEZ | Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&amp;family=Inter:wght@300;400;700&amp;display=swap" />
+    <link rel="stylesheet" href="css/catalog.css" />
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+        <div class="navbar__inner">
+            <a href="index.xhtml" class="nav__logo">
+                <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" />
+            </a>
+
+            <nav class="navbar__links">
+                <a href="catalog.xhtml" class="navbar__link">Catalog</a>
+                <a href="about.xhtml" class="navbar__link">About Us</a>
+            </nav>
+
+            <div class="navbar__actions">
+                <button class="btn-icon" id="searchToggle" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <span>Search</span>
+                </button>
+                <button class="btn-icon" aria-label="Account">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="navbar__search-bar" id="searchBar">
+                <input type="text" placeholder="Search for a car.." id="searchInput" />
+                <button class="btn-icon" id="searchClose" type="button">✕</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- BANNER -->
+        <section class="banner">
+            <div class="banner__inner">
+                <span class="banner__model">Mazda CX-30</span>
+                <h1 class="banner__title">Driver Beyond <br />Limits</h1>
+                <span class="banner__from">Start From <br /></span>
+                <span class="banner__price">Rp 599.000.000</span>
+            </div>
+        </section>
+
+        <!-- FILTER -->
+        <div class="filter">
+            <div class="filter__item">
+                <label for="category">Category</label>
+                <select id="category">
+                    <option value="all">All Categories</option>
+                    <option value="sedan">Sedan</option>
+                    <option value="suv">SUV</option>
+                    <option value="hatchback">Hatchback</option>
+                </select>
+            </div>
+
+            <div class="filter__item">
+                <label for="brand">Brand</label>
+                <select id="brand">
+                    <option value="all">All Brands</option>
+                    <option value="mazda">Mazda</option>
+                    <option value="toyota">Toyota</option>
+                    <option value="honda">Honda</option>
+                </select>
+            </div>
+        </div>
+            <!-- DAFTAR MOBIL -->
+        <div class="car-grid">
+            <div class="car-card">
+                <img src="/Frontend/Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="Mazda MX5 Miata" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Mazda CX 30</span>
+                <span class="car-card__price">Rp 948 juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_New/mazzda/Mazda RX7 FD.png" alt="Mazda RX-7" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Mazda MX5</span><span class="car-card__price">Rp 2.650 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_New/mazzda/Mazda RX8.png" alt="Mazda RX-8" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Mazda RX-8</span><span class="car-card__price">Rp 1.180 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+
+            <div class="car-card">
+                <img src="Img/Mobil_New/toyota/Toyota Celica ST205.png" alt="Toyota Celica ST205" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Toyota Celica ST205</span><span class="car-card__price">Rp 1.975 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_New/toyota/GR SUPRA.png" alt="GR Supra" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">GR Supra (A90 / J29)</span><span class="car-card__price">Rp 2.245 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_New/toyota/Toyota MR2 SW20.png" alt="Toyota MR2" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Toyota MR2</span><span class="car-card__price">Rp 1.790 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+
+            <div class="car-card">
+                <img src="Img/Mobil_New/toyota/Toyota AE86 Trueno.jpeg" alt="Toyota AE86 Trueno" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Toyota AE86 Trueno</span><span class="car-card__price">Rp 1.850 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_Sec/avanza.webp" alt="Avanza" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Toyota Avanza (2022)
+                </span><span class="car-card__price">Rp 249 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_Sec/brio.webp" alt="Brio" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Honda Brio</span><span class="car-card__price">Rp 172 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+
+            <div class="car-card">
+                <img src="Img/Mobil_Sec/triton.webp" alt="Triton" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Triton (2021)</span><span class="car-card__price">Rp 272 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_Sec/l300.webp" alt="L300" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Mitsubishi L300</span><span class="car-card__price">Rp 185 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+            <div class="car-card">
+                <img src="Img/Mobil_Sec/elf.webp" alt="Suzuki Elf" class="car-card__img" />
+                <div class="car-card__info"><span class="car-card__name">Suzuki Elf  BOX NKR 55</span><span class="car-card__price">Rp 140 Juta</span></div>
+                <a href="detail.xhtml" class="car-card__link">Details</a>
+            </div>
+        </div>
+
+        <!-- TAGLINE / QUOTE BAWAH -->
+        <div class="tagline" id="about">
+            <h3 class="tagline__title">Your Journey, Your Story</h3>
+            <p class="tagline__text">Find the car that reflects who you are, and make every journey extraordinary.</p>
+        </div>
+
+    </main>
+    <footer class="footer">
+        <div class="footer__inner">
+            <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ" class="footer__logo" />
+            <div class="footer__line"></div>
+
+            <div class="footer__body">
+                <div class="footer__brand">
+                    <p class="footer__tagline">Showroom</p>
+                    <address>
+                        Jl. Aruna Prestige No. 88, Kawasan Niaga Cakrawala,<br />
+                        Sleman, Daerah Istimewa Yogyakarta, Indonesia.
+                    </address>
+                </div>
+
+                <div class="footer__contact">
+                    <a href="tel:01010202303" class="footer__contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.42C1.64 2.18 2.57 1.16 3.8 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        <span>0101-0202-0303</span>
+                    </a>
+                    <a href="mailto:hello@cariez.com" class="footer__contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <span>hello@cariez.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,357 @@
+:root {
+    --color-text: #111111;
+    --color-bg:   #f7f7f5;
+    --color-muted: #444444;
+    --color-accent: #111111;
+    --transition: .25s ease;
+}
+
+body{
+    margin: 0;
+    padding-top: 64px;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* NAVBAR */
+.navbar{
+    position: fixed;
+    height: 64px;
+    top: 0; left: 0; right: 0;
+    background:rgba(255, 255, 255, 0.9);
+    z-index: 999;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.navbar__inner{
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 2rem;
+    height:  100%;
+    display:  flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav__logo{
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.nav__logo img{
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.navbar__actions{
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-left: auto;
+}
+
+.navbar__links{
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.navbar__link{
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .95rem;
+    font-weight: 400;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: opacity var(--transition);
+}
+
+.navbar__search-bar {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    padding: .75rem 2rem;
+    background: rgba(255, 255, 255, .97);
+    border-top: 1px solid #e4e6eb;
+}
+
+.navbar_link:hover{opacity: .6;}
+.chevron { width: 14px; height: 14px; }
+
+/* BUTTON */
+.btn{
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .75rem 1.75rem;
+    font-size: .9rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.btn-icon{
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: none;
+    cursor: pointer;
+    border: 0; /* kotak border search hilang */
+    color: var(--color-text);
+    font-family: inherit;
+    font-weight: 400;
+    font-size: .95rem;
+    padding: .3rem .5rem;
+}
+
+.btn-icon svg { width: 18px; height: 18px; }
+
+/* BANNER */
+.banner {
+    position: relative;
+    height: clamp(260px, 38vw, 460px);
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background:
+        linear-gradient(90deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.15) 60%, rgba(0,0,0,0) 100%),
+        url("/Frontend/Img/catalog/banner-mazda\ cx\ 30.jpg") center / cover no-repeat #1b2430;
+}
+
+.banner__inner {
+    width: 80%;
+    height: 58%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+}
+
+.banner__model {
+    display: block;
+    font-size: .75rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    opacity: .85;
+}
+
+.banner__title {
+    display: block;
+    margin: .4rem 0 0;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 600;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.banner__title::after {
+    content: "";
+    display: block;
+    width: 300px;
+    max-width: 100%;
+    height: 1px;
+    margin-top: .9rem;
+    margin-bottom: .9rem;
+    background: rgba(255, 255, 255, .6);
+}
+
+.banner__from {
+    display: block;
+    margin-top: 1.25rem;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-weight: 300;
+    line-height: 1.2;
+    opacity: .9;
+}
+
+.banner__price {
+    display: block;
+    margin-top: .15rem;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+/* FILTER */
+.filter {
+    max-width: 1200px;
+    margin: 2rem auto 1.5rem;
+    padding-inline: 2rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.filter__item { display: flex; align-items: center; gap: .5rem; }
+
+.filter__item label {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.filter__item select {
+    min-width: 110px;
+    padding: .35rem .6rem;
+    font: inherit;
+    font-size: .75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* Grid Kartu Mobil */
+.car-grid {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+}
+
+.car-card {
+    padding: 1.25rem 1.25rem .9rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 10px 8px rgba(0,0,0,.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.car-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+
+.car-card__img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.car-card__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .5rem;
+    font-size: .8rem;
+}
+
+.car-card__name { font-weight: 600; }
+.car-card__price { color: var(--color-muted); font-size: .75rem; }
+.car-card__link {
+    align-self: flex-end;
+    margin-top: .6rem;
+    font-size: .65rem;
+    color: var(--color-muted);
+    text-decoration: underline;
+}
+
+.car-card__link:hover { color: var(--color-text); }
+
+/* ----- Tagline ----- */
+.tagline {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #f4f4f4;
+}
+.tagline__title { font-size: 1rem; font-weight: 600; margin-bottom: .75rem; }
+.tagline__text {
+    max-width: 640px;
+    margin-inline: auto;
+    font-family: "Lora", Georgia, "Times New Roman", serif;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    line-height: 1.35;
+}
+
+/* FOOTER */
+.footer {
+    background: #111;
+    color: #fff;
+    padding: 2rem 0 2.25rem;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.footer__inner {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+}
+
+.footer__logo {
+    display: block;
+    height: 40px;
+    width: auto;
+    margin-bottom: .6rem;
+}
+
+.footer__line {
+    height: 1px;
+    background: #55533a;
+}
+
+.footer__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-top: .5rem;
+    padding-inline: .75rem;
+}
+
+.footer__tagline {
+    margin-bottom: .35rem;
+    margin: 0 0 .3rem;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.footer__brand address {
+    font-size: .9rem;
+    font-style: normal;
+    line-height: 1.3;
+    margin: 0;
+    color: #f2f2f2;
+}
+
+.footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    margin-top: 0;
+}
+
+.footer__contact-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: .95rem;
+    letter-spacing: .08em;
+    color: #e8e8e8;
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.footer__contact-item:hover { color: #fff; }
+
+.footer__contact-item svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: #b58a3a;
+}
+
+@media (max-width: 700px) {
+    .footer__body { flex-direction: column; }
+}
