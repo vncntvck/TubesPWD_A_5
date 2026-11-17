@@ -1,87 +1,132 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var grid = document.getElementById('carGrid');
-    if (!grid || typeof CARS === 'undefined') return;
+    var alamatApi = '../backend/api/';
+    var daftarMobil = document.getElementById('carGrid');
+    var pilihanKategori = document.getElementById('category');
+    var pilihanMerek = document.getElementById('brand');
 
-    var catSel = document.getElementById('category');
-    var brandSel = document.getElementById('brand');
-    var ids = Object.keys(CARS);
-    var query = '';   // kata kunci dari ?q=
+    if (!daftarMobil) return;
 
-    function el(tag, cls, text) {
-        var e = document.createElement(tag);
-        if (cls) e.className = cls;
-        if (text !== undefined) e.textContent = text;
-        return e;
+    var alamatHalaman = new URLSearchParams(window.location.search);
+    var kataKunci = (alamatHalaman.get('q') || '').trim();
+
+    function buatElemen(tag, kelas, isi) {
+        var elemen = document.createElement(tag);
+        if (kelas) elemen.className = kelas;
+        if (isi !== undefined) elemen.textContent = isi;
+        return elemen;
     }
 
-    // isi pilihan filter dari data (nilai unik)
-    function fill(sel, label, key) {
-        if (!sel) return;
-        sel.textContent = '';
-        var first = el('option', '', label);
-        first.setAttribute('value', 'all');
-        sel.appendChild(first);
-        var seen = {};
-        ids.forEach(function (id) {
-            var v = CARS[id][key];
-            if (v && !seen[v]) {
-                seen[v] = true;
-                var o = el('option', '', v);
-                o.setAttribute('value', v);
-                sel.appendChild(o);
+    function isiPilihan(pilihan, judul, daftar) {
+        if (!pilihan) return;
+
+        pilihan.textContent = '';
+        var awal = buatElemen('option', '', judul);
+        awal.value = 'all';
+        pilihan.appendChild(awal);
+
+        daftar.forEach(function (item) {
+            var opsi = buatElemen('option', '', item);
+            opsi.value = item;
+            pilihan.appendChild(opsi);
+        });
+    }
+
+    function buatKartu(mobil) {
+        var namaMobil = mobil.merek + ' ' + mobil.model;
+        var kartu = buatElemen('div', 'car-card');
+
+        var gambar = buatElemen('img', 'car-card__img');
+        if (mobil.foto_utama) gambar.src = mobil.foto_utama;
+        gambar.alt = namaMobil;
+        gambar.loading = 'lazy';
+        kartu.appendChild(gambar);
+
+        var info = buatElemen('div', 'car-card__info');
+        info.appendChild(buatElemen('span', 'car-card__name', namaMobil));
+        info.appendChild(buatElemen(
+            'span',
+            'car-card__price',
+            'Rp ' + Number(mobil.harga).toLocaleString('id-ID')
+        ));
+        kartu.appendChild(info);
+
+        var tombolDetail = buatElemen('a', 'car-card__link', 'Details');
+        tombolDetail.href = 'detail.xhtml?car=' + mobil.id_mobil;
+        kartu.appendChild(tombolDetail);
+
+        return kartu;
+    }
+
+    function tampilkanMobil() {
+        var parameter = new URLSearchParams();
+        var kategori = pilihanKategori ? pilihanKategori.value : 'all';
+        var merek = pilihanMerek ? pilihanMerek.value : 'all';
+
+        if (kategori !== 'all') parameter.set('kategori', kategori);
+        if (merek !== 'all') parameter.set('merek', merek);
+        if (kataKunci) parameter.set('cari', kataKunci);
+
+        fetch(alamatApi + 'mobil.php?' + parameter.toString())
+            .then(function (response) {
+                if (!response.ok) throw new Error('Data mobil gagal diambil.');
+                return response.json();
+            })
+            .then(function (hasil) {
+                if (hasil.status !== true || !Array.isArray(hasil.data)) {
+                    throw new Error('Data mobil tidak valid.');
+                }
+
+                daftarMobil.textContent = '';
+
+                if (hasil.data.length === 0) {
+                    daftarMobil.appendChild(buatElemen(
+                        'p',
+                        'car-grid__empty',
+                        'Tidak ada mobil yang cocok dengan filter ini.'
+                    ));
+                    return;
+                }
+
+                hasil.data.forEach(function (mobil) {
+                    daftarMobil.appendChild(buatKartu(mobil));
+                });
+            })
+            .catch(function () {
+                daftarMobil.textContent = '';
+                daftarMobil.appendChild(buatElemen(
+                    'p',
+                    'car-grid__empty',
+                    'Gagal mengambil data mobil. Coba muat ulang halaman.'
+                ));
+            });
+    }
+
+    if (pilihanKategori) {
+        pilihanKategori.addEventListener('change', tampilkanMobil);
+    }
+    if (pilihanMerek) {
+        pilihanMerek.addEventListener('change', tampilkanMobil);
+    }
+
+    fetch(alamatApi + 'opsi_filter.php')
+        .then(function (response) {
+            if (!response.ok) throw new Error('Pilihan filter gagal diambil.');
+            return response.json();
+        })
+        .then(function (hasil) {
+            isiPilihan(pilihanKategori, 'All Categories', hasil.kategori);
+            isiPilihan(pilihanMerek, 'All Brands', hasil.merek);
+
+            if (pilihanKategori && alamatHalaman.get('category')) {
+                pilihanKategori.value = alamatHalaman.get('category');
             }
+            if (pilihanMerek && alamatHalaman.get('brand')) {
+                pilihanMerek.value = alamatHalaman.get('brand');
+            }
+
+            tampilkanMobil();
+        })
+        .catch(function () {
+            tampilkanMobil();
         });
-    }
-
-    function card(id) {
-        var c = CARS[id];
-        var box = el('div', 'car-card');
-
-        var img = el('img', 'car-card__img');
-        img.setAttribute('src', c.images && c.images[0] ? c.images[0] : '');
-        img.setAttribute('alt', c.name);
-        img.setAttribute('loading', 'lazy');
-        box.appendChild(img);
-
-        var info = el('div', 'car-card__info');
-        info.appendChild(el('span', 'car-card__name', c.name));
-        info.appendChild(el('span', 'car-card__price', c.price));
-        box.appendChild(info);
-
-        var link = el('a', 'car-card__link', 'Details');
-        link.setAttribute('href', 'detail.xhtml?car=' + id);
-        box.appendChild(link);
-        return box;
-    }
-
-    function render() {
-        var cat = catSel ? catSel.value : 'all';
-        var brand = brandSel ? brandSel.value : 'all';
-        grid.textContent = '';
-
-        var shown = ids.filter(function (id) {
-            var c = CARS[id];
-            var hay = (c.name + ' ' + c.brand + ' ' + c.type).toLowerCase();
-            return (cat === 'all' || c.type === cat) && (brand === 'all' || c.brand === brand) && (!query || hay.indexOf(query) !== -1);
-        });
-
-        if (!shown.length) {
-            grid.appendChild(el('p', 'car-grid__empty', 'Tidak ada mobil yang cocok dengan filter ini.'));
-            return;
-        }
-        shown.forEach(function (id) { grid.appendChild(card(id)); });
-    }
-
-    fill(catSel, 'All Categories', 'type');
-    fill(brandSel, 'All Brands', 'brand');
-
-    // filter awal dari alamat (opsional)
-    var params = new URLSearchParams(window.location.search);
-    query = (params.get('q') || '').trim().toLowerCase();
-    if (catSel && params.get('category')) catSel.value = params.get('category');
-    if (brandSel && params.get('brand')) brandSel.value = params.get('brand');
-
-    if (catSel) catSel.addEventListener('change', render);
-    if (brandSel) brandSel.addEventListener('change', render);
-    render();
 });

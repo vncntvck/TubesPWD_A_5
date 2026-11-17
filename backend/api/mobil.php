@@ -1,78 +1,108 @@
-<?php 
-header('Content-type: application/json');
+<?php
+header('Content-Type: application/json; charset=utf-8');
 include '../config/koneksi.php';
 
-$kondisi = $_GET['kondisi'];
-$merek = $_GET['merek'];
-$model = $_GET['model'];
-$tahun = $_GET['tahun'];
-$warna = $_GET['warna'];
-$transmisi = $_GET['transmisi'];
-$harga_min = $_GET['harga_min'];
-$harga_max = $_GET['harga_max'];
+function gagal($pesan, $kode = 500)
+{
+    http_response_code($kode);
+    echo json_encode(['status' => false, 'pesan' => $pesan]);
+    exit;
+}
 
-$sql = "SELECT id_mobil,merek,model,varian,tahun_produksi,warna,jenis_transmisi,
-       harga,harga_kredit,kondisi,kategori,kilometer,foto_utama, status FROM mobile WHERE status ='Tersedia'";
-$tipe = '';
-$nilai=[];
-if($kondisi != ''){
-    $sql .= " AND kondisi = '$kondisi'";
-    $tipe .= 's';
-    $nilai[] = $kondisi;
+$sql = "SELECT id_mobil, merek, model, varian, tahun_produksi, warna, jenis_transmisi,
+               harga, harga_kredit, kondisi, kategori, kilometer, foto_utama, status
+        FROM mobil
+        WHERE status = ?";
+$tipe = 's';
+$nilai = ['Tersedia'];
+
+$filterKolom = [
+    'kondisi' => 'kondisi',
+    'merek' => 'merek',
+    'model' => 'model',
+    'tahun' => 'tahun_produksi',
+    'warna' => 'warna',
+    'kategori' => 'kategori',
+    'transmisi' => 'jenis_transmisi'
+];
+
+foreach ($filterKolom as $parameter => $kolom) {
+    $nilaiFilter = isset($_GET[$parameter]) ? trim((string) $_GET[$parameter]) : '';
+    if ($nilaiFilter === '') {
+        continue;
+    }
+
+    if ($parameter === 'tahun') {
+        if (!ctype_digit($nilaiFilter)) {
+            gagal('Filter tahun harus berupa angka.', 400);
+        }
+        $nilaiFilter = (int) $nilaiFilter;
+        $tipe .= 'i';
+    } else {
+        $tipe .= 's';
+    }
+
+    $sql .= " AND $kolom = ?";
+    $nilai[] = $nilaiFilter;
 }
-if($merek != ''){
-    $sql .= " AND merek = '$merek'";
-    $tipe .= 's';
-    $nilai[] = $merek;
+
+$cari = isset($_GET['cari']) ? trim((string) $_GET['cari']) : '';
+if ($cari !== '') {
+    $sql .= " AND (merek LIKE ? OR model LIKE ? OR varian LIKE ?)";
+    $tipe .= 'sss';
+    $kataKunci = '%' . $cari . '%';
+    $nilai[] = $kataKunci;
+    $nilai[] = $kataKunci;
+    $nilai[] = $kataKunci;
 }
-if($model != ''){
-    $sql .= " AND model = '$model'";
-    $tipe .= 's';
-    $nilai[] = $model;
+
+$hargaMin = isset($_GET['harga_min']) ? trim((string) $_GET['harga_min']) : '';
+$hargaMax = isset($_GET['harga_max']) ? trim((string) $_GET['harga_max']) : '';
+
+foreach (['harga_min' => $hargaMin, 'harga_max' => $hargaMax] as $parameter => $harga) {
+    if ($harga !== '' && !is_numeric($harga)) {
+        gagal('Filter harga harus berupa angka.', 400);
+    }
 }
-if($tahun != ''){
-    $sql .= " AND tahun_produksi = '$tahun'";
-    $tipe .= 'i';
-    $nilai[] = $tahun;
-}
-if($warna != ''){
-    $sql .= "AND warna = '$warna'";
-    $tipe .= 's';
-    $nilia[] = $warna;
-}
-if($transmisi != ''){
-    $sql .= " AND jenis_transmisi = '$transmisi'";
-    $tipe .= 's';
-    $nilai[] = $transmisi;
-}
-if($harga_min != '' && $harga_max != ''){
-    $sql .= " AND harga BETWEEN ? AND ?";
+
+if ($hargaMin !== '' && $hargaMax !== '') {
+    $sql .= ' AND harga BETWEEN ? AND ?';
+    $tipe .= 'dd';
+    $nilai[] = (float) $hargaMin;
+    $nilai[] = (float) $hargaMax;
+} elseif ($hargaMin !== '') {
+    $sql .= ' AND harga >= ?';
     $tipe .= 'd';
-    $nilai[] = $harga_min;
-    $nilai[] = $harga_max;
-} elseif($harga_min != ''){
-    $sql .= " AND harga >= ?";
+    $nilai[] = (float) $hargaMin;
+} elseif ($hargaMax !== '') {
+    $sql .= ' AND harga <= ?';
     $tipe .= 'd';
-    $nilai[] = $harga_min;
-} elseif($harga_max != ''){
-    $sql .= " AND harga <= ?";
-    $tipe .= 'd';
-    $nilai[] = $harga_max;
+    $nilai[] = (float) $hargaMax;
 }
-$sql .= " ORDER BY harga DESC";
+
+$sql .= ' ORDER BY harga DESC';
 $stmt = $koneksi->prepare($sql);
-
-if($tipe != ''){
-    $stmt->bind_param($tipe, ...$nilai);
+if (!$stmt) {
+    gagal('Gagal menyiapkan query katalog.');
 }
-$stmt->execute();
+
+$stmt->bind_param($tipe, ...$nilai);
+if (!$stmt->execute()) {
+    gagal('Gagal mengambil data katalog.');
+}
+
 $hasil = $stmt->get_result();
+if (!$hasil) {
+    gagal('Gagal membaca data katalog.');
+}
+
 $data = [];
 while ($baris = $hasil->fetch_assoc()) {
     $data[] = $baris;
 }
+
 echo json_encode([
-    'status' => 'true',
+    'status' => true,
     'jumlah' => count($data),
     'data' => $data
 ]);
