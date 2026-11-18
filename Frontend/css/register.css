@@ -1,0 +1,57 @@
+:root{
+    --color-dark: #111111;
+    --color-white: #ffffff;
+    --color-accent: #ffb22c;
+    --color-text: #171717;
+    --color-muted: #777777;
+    --color-input: #f6f6f6;
+    --color-border: #e2e2e2;
+    --color-link: #985c43;
+    --transition: .25s ease;
+}
+
+body{
+    margin: 0;
+    padding:0;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--color-text);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Register Page */
+.register-page{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    min-height: 100%;
+    padding: 0;
+    align-items: center;
+}
+
+/* Sidebar */
+.register-sidebar{
+    background: var(--color-dark);
+    color: var(--color-white);
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-dark);
+}
+
+.sidebar-image{
+    flex: 1;
+    height: 100%;
+    align-self: center;
+}
+
+.sidebar-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+

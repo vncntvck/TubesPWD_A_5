@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>Daftar Akun | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="js/main.js" defer="defer"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&amp;family=Inter:wght@300;400;700&amp;display=swap" />
+    <link rel="stylesheet" href="css/register.css" />
+</head>
+
+<body>
+    <div class="register-page">
+        <div class="register-sidebar">
+            <div class="sidebar-image">
+                <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ Car Showroom" />
+            </div>
+        </div>
+        
+
+        <div class="register-content">
+            <div class="register-form-wrapper">
+                <div class="form-heading">
+                    <h1>Daftar Akun</h1>
+                    <p>Isi data berikut untuk mulai memakai CARIEZ.</p>
+                </div>
+
+                <form id="registerForm" action="#" method="post">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="contoh : silvester.zayne" required="required" minlength="4"/>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">No. Telepon</label>
+                            <input type="tel" id="phone" name="phone" placeholder="08xx xxxx xxxx" required="required" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="contoh : silvester.zayne@gmail.com" required="required" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="contoh : silvester.zayne" required="required" minlength="4"/>
+                    </div>
+
+                    <button type="submit" class="register-button">Daftar</button>
+                </form>
+
+                <p class="login-link">
+                    sudah punya akun? <a href="login.xhtml">Login di sini</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="register.js"></script>
+</body>
+</html>
