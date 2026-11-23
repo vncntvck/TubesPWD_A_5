@@ -7,24 +7,26 @@
     <title>Daftar Akun | CARIEZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="js/main.js" defer="defer"></script>
+    <script src="js/regis.js" defer="defer"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&amp;family=Inter:wght@300;400;700&amp;display=swap" />
     <link rel="stylesheet" href="css/register.css" />
 </head>
 
 <body>
     <div class="register-page">
+        <!-- BAGIAN KIRI -->
         <div class="register-sidebar">
             <div class="sidebar-image">
                 <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ Car Showroom" />
             </div>
         </div>
         
-
+        <!-- BAGIAN KANAN -->
         <div class="register-content">
             <div class="register-form-wrapper">
                 <div class="form-heading">
-                    <h1>Daftar Akun</h1>
+                    <span class="form-accent"></span>
+                    <h1>Buat Akun</h1>
                     <p>Isi data berikut untuk mulai memakai CARIEZ.</p>
                 </div>
 
@@ -51,11 +53,24 @@
                         <input type="password" id="password" name="password" placeholder="contoh : silvester.zayne" required="required" minlength="4"/>
                     </div>
 
+                    <div class="form-group">
+                        <label for="confirm">Konfirmasi password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="confirm" name="confirm" placeholder="Ulangi password" />
+                            <button type="button" class="toggle-pass" id="toggleConfirm">Lihat</button>
+                        </div>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" name="terms" />
+                        <label for="terms">Saya setuju dengan <a href="#">Syarat &amp; Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> Cariez.</label>
+                    </div>
+                    <p class="form-message" id="formMessage"></p>
                     <button type="submit" class="register-button">Daftar</button>
                 </form>
 
                 <p class="login-link">
-                    sudah punya akun? <a href="login.xhtml">Login di sini</a>
+                    Sudah punya akun? <a href="login.xhtml">Login di sini</a>
                 </p>
             </div>
         </div>

@@ -10,11 +10,16 @@
     --transition: .25s ease;
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+
 body{
     margin: 0;
     padding:0;
     font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     color: var(--color-text);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -23,29 +28,34 @@ body{
     box-sizing: border-box;
 }
 
+/* Dua Panel : 50% 50% */
+
 /* Register Page */
 .register-page{
     display: grid;
     grid-template-columns: 50% 50%;
     min-height: 100%;
+    min-height: 100vh;
     padding: 0;
-    align-items: center;
+    align-items: stretch;
 }
 
 /* Sidebar */
 .register-sidebar{
     background: var(--color-dark);
     color: var(--color-white);
-    padding: 0 2rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     background: var(--color-dark);
+    background: #111111;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebar-image{
-    flex: 1;
-    height: 100%;
-    align-self: center;
+    width: 100%;
+    max-width: 420px;
 }
 
 .sidebar-image img {
@@ -53,5 +63,177 @@ body{
     height: 100%;
     object-fit: cover;
     display: block;
+    mix-blend-mode: lighten;
 }
 
+.register-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+}
+
+.register-form-wrapper {
+    width: 100%;
+    max-width: 345px;
+}
+
+.form-accent {
+    display: block;
+    width: 28px;
+    height: 3px;
+    margin-bottom: 1.1rem;
+    background: var(--orange);
+    border-radius: 2px;
+}
+
+.form-heading h1 {
+    margin: 0 0 .5rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+}
+
+.form-heading p {
+    margin: 0 0 1.7rem;
+    font-size: .75rem;
+    color: var(--muted);
+}
+
+/* Bagian isi form kanan */
+.form-group {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 1.1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: .75rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: .45rem;
+    font-size: .7rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    height: 40px;
+    padding: 0 .85rem;
+    font: inherit;
+    font-size: .75rem;
+    color: var(--ink);
+    background: var(--field-bg);
+    border: 1px solid var(--field-line);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.form-group input::placeholder { color: #8d8d8d; }
+
+.form-group input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(255, 178, 44, .25);
+}
+
+/* Tombol lihat bagian kanan */
+.input-wrap { position: relative; }
+.input-wrap input { padding-right: 4.4rem; }
+
+.toggle-pass {
+    position: absolute;
+    top: 50%;
+    right: .9rem;
+    transform: translateY(-50%);
+    padding: 0;
+    font: inherit;
+    font-size: .65rem;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+.toggle-pass:hover { color: var(--ink); }
+
+/* cek persetujuan dan dengan S&K */
+.form-check {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    margin: 1.3rem 0 1rem;
+}
+
+.form-check input {
+    -webkit-appearance: none;
+    appearance: none;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    margin: 1px 0 0;
+    background: #fff;
+    border: 1px solid #d3d3cd;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.form-check input:checked {
+    background: var(--color-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.5l2.5 2.5L10 3.5' fill='none' stroke='%23161616' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 10px no-repeat;
+    border-color: var(--color-accent);
+}
+
+.form-check input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.form-check label {
+    font-size: .65rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.form-check a, .login-link a {
+    font-weight: 600;
+    color: var(--brown);
+    text-decoration: none;
+}
+.form-check a:hover, .login-link a:hover { text-decoration: underline; }
+
+/* DAFTAR */
+.register-button {
+    width: 100%;
+    height: 40px;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--color-white);
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+}
+.register-button:hover { background: var(--color-accent); }
+.register-button:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+}
+
+.login-link {
+    margin: 1.5rem 0 0;
+    font-size: .7rem;
+    text-align: center;
+    color: val(--muted);
+}
+
+@media (max-width: 860px) {
+    .register-page { grid-template-columns: 1fr; }
+    .register-sidebar { min-height: 110px; }
+    .register-content { padding: 2rem 1.25rem 3rem; }
+}
+
+@media (max-width: 420px) {
+    .form-row { flex-direction: column; gap: 0; }
+}
