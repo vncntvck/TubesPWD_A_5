@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>Login Akun | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="js/login.js" defer="defer"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&amp;family=Inter:wght@300;400;700&amp;display=swap" />
+    <link rel="stylesheet" href="css/login.css" />
+</head>
+
+<body>
+    <div class="login-page">
+        <!-- Bagian Kiri -->
+        <div class="login-sidebar">
+            <div class="sidebar-image">
+                <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ Car Showroom" />
+            </div>
+        </div>
+
+        <!-- BAGIAN KANAN -->
+        <div class="login-content">
+            <div class="login-form-wrapper">
+                <div class="form-heading">
+                    <span class="form-accent"></span>
+                    <h1>Masuk</h1>
+                    <p>Selamat datang kembali. Masuk untuk lanjut cari mobil.</p>
+                </div>
+
+                <form action="#" id="LoginForm" method="post">
+                    <div class="form-group">
+                        <label for="identity">Username atau email</label>
+                        <input type="text" name="identity" id="identity" placeholder="Masukkan username atau email" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="contoh : silvester.zayne" required="required" minlength="4"/>
+                    </div>
+
+                    <div class="form-options">
+                        <div class="remember">
+                            <input type="checkbox" id="remember" name="remember" />
+                            <label for="remember">Ingat saya</label>
+                        </div>
+                        <a href="#" class="forgot">Lupa password?</a>
+                    </div>
+
+                    <p class="form-message" id="formMessage"></p>
+                    <button type="submit" class="login-button">Masuk</button>
+                    <div class="divider"><span>atau</span></div>
+                    <button type="button" class="google-button" id="googleButton">Masuk dengan Google</button>
+                </form>
+
+                <p class="register-link">Belum punya akun? <a href="register.xhtml">Daftar sekarang</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
