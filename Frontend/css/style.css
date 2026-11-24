@@ -891,3 +891,167 @@ img {
         gap: 8px;
     }
 }
+
+
+/* ============================================================
+   CARIEZ — MICRO-INTERACTIONS NAVBAR & TOMBOL (tambahan)
+   Hanya animasikan transform + opacity (GPU-friendly).
+   Kurva: cubic-bezier(0.22, 1, 0.36, 1)
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   1. NAV MENU — Underline halus memanjang kiri ke kanan
+   ---------------------------------------------------------- */
+.nav-menu a {
+    position: relative;
+    transition: color 0.25s ease;
+}
+
+.nav-menu a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-menu a:hover::after {
+    transform: scaleX(1);
+}
+
+/* ----------------------------------------------------------
+   2. TOMBOL .nav-visit (KUNJUNGI KAMI) — lift & bounce klik
+   ---------------------------------------------------------- */
+.nav-visit {
+    transition:
+        background-color 0.25s ease,
+        transform        0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow       0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.nav-visit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 16, 16, 0.18);
+}
+
+.nav-visit:active {
+    transform: scale(0.97);
+    box-shadow: none;
+    transition-duration: 0.1s;
+}
+
+/* ----------------------------------------------------------
+   3. IKON PROFIL .nav-login — lift & bounce klik
+   ---------------------------------------------------------- */
+.nav-login {
+    transition:
+        background-color 0.25s ease,
+        border-color     0.25s ease,
+        transform        0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.nav-login:hover {
+    transform: translateY(-2px);
+}
+
+.nav-login:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* ----------------------------------------------------------
+   4. TOMBOL .btn-dark — lift & bounce klik (tombol hitam solid)
+   ---------------------------------------------------------- */
+.btn-dark {
+    transition:
+        background-color 0.25s ease,
+        transform        0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow       0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.btn-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 16, 16, 0.18);
+}
+
+.btn-dark:active {
+    transform: scale(0.97);
+    box-shadow: none;
+    transition-duration: 0.1s;
+}
+
+/* ----------------------------------------------------------
+   5. FILTER BUTTON (.filter-btn) — transisi skala & warna halus
+   ---------------------------------------------------------- */
+.filter-btn {
+    transition:
+        background-color 0.25s ease,
+        color            0.25s ease,
+        border-color     0.25s ease,
+        transform        0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.filter-btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--hitam);
+}
+
+.filter-btn:active {
+    transform: scale(0.96);
+    transition-duration: 0.1s;
+}
+
+.filter-btn.aktif {
+    /* skala kecil saat aktif terpilih agar terasa "tertekan" */
+    transform: scale(1);
+}
+
+/* ----------------------------------------------------------
+   6. INPUT NAV SEARCH — focus elegan hitam (override amber)
+   ---------------------------------------------------------- */
+.nav-search:focus-within {
+    background: var(--putih);
+    border-color: var(--hitam);
+    box-shadow: 0 0 0 3px rgba(20, 20, 20, 0.08);
+}
+
+/* ----------------------------------------------------------
+   7. KARTU HOMEPAGE (.card) — upgrade transisi ke kurva mewah
+   ---------------------------------------------------------- */
+.card {
+    transition:
+        transform    0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow   0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.3s ease;
+    will-change: transform;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 38px rgba(20, 20, 20, 0.11);
+}
+
+/* ----------------------------------------------------------
+   8. REDUCED MOTION — matikan semua micro-interactions
+   ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .nav-menu a::after,
+    .nav-visit,
+    .nav-login,
+    .btn-dark,
+    .filter-btn,
+    .card {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+}
