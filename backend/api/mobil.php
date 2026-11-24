@@ -98,6 +98,9 @@ if (!$hasil) {
 
 $data = [];
 while ($baris = $hasil->fetch_assoc()) {
+    if (isset($baris['foto_utama']) && $baris['foto_utama'] !== null) {
+        $baris['foto_utama'] = str_replace('\\', '/', $baris['foto_utama']);
+    }
     $data[] = $baris;
 }
 

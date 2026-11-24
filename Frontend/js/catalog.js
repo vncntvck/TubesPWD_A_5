@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var alamatApi = '../backend/api/';
+    var alamatApi = new URL('../backend/api/', window.location.href).href;
     var daftarMobil = document.getElementById('carGrid');
     var pilihanKategori = document.getElementById('category');
     var pilihanMerek = document.getElementById('brand');
+    var pilihanUrutan = document.getElementById('catalogSort');
+    var teksJumlah = document.getElementById('catalogCount');
 
     if (!daftarMobil) return;
 
@@ -34,11 +36,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function buatKartu(mobil) {
         var namaMobil = mobil.merek + ' ' + mobil.model;
         var kartu = buatElemen('div', 'car-card');
+        kartu.dataset.price = String(mobil.harga);
+        kartu.dataset.name = namaMobil;
 
         var gambar = buatElemen('img', 'car-card__img');
-        if (mobil.foto_utama) gambar.src = mobil.foto_utama;
+        if (mobil.foto_utama) {
+            var alamatFoto = mobil.foto_utama.replace(/\\/g, '/');
+            gambar.src = new URL(alamatFoto, window.location.href).href;
+        }
         gambar.alt = namaMobil;
         gambar.loading = 'lazy';
+        gambar.width = 640;
+        gambar.height = 360;
         kartu.appendChild(gambar);
 
         var info = buatElemen('div', 'car-card__info');
@@ -50,11 +59,19 @@ document.addEventListener('DOMContentLoaded', function () {
         ));
         kartu.appendChild(info);
 
-        var tombolDetail = buatElemen('a', 'car-card__link', 'Details');
+        var tombolDetail = buatElemen('a', 'car-card__link', 'Lihat detail');
         tombolDetail.href = 'detail.xhtml?car=' + mobil.id_mobil;
         kartu.appendChild(tombolDetail);
 
         return kartu;
+    }
+
+    function tampilkanRevealKartu() {
+        var kartu = daftarMobil.querySelectorAll('.car-card');
+        kartu.forEach(function (item, index) {
+            item.style.setProperty('--card-delay', (index % 3) * 90 + 'ms');
+            item.classList.add('is-ready');
+        });
     }
 
     function tampilkanMobil() {
@@ -90,6 +107,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 hasil.data.forEach(function (mobil) {
                     daftarMobil.appendChild(buatKartu(mobil));
                 });
+
+                var urutan = pilihanUrutan ? pilihanUrutan.value : 'featured';
+                if (urutan !== 'featured') {
+                    var kartu = Array.prototype.slice.call(daftarMobil.querySelectorAll('.car-card'));
+                    kartu.sort(function (a, b) {
+                        if (urutan === 'price-low') return Number(a.dataset.price) - Number(b.dataset.price);
+                        if (urutan === 'price-high') return Number(b.dataset.price) - Number(a.dataset.price);
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    });
+                    kartu.forEach(function (item) {
+                        daftarMobil.appendChild(item);
+                    });
+                }
+
+                if (teksJumlah) teksJumlah.textContent = hasil.data.length + ' mobil tersedia';
+                tampilkanRevealKartu();
             })
             .catch(function () {
                 daftarMobil.textContent = '';
@@ -106,6 +139,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (pilihanMerek) {
         pilihanMerek.addEventListener('change', tampilkanMobil);
+    }
+    if (pilihanUrutan) {
+        pilihanUrutan.addEventListener('change', tampilkanMobil);
     }
 
     fetch(alamatApi + 'opsi_filter.php')

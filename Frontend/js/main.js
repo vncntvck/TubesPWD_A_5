@@ -1,92 +1,143 @@
-document.documentElement.classList.add('js');
+var navbar = document.getElementById("navbar");
+var menuToggle = document.getElementById("menuToggle");
+var navMenu = document.getElementById("navMenu");
+var tombolFilter = document.querySelectorAll(".filter-btn");
+var semuaCard = document.querySelectorAll(".card");
+var teksJumlah = document.getElementById("jumlahMobil");
+var pesanKosong = document.getElementById("pesanKosong");
+var teksTahun = document.getElementById("tahun");
 
-document.addEventListener('DOMContentLoaded', function () {
+var scrollProgress = null;
+if (navbar) {
+    scrollProgress = document.createElement("span");
+    scrollProgress.className = "scroll-progress";
+    scrollProgress.setAttribute("aria-hidden", "true");
+    navbar.appendChild(scrollProgress);
+}
 
-    /* ---------- 1. SEARCH ---------- */
-    var toggle = document.getElementById('searchToggle');
-    var bar    = document.getElementById('searchBar');
-    var input  = document.getElementById('searchInput');
-    var close  = document.getElementById('searchClose');
+var hero = document.getElementById("beranda");
+var heroImage = hero ? hero.querySelector(".hero-image img") : null;
+var motionReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    function openSearch()  { bar.classList.add('open'); if (input) input.focus(); }
-    function closeSearch() { if (bar) bar.classList.remove('open'); }
+if (hero) {
+    window.requestAnimationFrame(function () {
+        hero.classList.add("is-ready");
+    });
+}
 
-    if (toggle && bar) {
-        toggle.addEventListener('click', function (e) {
-            e.stopPropagation();
-            if (bar.classList.contains('open')) closeSearch(); else openSearch();
+var revealTargets = document.querySelectorAll(
+    ".strip, .koleksi h2, .koleksi .sub-judul, .filter, .grid-mobil .card, .tentang, .cta"
+);
+
+revealTargets.forEach(function (element, index) {
+    element.classList.add("reveal");
+    if (element.classList.contains("card")) {
+        element.style.setProperty("--card-index", index % 6);
+    }
+});
+
+if ("IntersectionObserver" in window && !motionReduced.matches) {
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
         });
-        bar.addEventListener('click', function (e) { e.stopPropagation(); });
-        if (close) close.addEventListener('click', closeSearch);
-        document.addEventListener('click', closeSearch);
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') closeSearch();
+    }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -8% 0px"
+    });
+
+    revealTargets.forEach(function (element) {
+        revealObserver.observe(element);
+    });
+} else {
+    revealTargets.forEach(function (element) {
+        element.classList.add("is-visible");
+    });
+}
+
+window.addEventListener("scroll", function () {
+    if (navbar && window.scrollY > 20) {
+        navbar.classList.add("scrolled");
+    } else if (navbar) {
+        navbar.classList.remove("scrolled");
+    }
+
+    var scrollRange = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = scrollRange > 0 ? window.scrollY / scrollRange : 0;
+    if (scrollProgress) {
+        scrollProgress.style.transform = "scaleX(" + Math.min(1, Math.max(0, progress)) + ")";
+    }
+
+    if (heroImage && !motionReduced.matches) {
+        var heroRect = hero.getBoundingClientRect();
+        if (heroRect.bottom > 0 && heroRect.top < window.innerHeight) {
+            var offset = Math.min(18, Math.max(-18, heroRect.top * -0.025));
+            heroImage.style.transform = "translateY(" + offset + "px) scale(1.015)";
+        }
+    }
+}, { passive: true });
+
+if (menuToggle && navMenu) {
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-controls", "navMenu");
+
+    menuToggle.addEventListener("click", function () {
+        var terbuka = navMenu.classList.toggle("buka");
+        menuToggle.setAttribute("aria-expanded", terbuka ? "true" : "false");
+    });
+}
+
+if (navMenu) {
+    var linkMenu = navMenu.querySelectorAll("a");
+    for (var i = 0; i < linkMenu.length; i++) {
+        linkMenu[i].addEventListener("click", function () {
+            navMenu.classList.remove("buka");
+            if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
         });
-        if (input) {
-            input.addEventListener('keydown', function (e) {
-                if (e.key !== 'Enter') return;
-                var q = input.value.trim();
-                if (q) window.location.href = 'catalog.xhtml?q=' + encodeURIComponent(q);
-            });
+    }
+}
+
+function filterMobil(kategori) {
+    var jumlah = 0;
+
+    for (var i = 0; i < semuaCard.length; i++) {
+        var kategoriCard = semuaCard[i].getAttribute("data-kategori");
+
+        if (kategori === "semua" || kategori === kategoriCard) {
+            semuaCard[i].classList.remove("sembunyi");
+            jumlah++;
+        } else {
+            semuaCard[i].classList.add("sembunyi");
         }
     }
 
-    /* ---------- 2. NAVBAR SAAT SCROLL ---------- */
-    var navbar = document.getElementById('navbar');
-    function onScroll() {
-        if (navbar) navbar.classList.toggle('is-scrolled', window.scrollY > 10);
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    teksJumlah.textContent = "Menampilkan " + jumlah + " mobil";
 
-    /* ---------- 3. ANIMASI MUNCUL (data-aos) ---------- */
-    var items = document.querySelectorAll('[data-aos]');
-    if ('IntersectionObserver' in window && items.length) {
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) {
-                if (en.isIntersecting) {
-                    en.target.classList.add('aos-in');
-                    io.unobserve(en.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        items.forEach(function (it) { io.observe(it); });
+    if (jumlah === 0) {
+        pesanKosong.style.display = "block";
     } else {
-        items.forEach(function (it) { it.classList.add('aos-in'); });
+        pesanKosong.style.display = "none";
     }
-
-    /* ---------- 4. COLLECTION DARI cars.js ---------- */
-    var grid = document.getElementById('collectionGrid');
-    if (grid && typeof CARS !== 'undefined') {
-        var LIMIT = 6;   // jumlah mobil yang ditampilkan di beranda
-
-        var el = function (tag, cls, text) {
-            var e = document.createElement(tag);
-            if (cls) e.className = cls;
-            if (text !== undefined) e.textContent = text;
-            return e;
-        };
-
-        Object.keys(CARS).slice(0, LIMIT).forEach(function (id) {
-            var c = CARS[id];
-            var card = el('div', 'car-card');
-
-            var img = el('img', 'car-card__img');
-            img.setAttribute('src', c.images && c.images[0] ? c.images[0] : '');
-            img.setAttribute('alt', c.name);
-            img.setAttribute('loading', 'lazy');
-            card.appendChild(img);
-
-            var info = el('div', 'car-card__info');
-            info.appendChild(el('span', 'car-card__name', c.name));
-            info.appendChild(el('span', 'car-card__price', c.price));
-            card.appendChild(info);
-
-            var link = el('a', 'car-card__link', 'Details');
-            link.setAttribute('href', 'detail.xhtml?car=' + id);
-            card.appendChild(link);
-
-            grid.appendChild(card);
-        });
-    }
-});
+}
+for (var j = 0; j < tombolFilter.length; j++) {
+    tombolFilter[j].addEventListener("click", function () {
+        for (var k = 0; k < tombolFilter.length; k++) {
+            tombolFilter[k].classList.remove("aktif");
+        }
+        this.classList.add("aktif");
+        var kategoriDipilih = this.getAttribute("data-kategori");
+        filterMobil(kategoriDipilih);
+    });
+}
+for (var m = 0; m < semuaCard.length; m++) {
+    semuaCard[m].addEventListener("click", function () {
+        var namaMobil = this.querySelector("h4").textContent;
+        alert("Terima kasih sudah tertarik dengan " + namaMobil + "!\nSilakan hubungi kami untuk info harga.");
+    });
+}
+if (teksTahun) {
+    var tahunSekarang = new Date().getFullYear();
+    teksTahun.textContent = tahunSekarang;
+}

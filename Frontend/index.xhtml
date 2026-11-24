@@ -2,123 +2,248 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
-
 <head>
-    <title>CARIEZ | Find Your Dream Car</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="js/main.js" defer="defer"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&amp;family=Inter:wght@300;400;700&amp;display=swap" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CARIEZ - Bukan sekadar mobil. Sebuah karakter.</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
-    <!-- NAVBAR -->
+    <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
     <header class="navbar" id="navbar">
-        <div class="navbar__inner">
-            <a href="index.xhtml" class="nav__logo">
-                <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" />
+        <a href="#beranda" class="logo">CARIEZ</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">&#9776;</button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="catalog.xhtml">KOLEKSI MOBIL</a>
+            <a href="#">SIMULASI KREDIT</a>
+            <a href="#tentang">ABOUT US</a>
+        </nav>
+        <div class="nav-actions">
+            <form class="nav-search" id="navSearch" action="catalog.xhtml" method="get" role="search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <label class="visually-hidden" for="navSearchInput">Cari mobil</label>
+                <input type="search" id="navSearchInput" name="q" placeholder="Cari mobil..." autocomplete="off" />
+            </form>
+            <a href="login.xhtml" class="nav-action nav-login" aria-label="Login" title="Login">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                </svg>
             </a>
-
-            <nav class="navbar__links">
-                <a href="catalog.xhtml" class="navbar__link">Catalog</a>
-                <a href="#about" class="navbar__link">About Us</a>
-            </nav>
-
-            <div class="navbar__actions">
-                <button class="btn-icon" id="searchToggle" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <span>Search</span>
-                </button>
-                <button class="btn-icon" aria-label="Account">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="navbar__search-bar" id="searchBar">
-            <input type="text" placeholder="Search for a car.." id="searchInput" />
-            <button class="btn-icon" id="searchClose" type="button">✕</button>
+            <a href="#kontak" class="nav-visit">Kunjungi kami</a>
         </div>
     </header>
+    <main id="main-content">
+    <section class="hero" id="beranda">
+        <p class="label">Automotive Excellence</p>
+        <div class="hero-top">
+            <div class="hero-title">
+                <h1>Bukan sekadar mobil. <br />Sebuah karakter.</h1>
+                <div class="garis-oranye"></div>
+            </div>
+            <p class="hero-desc">
+                Kurasi koleksi kendaraan performa tinggi dan gaya hidup dari seluruh dunia. Didesain untuk mereka yang mengutamakan kepuasan berkendara murni tanpa kompromi.
+            </p>
+        </div>
 
-    <main>
-        <!-- BANNER -->
-        <section class="showcase" id="home">
-            <div class="showcase__bg"></div>
-            <div class="showcase__content">
-                <div class="showcase__text">
-                    <h1 class="showcase__title">Find Your <em>Dream Car</em></h1>
-                    <p class="showcase__sub">Drive with elegance, arrive with confidence.</p>
+        <div class="hero-image">
+            <img src="Img/Porsche 911 transparent.png" alt="Porsche 911 warna hitam" width="960" height="540" fetchpriority="high" />
+        </div>
+
+        <div class="hero-bottom">
+            <div>
+                <p class="label kecil">Unit unggulan</p>
+                <h3>Porsche 911</h3>
+                <p class="kecil">Ikon sports car yang terus bertahan lintas generasi.</p>
+            </div>
+            <a href="#koleksi" class="btn btn-oranye">Jelajahi koleksi</a>
+        </div>
+    </section>
+
+    <section class="strip">
+        <p class="strip-title">Driven by character</p>
+        <ul>
+            <li>Sports car</li>
+            <li>Daily driver</li>
+            <li>Utility</li>
+            <li>MPV keluarga</li>
+        </ul>
+    </section>
+
+    <section class="koleksi" id="koleksi">
+        <p class="label">01 / Koleksi</p>
+        <h2>Koleksi pilihan. Karakter berbeda.</h2>
+        <p class="sub-judul">Temukan mobil sesuai dengan kebutuhan Anda.</p>
+
+        <div class="filter" id="filter">
+            <button class="filter-btn aktif" data-kategori="semua">Semua (6)</button>
+            <button class="filter-btn" data-kategori="sports">Sports</button>
+            <button class="filter-btn" data-kategori="daily">Daily driver</button>
+            <button class="filter-btn" data-kategori="utility">Utility</button>
+            <button class="filter-btn" data-kategori="mpv">MPV keluarga</button>
+        </div>
+        <p class="jumlah" id="jumlahMobil">Menampilkan 6 mobil</p>
+
+        <div class="grid-mobil" id="gridMobil">
+
+            <article class="card" data-kategori="sports">
+                <div class="card-img card-img--contain">
+                    <span class="tag">Sports</span>
+                    <img src="Img/Mobil_New/mazzda/Mazda RX7 FD.png" alt="Mazda RX-7 FD" />
                 </div>
-            </div>
-            <div class="showcase__car-wrap">
-                <img src="Img/mobil_homepage.jpg" alt="Featured Car" class="showcase__car-img" />
-            </div>
-        </section>
-
-        <!-- CAR COLLECTION -->
-        <section class="collection" id="collection">
-            <div class="container">
-                <h2 class="section-title">Collection</h2>
-
-            </div>
-        </section>
-
-        <section class="about" id="about">
-            <div class="container about__inner">
-                <div class="about__text" data-aos="fade-right">
-                    <h2 class="section-title">About Us</h2>
-                    <p>
-                        CARIEZ adalah platform jual beli mobil terpercaya yang hadir untuk memudahkan masyarakat Indonesia menemukan kendaraan impian mereka. Kami menyediakan koleksi mobil baru maupun bekas dari dealer terpercaya di seluruh nusantara.
-                    </p>
-                    <p>
-                        Dengan teknologi pencarian yang canggih dan layanan pelanggan yang berdedikasi, kami memastikan setiap transaksi berjalan dengan aman, transparan, dan memuaskan.
-                    </p>
-                </div>
-                <div class="about__img-wrap" data-aos="fade-left">
-                    <img src="Img/contoh showroom.jpg" alt="CARIEZ Showroom" />
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="footer">
-            <div class="footer__inner">
-                <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ" class="footer__logo" />
-                <div class="footer__line"></div>
-
-                <div class="footer__body">
-                    <div class="footer__brand">
-                        <p class="footer__tagline">Showroom</p>
-                        <address>
-                            Jl. Aruna Prestige No. 88, Kawasan Niaga Cakrawala,<br />
-                            Sleman, Daerah Istimewa Yogyakarta, Indonesia.
-                        </address>
+                <div class="card-body">
+                    <div class="card-judul">
+                        <h4>Mazda RX-7 FD</h4>
+                        <span class="panah">&#8599;</span>
                     </div>
-
-                    <div class="footer__contact">
-                        <a href="tel:01010202303" class="footer__contact-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.42C1.64 2.18 2.57 1.16 3.8 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                            </svg>
-                            <span>0101-0202-0303</span>
-                        </a>
-                        <a href="mailto:hello@cariez.com" class="footer__contact-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
-                            </svg>
-                            <span>hello@cariez.com</span>
-                        </a>
-                    </div>
+                    <p>Coupe sport ikonik bermesin rotari dengan bodi ramping dan bobot ringan.</p>
+                    <p class="harga">Tanyakan harga</p>
                 </div>
-            </div>
-        </footer>
+            </article>
+
+            <article class="card" data-kategori="daily">
+                <div class="card-img">
+                    <span class="tag">Daily driver</span>
+                    <img src="Img/Mobil_Sec/brio.webp" alt="Honda Brio" />
+                </div>
+                <div class="card-body">
+                    <div class="card-judul">
+                        <h4>Honda Brio</h4>
+                        <span class="panah">&#8599;</span>
+                    </div>
+                    <p>Hatchback kompak yang gesit di jalan kota dan mudah dirawat.</p>
+                    <p class="harga">Tanyakan harga</p>
+                </div>
+            </article>
+
+            <article class="card" data-kategori="utility">
+                <div class="card-img">
+                    <span class="tag">Utility</span>
+                    <img src="Img/Mobil_Sec/triton.webp" alt="Mitsubishi Triton" />
+                </div>
+                <div class="card-body">
+                    <div class="card-judul">
+                        <h4>Mitsubishi Triton</h4>
+                        <span class="panah">&#8599;</span>
+                    </div>
+                    <p>Pickup double cabin yang tangguh untuk kerja maupun perjalanan jauh.</p>
+                    <p class="harga">Tanyakan harga</p>
+                </div>
+            </article>
+
+            <article class="card" data-kategori="daily">
+                <div class="card-img card-img--contain">
+                    <span class="tag">Daily driver</span>
+                    <img src="Img/Mobil_New/mazzda/Mazda3 hatchback.png" alt="Mazda3 Hatchback" />
+                </div>
+                <div class="card-body">
+                    <div class="card-judul">
+                        <h4>Mazda3 Hatchback</h4>
+                        <span class="panah">&#8599;</span>
+                    </div>
+                    <p>Hatchback bergaya modern untuk menemani perjalanan sehari-hari.</p>
+                    <p class="harga">Tanyakan harga</p>
+                </div>
+            </article>
+
+            <article class="card" data-kategori="utility">
+                <div class="card-img">
+                    <span class="tag">Utility</span>
+                    <img src="Img/Mobil_Sec/elf.webp" alt="Isuzu Elf BOX NKR 55" />
+                </div>
+                <div class="card-body">
+                    <div class="card-judul">
+                        <h4>Isuzu Elf BOX NKR 55</h4>
+                        <span class="panah">&#8599;</span>
+                    </div>
+                    <p>Truk boks ringan untuk distribusi barang dengan daya angkut besar.</p>
+                    <p class="harga">Tanyakan harga</p>
+                </div>
+            </article>
+
+            <article class="card" data-kategori="mpv">
+                <div class="card-img">
+                    <span class="tag">MPV keluarga</span>
+                    <img src="Img/Mobil_Sec/avanza.webp" alt="Toyota Avanza" />
+                </div>
+                <div class="card-body">
+                    <div class="card-judul">
+                        <h4>Toyota Avanza</h4>
+                        <span class="panah">&#8599;</span>
+                    </div>
+                    <p>MPV keluarga yang praktis, lega, dan irit untuk pemakaian harian.</p>
+                    <p class="harga">Tanyakan harga</p>
+                </div>
+            </article>
+
+        </div>
+
+        <p class="pesan-kosong" id="pesanKosong">Belum ada mobil di kategori ini.</p>
+    </section>
+
+    <section class="tentang" id="tentang">
+        <div class="tentang-teks">
+            <p class="label">02 / Tentang CARIEZ</p>
+            <h2>Lebih dekat dengan mobil impian Anda.</h2>
+            <p>
+                Kami percaya membeli mobil bukan hanya soal transaksi.
+                Setiap unit kami seleksi dengan teliti, mulai dari kondisi,
+                riwayat, sampai karakter yang dimilikinya.
+            </p>
+            <a href="#showroom" class="btn btn-oranye">Kenali CARIEZ</a>
+
+            <ul class="tentang-link">
+                <li><a href="#showroom">Kunjungi dealer</a></li>
+                <li><a href="#kontak">Penjadwalan personal</a></li>
+            </ul>
+        </div>
+
+        <div class="tentang-img" id="showroom">
+            <img src="Img/contoh showroom.jpg" alt="Showroom mobil CARIEZ" />
+            <p class="caption">Temukan mobil impian Anda di CARIEZ.</p>
+        </div>
+    </section>
+
+    <section class="cta" id="kontak">
+        <div>
+            <p class="label kecil">Siap untuk berbicara?</p>
+            <h2>Mulai dari sebuah percakapan.</h2>
+            <p>Hubungi kami untuk jadwal kunjungan atau tanya unit yang tersedia.</p>
+        </div>
+        <a href="mailto:hi@cariez.com" class="btn btn-dark">Hubungi kami</a>
+    </section>
     </main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <a href="#beranda" class="logo">CARIEZ</a>
+                <p class="kecil">Find your drive. Define your character.</p>
+            </div>
+            <div>
+                <h5>Showroom</h5>
+                <p>Jl. Arvino Malaya No. 88,<br />Kawasan Singa Hartono,<br />Yogyakarta, Indonesia</p>
+            </div>
+            <div>
+                <h5>Buat janji</h5>
+                <p>0181-0000-0000<br />hi@cariez.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bawah">
+            <p>&#169; <span id="tahun">2026</span> CARIEZ. All rights reserved.</p>
+            <p><a href="#">Kebijakan</a> &#160;|&#160; <a href="#">Syarat</a> &#160;|&#160; <a href="#">Showroom</a></p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>

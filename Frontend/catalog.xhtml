@@ -11,43 +11,38 @@
     <link rel="stylesheet" href="css/catalog.css" />
     <!-- urutan penting: data dulu, baru skrip yang memakainya -->
     <script src="js/cars.js" defer="defer"></script>
-    <script src="js/main.js" defer="defer"></script>
+    <script src="js/main.js?v=20261124" defer="defer"></script>
     <script src="js/catalog.js" defer="defer"></script>
 </head>
 
 <body>
     <!-- NAVBAR -->
     <header class="navbar" id="navbar">
-        <div class="navbar__inner">
-            <a href="index.xhtml" class="nav__logo">
-                <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" />
+        <a href="#beranda" class="logo">CARIEZ</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">&#9776;</button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="catalog.xhtml">KOLEKSI MOBIL</a>
+            <a href="#">SIMULASI KREDIT</a>
+            <a href="#tentang">ABOUT US</a>
+        </nav>
+        <div class="nav-actions">
+            <form class="nav-search" id="navSearch" action="catalog.xhtml" method="get" role="search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <label class="visually-hidden" for="navSearchInput">Cari mobil</label>
+                <input type="search" id="navSearchInput" name="q" placeholder="Cari mobil..." autocomplete="off" />
+            </form>
+            <a href="login.xhtml" class="nav-action nav-login" aria-label="Login" title="Login">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                </svg>
             </a>
-
-            <nav class="navbar__links">
-                <a href="catalog.xhtml" class="navbar__link">Catalog</a>
-                <a href="about.xhtml" class="navbar__link">About Us</a>
-            </nav>
-
-            <div class="navbar__actions">
-                <button class="btn-icon" id="searchToggle" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <span>Search</span>
-                </button>
-                <button class="btn-icon" aria-label="Account">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="navbar__search-bar" id="searchBar">
-                <input type="text" placeholder="Search for a car.." id="searchInput" />
-                <button class="btn-icon" id="searchClose" type="button">✕</button>
-            </div>
+            <!-- <a href="#kontak" class="nav-visit">Kunjungi kami</a> -->
         </div>
     </header>
-
     <main>
         <!-- BANNER -->
         <section class="banner">
@@ -59,32 +54,54 @@
                 <span class="banner__price">Rp 599.000.000</span>
             </div>
         </section>
-
-        <!-- FILTER (pilihannya diisi otomatis oleh catalog.js dari cars.js) -->
-        <div class="filter">
-            <div class="filter__item">
-                <label for="category">Category</label>
-                <select id="category">
-                    <option value="all">All Categories</option>
-                </select>
+        <section class="catalog-content">
+            <div class="catalog-heading">
+                <div>
+                    <p class="catalog-heading__eyebrow">Cari Koleksi</p>
+                    <h1>Temukan mobil pilihan Anda.</h1>
+                </div>
             </div>
 
-            <div class="filter__item">
-                <label for="brand">Brand</label>
-                <select id="brand">
-                    <option value="all">All Brands</option>
-                </select>
+            <div class="catalog-toolbar">
+                <div class="filter" aria-label="Filter mobil">
+                    <div class="filter__item">
+                        <label class="visually-hidden" for="category">Kategori mobil</label>
+                        <select id="category">
+                            <option value="all">Semua tipe</option>
+                        </select>
+                    </div>
+
+                    <div class="filter__item">
+                        <label class="visually-hidden" for="brand">Merek mobil</label>
+                        <select id="brand">
+                            <option value="all">Semua merek</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="catalog-sort">
+                    <span id="catalogCount">Semua mobil</span>
+                    <label class="visually-hidden" for="catalogSort">Urutkan mobil</label>
+                    <select id="catalogSort">
+                        <option value="featured">Unggulan</option>
+                        <option value="price-low">Harga terendah</option>
+                        <option value="price-high">Harga tertinggi</option>
+                        <option value="name">Nama mobil</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <!-- DAFTAR MOBIL (kartu dibuat otomatis oleh catalog.js dari cars.js) -->
-        <div class="car-grid" id="carGrid"></div>
+            <div class="car-grid" id="carGrid"></div>
+        </section>
 
-        <!-- TAGLINE / QUOTE BAWAH -->
-        <div class="tagline" id="about">
-            <h3 class="tagline__title">Your Journey, Your Story</h3>
-            <p class="tagline__text">Find the car that reflects who you are, and make every journey extraordinary.</p>
-        </div>
+        <section class="catalog-cta" id="kontak">
+            <div>
+                <p>Uji kepribadian berkendara Anda</p>
+                <h2>Mobil pilihan. Cerita baru.</h2>
+                <span>Temukan unit yang paling sesuai dengan gaya hidup dan kebutuhan Anda.</span>
+            </div>
+            <a href="mailto:hello@cariez.com">Konsultasi sekarang <span aria-hidden="true">&#8599;</span></a>
+        </section>
     </main>
 
     <footer class="footer">
