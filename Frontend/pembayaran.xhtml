@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>Pembayaran | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" />
+    <link rel="stylesheet" href="css/pembayaran.css" />
+    <script src="js/pembayaran.js" defer="defer"></script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+        <a href="index.xhtml" class="nav__logo">
+            <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" /> 
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">&#9776;</button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="catalog.xhtml">KOLEKSI MOBIL</a>
+            <a href="index.xhtml#tentang">ABOUT US</a>
+        </nav>
+        <div class="nav-actions">
+            <form class="nav-search" id="navSearch" action="catalog.xhtml" method="get" role="search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <label class="visually-hidden" for="navSearchInput">Cari mobil</label>
+                <input type="search" id="navSearchInput" name="q" placeholder="Cari mobil..." autocomplete="off" />
+            </form>
+            <a href="login.xhtml" class="nav-action nav-login" aria-label="Login" title="Login">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Judul halaman -->
+        <div class="pagehead">
+            <div class="wrap pagehead__in">
+                <div class="steps">
+                    <span class="step is-active"><b>01</b><span>Pembayaran Tunai</span></span><i class="step__line"></i>
+                    <span class="step"><b>02</b><span>Lengkapi Data</span></span><i class="step__line"></i>
+                    <span class="step"><b>03</b><span>Riwayat<br />Pemesanan</span></span><i class="step__line"></i>
+                    <span class="step"><b>04</b><span>Selesai</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrap main">
+            <!-- sisi kiri -->
+            <div class="side">
+                <div class="card car">
+                    <div class="car__img">
+                        <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="MX-5 RF" />
+                    </div>
+                    <div class="car__body">
+                        <h2 class="car__name">Mazda MX-5 RF</h2>
+                        <p class="car__sub">2.0L RF · Manual Transmission</p>
+                        <div class="car__stats">
+                            <div><strong>1.998cc</strong><span>Kapasitas Mesin</span></div>
+                            <div><strong>184 PS</strong><span>Tenaga maksimum</span></div>
+                            <div><strong>205 Nm</strong><span>Torsi Puncak</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card cost">
+                    <div class="cost__head">
+                        <h3>Ringkasan Biaya Unit</h3><a href="#" class="cost__link">Rincian biaya</a>
+                    </div>
+                    <div class="cost__row">
+                        <span>Harga On The Road (OTR)</span>
+                        <strong>Rp 948.000.000</strong>
+                    </div>
+                    <div class="cost__row">
+                        <span>Biaya administrasi</span>
+                        <strong>Rp 2.500.000</strong>
+                    </div>
+                    <div class="cost__row cost__row--sum">
+                        <span>Subtotal pelunasan</span>
+                        <strong>Rp950.500.000</strong>
+                    </div>
+
+                    <div class="cost__fee">
+                        <div>
+                            <span class="cost__fee-label">Uang Muka</span>
+                            <strong class="cost__fee-amount">Rp 190.100.000</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sisi kanan -->
+            <div class="content">
+                <div class="card card--pad card--compact">
+                    <div class="card__head">
+                        <div>
+                            <h2 class="card__title">Pembayaran</h2>
+                        </div>
+                    </div>
+
+                    <div class="methods">
+                        <label class="method is-active">
+                            <input type="radio" name="method" value="va" checked="checked" />
+                            <span class="method__text"><span class="method__name">Virtual Account</span><span class="method__desc">BCA, Mandiri, BNI, BRI</span></span>
+                        </label>
+                        <label class="method">
+                            <input type="radio" name="method" value="transfer" />
+                            <span class="method__text"><span class="method__name">Transfer Bank</span><span class="method__desc">Verifikasi maks. 1 jam</span></span>
+                        </label>
+                        <label class="method">
+                            <input type="radio" name="method" value="qris" />
+                            <span class="method__text"><span class="method__name">QRIS Instan</span><span class="method__desc">GoPay, OVO, DANA</span></span>
+                        </label>
+                    </div>
+
+                    <div class="total">
+                        <div class="total__top">
+                            <div><span class="total__label">Total booking fee</span><strong class="total__amount" id="totalAmount">Rp 190.100.000</strong></div>
+                            <div class="total__deadline"><span>Batas pembayaran</span><strong id="sumDeadline">24 jam setelah konfirmasi</strong></div>
+                        </div>
+                        <div class="total__rows">
+                            <div><span>Metode terpilih</span><strong id="sumMethod">Virtual Account BCA</strong></div>
+                            <div><span>Biaya transaksi</span><strong id="sumFee">Gratis</strong></div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="card card--pad">
+                    <div class="card__head">
+                        <div>
+                            <h2 class="card__title">Dokumen Verifikasi</h2>
+                        </div>
+                        <span class="badge-violet">Maks. 5 MB</span>
+                    </div>
+                    <div class="docs">
+                        <label class="doc">
+                            <span class="doc__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>
+                            <span class="doc__text"><span class="doc__title">KTP Pemohon &amp; Pasangan</span><span class="doc__desc">Identitas resmi yang masih berlaku</span></span>
+                            <span class="doc__up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+                            <input type="file" class="doc__input" accept=".pdf,.jpg,.jpeg,.png" />
+                        </label>
+                        <label class="doc">
+                            <span class="doc__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>
+                            <span class="doc__text"><span class="doc__title">Kartu Keluarga (KK)</span><span class="doc__desc">Dokumen keluarga terbaru</span></span>
+                            <span class="doc__up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+                            <input type="file" class="doc__input" accept=".pdf,.jpg,.jpeg,.png" />
+                        </label>
+                        <label class="doc">
+                            <span class="doc__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>
+                            <span class="doc__text"><span class="doc__title">NPWP Pribadi / Perusahaan</span><span class="doc__desc">Nomor wajib pajak aktif</span></span>
+                            <span class="doc__up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+                            <input type="file" class="doc__input" accept=".pdf,.jpg,.jpeg,.png" />
+                        </label>
+                        <label class="doc">
+                            <span class="doc__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>
+                            <span class="doc__text"><span class="doc__title">Bukti Penghasilan / Rekening</span><span class="doc__desc">Slip gaji atau rekening 3 bulan</span></span>
+                            <span class="doc__up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+                            <input type="file" class="doc__input" accept=".pdf,.jpg,.jpeg,.png" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card foot">
+                    <div class="foot__info">
+                        <span class="foot__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+                        <div><strong>Data Anda dilindungi</strong><span>Enkripsi berstandar industri dan hanya digunakan untuk pemrosesan pesanan.</span></div>
+                    </div>
+                    <a href="data_pembayaran.xhtml" class="foot__btn" id="nextBtn">Lanjut Lengkapi Data<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+                </div>
+                <p class="foot__msg" id="footMsg"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ" class="footer__logo" />
+            <div class="footer__line"></div>
+
+            <div class="footer__body">
+                <div class="footer__brand">
+                    <p class="footer__tagline">Showroom</p>
+                    <address>Jl. Aruna Prestige No. 88, Kawasan Niaga Cakrawala,<br />Sleman, Daerah Istimewa
+                        Yogyakarta, Indonesia.
+                    </address>
+                </div>
+
+                <div class="footer__contact">
+                    <a href="tel:01010202303" class="footer__contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.42C1.64 2.18 2.57 1.16 3.8 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                        <span>0101-0202-0303</span>
+                    </a>
+                    <a href="mailto:hello@cariez.com" class="footer__contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        <span>hello@cariez.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+    
+<head>
+    <title>Data Pemesan | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" />
+    <link rel="stylesheet" href="css/pembayaran.css" />
+    <link rel="stylesheet" href="css/dataPembayaran.css" />
+    <script src="js/pembayaran.js" defer="defer"></script>
+    <script src="js/dataPembayaran.js" defer="defer"></script>
+</head>
+
+<body>
+    <header class="navbar" id="navbar">
+        <a href="index.xhtml" class="nav__logo">
+            <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" /> 
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">&#9776;</button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="catalog.xhtml">KOLEKSI MOBIL</a>
+            <a href="index.xhtml#tentang">ABOUT US</a>
+        </nav>
+        <div class="nav-actions">
+            <form class="nav-search" id="navSearch" action="catalog.xhtml" method="get" role="search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <label class="visually-hidden" for="navSearchInput">Cari mobil</label>
+                <input type="search" id="navSearchInput" name="q" placeholder="Cari mobil..." autocomplete="off" />
+            </form>
+            <a href="login.xhtml" class="nav-action nav-login" aria-label="Login" title="Login">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="pagehead data-pagehead">
+            <div class="pagehead">
+                <div class="wrap pagehead__in">
+                    <div class="steps">
+                        <span class="step is-active"><b>01</b><span>Pembayaran Tunai</span></span><i class="step__line"></i>
+                        <span class="step"><b>02</b><span>Lengkapi Data</span></span><i class="step__line"></i>
+                        <span class="step"><b>03</b><span>Riwayat<br />Pemesanan</span></span><i class="step__line"></i>
+                        <span class="step"><b>04</b><span>Selesai</span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrap main data-main">
+            <aside class="side" aria-label="Ringkasan kendaraan dan biaya">
+                <section class="card car">
+                    <div class="car__img">
+                        <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="Mazda MX-5 RF" />
+                    </div>
+                    <div class="car__body"> 
+                        <h2 class="car__name">Mazda MX-5 RF</h2>
+                        <p class="car__sub">2.0L RF · Manual Transmission</p>
+                        <div class="car__stats">
+                            <div><strong>1.998cc</strong><span>Kapasitas Mesin</span></div> 
+                            <div><strong>184 PS</strong><span>Tenaga maksimum</span></div>
+                            <div><strong>205 Nm</strong><span>Torsi puncak</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card cost">
+                    <div class="cost__head">
+                        <h2>Ringkasan Biaya Unit</h2>
+                        <a href="pembayaran.xhtml" class="cost__link">Rincian biaya</a>
+                    </div>
+                    <div class="cost__row">
+                        <span>Harga On The Road (OTR)</span>
+                        <strong>Rp 948.000.000</strong>
+                    </div>
+                    <div class="cost__row">
+                        <span>Biaya administrasi</span>
+                        <strong>Rp 2.500.000</strong>
+                    </div>
+                    <div class="cost__row cost__row--sum">
+                        <span>Subtotal pelunasan</span>
+                        <strong>Rp 950.500.000</strong>
+                    </div>
+                    <div class="cost__fee">
+                        <div>
+                            <span class="cost__fee-label">Uang tanda jadi saat ini</span>
+                            <strong class="cost__fee-amount">Rp 190.100.000</strong>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <div class="content">
+                <section class="card data-card">
+                    <div class="data-card__head">
+                        <div>
+                            <h2 class="data-card__title">Lengkapi Data Pemesan</h2>
+                            <p class="data-card__intro">Pastikan data sesuai dengan identitas resmi. Informasi ini digunakan untuk proses pemesanan kendaraan dan pengajuan pembiayaan.</p>
+                        </div>
+                        <span class="secure-badge"><span aria-hidden="true">✓</span> Terenkripsi</span>
+                    </div>
+
+                    <section class="form-section" aria-labelledby="personalHeading">
+                        <div class="form-section__head">
+                            <span class="section-number">01</span>
+                            <div>
+                                <h3 id="personalHeading">Informasi pribadi</h3>
+                                <p>Data pemilik kendaraan dan kontak utama</p>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="fullName">Nama lengkap sesuai KTP</label>
+                                <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Contoh: Raka Aditya" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="nik">Nomor NIK</label>
+                                <input id="nik" name="nik" type="text" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" placeholder="16 digit nomor identitas" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="whatsapp">Nomor WhatsApp</label>
+                                <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+62 812 0000 0000" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="email">Alamat email</label>
+                                <input id="email" name="email" type="email" autocomplete="email" placeholder="nama@email.com" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="birthDate">Tanggal lahir</label>
+                                <input id="birthDate" name="birthDate" type="date" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="maritalStatus">Status pernikahan</label>
+                                <select id="maritalStatus" name="maritalStatus" required="required">
+                                    <option value="">Pilih status</option>
+                                    <option value="belum-menikah">Belum menikah</option>
+                                    <option value="menikah">Menikah</option>
+                                    <option value="cerai">Cerai</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section" aria-labelledby="addressHeading">
+                        <div class="form-section__head">
+                            <span class="section-number">02</span>
+                            <div>
+                                <h3 id="addressHeading">Alamat domisili</h3>
+                                <p>Alamat sesuai tempat tinggal saat ini</p>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field form-field--full">
+                                <label for="streetAddress">Alamat lengkap</label>
+                                <textarea id="streetAddress" name="streetAddress" rows="3" autocomplete="street-address" placeholder="Nama jalan, nomor rumah, RT/RW, dan kelurahan" required="required"></textarea>
+                            </div>
+                            <div class="form-field">
+                                <label for="province">Provinsi</label>
+                                <input id="province" name="province" type="text" autocomplete="address-level1" placeholder="DI Yogyakarta" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="city">Kota / Kabupaten</label>
+                                <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="Kabupaten Sleman" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="district">Kecamatan</label>
+                                <input id="district" name="district" type="text" placeholder="Pilih kecamatan" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="postalCode">Kode pos</label>
+                                <input id="postalCode" name="postalCode" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" placeholder="55281" required="required" />
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section form-section--last" aria-labelledby="workHeading">
+                        <div class="form-section__head">
+                            <span class="section-number">03</span>
+                            <div>
+                                <h3 id="workHeading">Informasi pekerjaan</h3>
+                                <p>Digunakan untuk proses verifikasi pembiayaan</p>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="occupation">Pekerjaan</label>
+                                <select id="occupation" name="occupation" required="required">
+                                    <option value="">Pilih pekerjaan</option>
+                                    <option value="karyawan-swasta">Karyawan swasta</option>
+                                    <option value="pegawai-negeri">Pegawai negeri</option>
+                                    <option value="wiraswasta">Wiraswasta</option>
+                                    <option value="profesional">Profesional</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="company">Nama perusahaan</label>
+                                <input id="company" name="company" type="text" autocomplete="organization" placeholder="Nama tempat bekerja" required="required" />
+                            </div>
+                            <div class="form-field">
+                                <label for="monthlyIncome">Penghasilan per bulan</label>
+                                <select id="monthlyIncome" name="monthlyIncome" required="required">
+                                    <option value="">Pilih kisaran penghasilan</option>
+                                    <option value="under-15">Di bawah Rp 15 juta</option>
+                                    <option value="15-25">Rp 15–25 juta</option>
+                                    <option value="25-50">Rp 25–50 juta</option>
+                                    <option value="over-50">Di atas Rp 50 juta</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="employmentDuration">Lama bekerja</label>
+                                <input id="employmentDuration" name="employmentDuration" type="text" placeholder="Contoh: 4 tahun" required="required" />
+                            </div>
+                        </div>
+                    </section>
+
+                    <label class="consent">
+                        <input type="checkbox" name="dataConsent" required="required" />
+                        <span>Saya menyetujui penggunaan data untuk verifikasi, pengajuan pembiayaan, dan komunikasi terkait pemesanan.</span>
+                    </label>
+                </section>
+
+                <section class="card data-actions">
+                    <div class="data-protection">
+                        <span class="foot__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+                        <div><strong>Data Anda dilindungi</strong><span>Enkripsi berstandar industri dan hanya digunakan untuk pemrosesan pesanan.</span></div>
+                    </div>
+                    <div class="data-actions__buttons">
+                        <a href="pembayaran.xhtml" class="back-button">Kembali</a>
+                        <button class="save-button" id="saveDataButton" type="button">Simpan &amp; Lihat Riwayat <span aria-hidden="true">›</span></button>
+                    </div>
+                    <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ" class="footer__logo" />
+            <div class="footer__line"></div>
+            <div class="footer__body">
+                <div class="footer__brand">
+                    <p class="footer__tagline">Showroom</p>
+                    <address>Jl. Aruna Prestige No. 88, Kawasan Niaga Cakrawala,<br />Sleman, Daerah Istimewa Yogyakarta, Indonesia.</address>
+                </div>
+                <div class="footer__contact">
+                    <a href="tel:01010202303" class="footer__contact-item"><span>0101-0202-0303</span></a>
+                    <a href="mailto:hello@cariez.com" class="footer__contact-item"><span>hello@cariez.com</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

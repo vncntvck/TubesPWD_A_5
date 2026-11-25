@@ -121,6 +121,12 @@ img {
     transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
 }
 
+.nav__logo img{
+    width: 150px;
+    height: auto;
+    display: block;
+}
+
 .navbar.scrolled {
     background-color: rgba(255, 255, 255, 0.92);
     box-shadow: 0 8px 24px rgba(20, 20, 20, 0.08);

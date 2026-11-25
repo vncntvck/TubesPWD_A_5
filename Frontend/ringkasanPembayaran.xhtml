@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>Riwayat Pesanan | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" />
+    <link rel="stylesheet" href="css/pembayaran.css" />
+    <link rel="stylesheet" href="css/ringkasanPembayaran.css" />
+    <script src="js/pembayaran.js" defer="defer"></script>
+    <script src="js/ringkasanPembayaran.js" defer="defer"></script>
+</head>
+
+<body>
+    <header class="navbar" id="navbar">
+        <a href="index.xhtml" class="nav__logo"><img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" /></a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">&#9776;</button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="catalog.xhtml">KOLEKSI MOBIL</a>
+            <a href="index.xhtml#tentang">ABOUT US</a>
+        </nav>
+        <div class="nav-actions">
+            <form class="nav-search" id="navSearch" action="catalog.xhtml" method="get" role="search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <label class="visually-hidden" for="navSearchInput">Cari mobil</label>
+                <input type="search" id="navSearchInput" name="q" placeholder="Cari mobil..." autocomplete="off" />
+            </form>
+            <a href="login.xhtml" class="nav-action nav-login" aria-label="Login" title="Login">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="pagehead history-head">
+            <div class="wrap pagehead__in">
+                <nav class="steps" aria-label="Progres pemesanan">
+                    <span class="step is-complete"><b>01</b><span>Pembayaran Tunai</span></span>
+                    <i class="step__line" aria-hidden="true"></i>
+                    <span class="step is-complete"><b>02</b><span>Lengkapi Data</span></span>
+                    <i class="step__line" aria-hidden="true"></i>
+                    <span class="step is-active" aria-current="step"><b>03</b><span>Riwayat<br />Pemesanan</span></span>
+                    <i class="step__line" aria-hidden="true"></i>
+                    <span class="step"><b>04</b><span>Selesai</span></span>
+                </nav>
+            </div>
+        </section>
+
+        <div class="wrap main history-main">
+            <aside class="side" aria-label="Ringkasan kendaraan dan biaya">
+                <section class="card car">
+                    <div class="car__img">
+                        <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="Mazda MX-5 RF" />
+                    </div>
+                    <div class="car__body">
+                        <h2 class="car__name">Mazda MX-5 RF</h2>
+                        <p class="car__sub">2.0L RF · Manual Transmission</p>
+                        <div class="car__stats">
+                            <div><strong>1.998cc</strong><span>Kapasitas mesin</span></div>
+                            <div><strong>184 PS</strong><span>Tenaga maksimum</span></div>
+                            <div><strong>205 Nm</strong><span>Torsi puncak</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card cost">
+                    <div class="cost__head">
+                        <h2>Ringkasan Biaya Unit</h2>
+                        <a href="pembayaran.xhtml" class="cost__link">Rincian biaya</a>
+                    </div>
+                    <div class="cost__row">
+                        <span>Harga On The Road (OTR)</span>
+                        <strong>Rp 948.000.000</strong>
+                    </div>
+                    <div class="cost__row">
+                        <span>Biaya administrasi</span>
+                        <strong>Rp 2.500.000</strong>
+                    </div>
+                    <div class="cost__row cost__row--sum">
+                        <span>Subtotal pelunasan</span>
+                        <strong>Rp 950.500.000</strong>
+                    </div>
+                    <div class="cost__fee">
+                        <div>
+                            <span class="cost__fee-label">Uang tanda jadi saat ini</span>
+                            <strong class="cost__fee-amount">Rp 190.100.000</strong>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <div class="content">
+                <section class="card order-card">
+                    <div class="order-card__head">
+                        <div>
+                            <h2>Riwayat Pesanan</h2>
+                            <p>Pantau proses pesanan dan pembiayaan kendaraan Anda dalam satu halaman.</p>
+                        </div>
+                        <button class="refresh-button" id="refreshOrder" type="button">Perbarui</button>
+                    </div>
+
+                    <div class="order-panel">
+                        <div class="order-panel__title">
+                            <span class="order-icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+                                    <path d="M14 3v6h6M9 14h6m-6 4h6" />
+                                </svg>
+                            </span>
+                            <div class="order-panel__vehicle">
+                                <span>PESANAN AKTIF · CRZ-MX5-01582</span>
+                                <h3>Mazda MX-5 RF</h3>
+                            </div>
+                            <span class="order-status">Menunggu verifikasi</span>
+                        </div>
+
+                        <div class="order-panel__body">
+                            <ol class="timeline" aria-label="Tahapan pesanan">
+                                <li class="timeline__item is-done">
+                                    <span class="timeline__marker" aria-hidden="true">✓</span>
+                                    <div class="timeline__content">
+                                        <strong>Booking fee diterima</strong>
+                                        <span>Pesanan tercatat di sistem</span>
+                                    </div>
+                                </li>
+                                <li class="timeline__item is-done">
+                                    <span class="timeline__marker" aria-hidden="true">✓</span>
+                                    <div class="timeline__content">
+                                        <strong>Data pemesan dilengkapi</strong>
+                                        <span>Informasi pemesan sudah dikirim</span>
+                                    </div>
+                                </li>
+                                <li class="timeline__item is-current">
+                                    <span class="timeline__marker" aria-hidden="true">3</span>
+                                    <div class="timeline__content">
+                                        <strong>Verifikasi dokumen</strong>
+                                        <span>Estimasi 1–2 hari kerja</span>
+                                    </div>
+                                </li>
+                                <li class="timeline__item">
+                                    <span class="timeline__marker" aria-hidden="true">4</span>
+                                    <div class="timeline__content">
+                                        <strong>Persetujuan pembiayaan</strong>
+                                        <span>Setelah verifikasi dokumen</span>
+                                    </div>
+                                </li>
+                                <li class="timeline__item">
+                                    <span class="timeline__marker" aria-hidden="true">5</span>
+                                    <div class="timeline__content">
+                                        <strong>Alokasi &amp; serah terima unit</strong>
+                                        <span>Dijadwalkan setelah persetujuan</span>
+                                    </div>
+                                </li>
+                            </ol>
+
+                            <aside class="order-contact" aria-label="Informasi pembayaran dan product expert">
+                                <div class="order-contact__box">
+                                    <span>PEMBAYARAN</span>
+                                    <strong>Tunai / Cash</strong>
+                                    <small>Pelunasan penuh</small>
+                                </div>
+                                <div class="order-contact__box">
+                                    <span>PRODUCT EXPERT</span>
+                                    <strong>Tim CARIEZ</strong>
+                                    <a href="mailto:hello@cariez.com">Hubungi via email</a>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <div class="order-panel__meta">
+                            <span><i aria-hidden="true">◷</i> <span id="lastUpdated">Status pesanan contoh</span></span>
+                            <span><i aria-hidden="true">⌖</i> CARIEZ · Yogyakarta</span>
+                        </div>
+                    </div>
+
+                    <div class="order-documents">
+                        <a class="order-document" href="data_pembayaran.xhtml">
+                            <span class="order-document__icon order-document__icon--green" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /></svg>
+                            </span>
+                            <span class="order-document__text"><strong>Invoice booking fee</strong><small>PDF · Lihat detail pesanan</small></span>
+                            <span class="order-document__action" aria-hidden="true">›</span>
+                        </a>
+                        <a class="order-document" href="data_pembayaran.xhtml">
+                            <span class="order-document__icon order-document__icon--orange" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /></svg>
+                            </span>
+                            <span class="order-document__text"><strong>Surat pemesanan</strong><small>PDF · Lihat detail pesanan</small></span>
+                            <span class="order-document__action" aria-hidden="true">›</span>
+                        </a>
+                    </div>
+                    <p class="order-message" id="orderMessage" role="status" aria-live="polite"></p>
+                </section>
+
+                <section class="card foot history-foot">
+                    <div class="foot__info">
+                        <span class="foot__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2 3 6v5c0 5.1 3.6 9.9 9 11 5.4-1.1 9-5.9 9-11V6l-9-4z" /></svg>
+                        </span>
+                        <div>
+                            <strong>Data Anda dilindungi</strong>
+                            <span>Enkripsi berstandar industri dan hanya digunakan untuk pemrosesan pesanan.</span>
+                        </div>
+                    </div>
+                    <div class="history-foot__actions">
+                        <a href="data_pembayaran.xhtml" class="history-back">Kembali</a>
+                        <button id="finishOrder" class="history-finish" type="button">Selesaikan Proses
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <img src="Img/logo/CARIEZ Logo.png" alt="CARIEZ" class="footer__logo" />
+            <div class="footer__line"></div>
+            <div class="footer__body">
+                <div class="footer__brand">
+                    <p class="footer__tagline">Showroom</p>
+                    <address>Jl. Aruna Prestige No. 88, Kawasan Niaga Cakrawala,<br />Sleman, Daerah Istimewa Yogyakarta, Indonesia.</address>
+                </div>
+                <div class="footer__contact">
+                    <a href="tel:01010202303" class="footer__contact-item"><span>0101-0202-0303</span></a>
+                    <a href="mailto:hello@cariez.com" class="footer__contact-item"><span>hello@cariez.com</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
