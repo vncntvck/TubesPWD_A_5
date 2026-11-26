@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>Transaksi Selesai | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Transaksi pembelian kendaraan Anda telah selesai diproses. Terima kasih telah berbelanja di CARIEZ." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;700&amp;display=swap" />
+    <link rel="stylesheet" href="css/detail.css" />
+    <style>
+        .success-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at 50% 0%, rgba(227,90,30,0.1) 0%, #0d0d0d 60%);
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(34,197,94,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            border: 2px solid rgba(34,197,94,0.3);
+            animation: pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes pop-in {
+            from { transform: scale(0); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .success-icon svg { width: 36px; height: 36px; color: #22c55e; }
+        .success-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #22c55e;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .success-page h1 {
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
+            font-weight: 800;
+            color: #f0f0f0;
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+        .success-page > p {
+            font-size: 1rem;
+            color: #9a9a9a;
+            max-width: 460px;
+            line-height: 1.7;
+            margin: 0 auto 36px;
+        }
+        .success-card {
+            background: #1e1e1e;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 28px 32px;
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto 36px;
+            text-align: left;
+        }
+        .success-card__row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .success-card__row:last-child { border-bottom: none; }
+        .success-card__label { font-size: 0.8125rem; color: #9a9a9a; }
+        .success-card__val   { font-size: 0.875rem; font-weight: 600; color: #f0f0f0; }
+        .success-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-success-primary {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #e35a1e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-success-primary:hover { background: #c44a12; }
+        .btn-success-secondary {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #1e1e1e;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            font-family: inherit;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .btn-success-secondary:hover { border-color: rgba(255,255,255,0.25); }
+        .success-logo {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #f0f0f0;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.xhtml" class="success-logo">CARIEZ</a>
+
+    <div class="success-page">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+
+        <span class="success-eyebrow">Transaksi berhasil</span>
+        <h1>Selamat! Pesanan Anda<br />sedang diproses.</h1>
+        <p>Tim kami akan segera menghubungi Anda untuk konfirmasi dan langkah selanjutnya. Terima kasih telah mempercayakan kebutuhan kendaraan Anda kepada CARIEZ.</p>
+
+        <!-- Summary Card -->
+        <div class="success-card" id="successCard">
+            <div class="success-card__row">
+                <span class="success-card__label">Nomor Pesanan</span>
+                <span class="success-card__val" id="scOrderNo">—</span>
+            </div>
+            <div class="success-card__row">
+                <span class="success-card__label">Unit Kendaraan</span>
+                <span class="success-card__val" id="scUnit">—</span>
+            </div>
+            <div class="success-card__row">
+                <span class="success-card__label">Status</span>
+                <span class="success-card__val" style="color:#f59e0b;" id="scStatus">Menunggu Konfirmasi</span>
+            </div>
+            <div class="success-card__row">
+                <span class="success-card__label">Metode Pembayaran</span>
+                <span class="success-card__val" id="scMetode">—</span>
+            </div>
+        </div>
+
+        <div class="success-actions">
+            <a href="catalog.xhtml" class="btn-success-primary">Lihat Katalog Lainnya</a>
+            <a href="ringkasanPembayaran.xhtml" class="btn-success-secondary">Lihat Ringkasan Pesanan</a>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var idTransaksi = sessionStorage.getItem('id_transaksi');
+            var idMobil     = sessionStorage.getItem('id_mobil');
+
+            if (idTransaksi) {
+                var el = document.getElementById('scOrderNo');
+                if (el) el.textContent = 'CRZ-' + String(idTransaksi).padStart(5, '0');
+            }
+
+            var metode = sessionStorage.getItem('metode_pembayaran');
+            if (metode) {
+                var el2 = document.getElementById('scMetode');
+                if (el2) el2.textContent = metode;
+            }
+
+            /* Ambil nama unit dari API */
+            if (idTransaksi) {
+                fetch('../backend/api/transaksi.php?id=' + idTransaksi)
+                    .then(function (r) { return r.json(); })
+                    .then(function (res) {
+                        if (res.status &amp;&amp; res.data) {
+                            var t = res.data;
+                            var unitEl = document.getElementById('scUnit');
+                            if (unitEl) unitEl.textContent = (t.merek || '') + ' ' + (t.model || '') + (t.varian ? ' ' + t.varian : '');
+                            var statusEl = document.getElementById('scStatus');
+                            if (statusEl) statusEl.textContent = t.status || 'Menunggu';
+                        }
+                    })
+                    .catch(function () {});
+            }
+        }());
+    </script>
+</body>
+</html>

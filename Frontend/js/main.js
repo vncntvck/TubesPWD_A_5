@@ -131,12 +131,12 @@ for (var j = 0; j < tombolFilter.length; j++) {
         filterMobil(kategoriDipilih);
     });
 }
-for (var m = 0; m < semuaCard.length; m++) {
-    semuaCard[m].addEventListener("click", function () {
-        var namaMobil = this.querySelector("h4").textContent;
-        alert("Terima kasih sudah tertarik dengan " + namaMobil + "!\nSilakan hubungi kami untuk info harga.");
-    });
-}
+// for (var m = 0; m < semuaCard.length; m++) {
+//     semuaCard[m].addEventListener("click", function () {
+//         var namaMobil = this.querySelector("h4").textContent;
+//         alert("Terima kasih sudah tertarik dengan " + namaMobil + "!\nSilakan hubungi kami untuk info harga.");
+//     });
+// }
 if (teksTahun) {
     var tahunSekarang = new Date().getFullYear();
     teksTahun.textContent = tahunSekarang;

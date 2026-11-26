@@ -127,6 +127,11 @@
                                 <label for="nik">Nomor NIK</label>
                                 <input id="nik" name="nik" type="text" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" placeholder="16 digit nomor identitas" required="required" />
                             </div>
+                            <div class="form-field form-field--full">
+                                <label for="ktpFile">Foto atau scan KTP</label>
+                                <input id="ktpFile" name="bukti_ktp" type="file" accept="image/jpeg,image/png" required="required" />
+                                <small>Format JPG atau PNG, ukuran maksimal 5 MB.</small>
+                            </div>
                             <div class="form-field">
                                 <label for="whatsapp">Nomor WhatsApp</label>
                                 <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+62 812 0000 0000" required="required" />

@@ -1,175 +1,394 @@
-/* detail.js — halaman detail mobil dinamis untuk CARIEZ */
+/* ================================================================
+   CARIEZ — detail.js
+   Vanilla JS, tanpa library. Hanya animasikan transform + opacity.
+   Semua IntersectionObserver di-unobserve setelah trigger sekali.
+   ================================================================ */
 
-document.addEventListener('DOMContentLoaded', function () {
-    if (typeof CARS === 'undefined') {
-        console.error('Data mobil (CARS) belum dimuat.');
-        return;
+(function () {
+    'use strict';
+
+    var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ----------------------------------------------------------------
+       1. NAVBAR — scrolled state
+    ---------------------------------------------------------------- */
+    var navbar = document.getElementById('dNavbar');
+
+    if (navbar) {
+        var onScroll = function () {
+            if (window.scrollY > 10) {
+                navbar.classList.add('is-scrolled');
+            } else {
+                navbar.classList.remove('is-scrolled');
+            }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll(); // jalankan sekali saat load
     }
 
-//AMBIL ID DARI URL
-    var params = new URLSearchParams(window.location.search);
-    var carId = params.get('car');
-    
-    // Default fallback ke mobil pertama atau "mx5" jika parameter kosong/tidak ada
-    var carKeys = Object.keys(CARS);
-    if (!carId || !CARS[carId]) {
-        carId = carKeys.length ? carKeys[0] : null;
+    /* ----------------------------------------------------------------
+       2. NAVBAR — burger mobile
+    ---------------------------------------------------------------- */
+    var burger  = document.getElementById('dBurger');
+    var navMenu = document.getElementById('dNavMenu');
+
+    if (burger && navMenu) {
+        burger.addEventListener('click', function () {
+            var isOpen = navMenu.classList.toggle('is-open');
+            burger.classList.toggle('is-open', isOpen);
+            burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        // Tutup menu saat klik di luar
+        document.addEventListener('click', function (e) {
+            if (!navbar.contains(e.target)) {
+                navMenu.classList.remove('is-open');
+                burger.classList.remove('is-open');
+                burger.setAttribute('aria-expanded', 'false');
+            }
+        });
     }
 
-    var c = carId ? CARS[carId] : null;
+    /* ----------------------------------------------------------------
+       3. GALERI — crossfade thumbnail ke foto utama
+       Teknik: dua <img> ditumpuk (A dan B), bergantian is-shown.
+    ---------------------------------------------------------------- */
+    var imgA    = document.getElementById('mainImgA');
+    var imgB    = document.getElementById('mainImgB');
+    var thumbs  = document.querySelectorAll('.d-thumb');
+    var active  = 'A'; // lacak layer mana yang sedang aktif
 
-// Kalau mobil tidak ditemukan
-    if (!c) {
-        var mainContainer = document.querySelector('main');
-        if (mainContainer) {
-            mainContainer.innerHTML = `
-                <div class="wrap" style="padding: 4rem 2rem; text-align: center;">
-                    <h2>Mobil Tidak Ditemukan</h2>
-                    <p style="color: #6b6b6b; margin: 1rem 0 2rem;">Data mobil yang Anda cari tidak tersedia atau sudah terjual.</p>
-                    <a href="catalog.xhtml" class="btn btn--solid" style="display: inline-flex; width: auto; padding: 0.75rem 1.5rem;">Kembali ke Katalog</a>
-                </div>
-            `;
+    function switchImage(src) {
+        if (!imgA || !imgB) return;
+
+        if (active === 'A') {
+            // Siapkan B dengan src baru, lalu swap visibility
+            imgB.src = src;
+            imgB.classList.add('is-shown');
+            imgA.classList.remove('is-shown');
+            active = 'B';
+        } else {
+            imgA.src = src;
+            imgA.classList.add('is-shown');
+            imgB.classList.remove('is-shown');
+            active = 'A';
         }
-        document.title = 'Mobil Tidak Ditemukan | CARIEZ';
-        return;
     }
 
-// Update Informasi Utama
-    document.title = c.name + ' | CARIEZ';
+    thumbs.forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+            var src = thumb.getAttribute('data-src');
+            if (!src) return;
 
-    // Brand & Nama Mobil
-    var brandEl = document.querySelector('.info__brand');
-    if (brandEl) brandEl.textContent = c.brand;
+            // Update active state thumbnail
+            thumbs.forEach(function (t) { t.classList.remove('d-thumb--active'); });
+            thumb.classList.add('d-thumb--active');
 
-    var titleEl = document.querySelector('.info__title');
-    if (titleEl) titleEl.textContent = c.name;
+            switchImage(src);
+        });
 
-    // Deskripsi
-    var descEl = document.querySelector('.info__desc');
-    if (descEl) descEl.textContent = c.desc || 'Deskripsi mobil belum tersedia.';
+        // Keyboard: Enter / Space
+        thumb.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                thumb.click();
+            }
+        });
+    });
 
-    // Harga
-    var priceEl = document.querySelector('.price');
-    if (priceEl) priceEl.textContent = c.price;
+    /* ----------------------------------------------------------------
+       4. PEMILIH WARNA — terhubung langsung ke galeri utama
+       ----------------------------------------------------------------
+       colorVariants: mapping data-color-key → array foto.
+       Indeks [0] = foto utama yang ditampilkan saat warna dipilih.
+       Tambahkan path gambar nyata saat aset tiap warna tersedia.
+       Selama foto belum ada, kunci "fallback" dipakai agar galeri
+       tetap menampilkan gambar tanpa error.
+    ---------------------------------------------------------------- */
+    var COLOR_VARIANTS = {
+        /*
+         * FORMAT TIAP ENTRI:
+         *   key        : nilai data-color-key pada tombol swatch
+         *   hero       : path gambar utama yang tampil di galeri besar
+         *   thumbs     : array path untuk 4 thumbnail (opsional)
+         *                Jika thumbs tidak diisi, thumbnail lama dipertahankan.
+         *
+         * CARA MENAMBAH FOTO WARNA BARU:
+         *   1. Letakkan file gambar di folder Img/Mobil_New/<nama-mobil>/
+         *   2. Tambahkan key baru atau ganti nilai 'hero' di bawah.
+         *   3. Tidak perlu mengubah HTML sama sekali.
+         */
+        gold: {
+            hero: 'Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg',
+            thumbs: [
+                'Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg',
+                'Img/Mobil_New/mazzda/Mazda MX5 ND.png',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0965.webp',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0830.webp'
+            ]
+        },
+        gray: {
+            /* Ganti dengan foto varian abu-abu saat tersedia */
+            hero: 'Img/Mobil_New/mazzda/Mazda MX5 ND.png',
+            thumbs: [
+                'Img/Mobil_New/mazzda/Mazda MX5 ND.png',
+                'Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0011.webp',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0353.webp'
+            ]
+        },
+        black: {
+            /* Ganti dengan foto varian hitam saat tersedia */
+            hero: 'Img/Mobil_New/mazzda/Mazda RX7 FD.png',
+            thumbs: [
+                'Img/Mobil_New/mazzda/Mazda RX7 FD.png',
+                'Img/Mobil_New/mazzda/Mazda RX8.png',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0502.webp',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0534.webp'
+            ]
+        },
+        white: {
+            /* Ganti dengan foto varian putih saat tersedia */
+            hero: 'Img/Mobil_New/mazzda/Mazda3 hatchback.png',
+            thumbs: [
+                'Img/Mobil_New/mazzda/Mazda3 hatchback.png',
+                'Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0549.webp',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0913.webp'
+            ]
+        },
+        blue: {
+            /* Ganti dengan foto varian biru saat tersedia */
+            hero: 'Img/Mobil_New/mazzda/Mazda_Cosmo_Sport_110S_png._1967_Mazda_Cosmo_110_Sport-23.png',
+            thumbs: [
+                'Img/Mobil_New/mazzda/Mazda_Cosmo_Sport_110S_png._1967_Mazda_Cosmo_110_Sport-23.png',
+                'Img/Mobil_New/mazzda/Mazda MX5 ND.png',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0830.webp',
+                'Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0965.webp'
+            ]
+        }
+    };
 
-    // Simulasi Cicilan (jika tersedia di data mobil)
-    var installmentEl = document.getElementById('installment');
-    if (installmentEl && c.installment) {
-        installmentEl.textContent = c.installment;
+    /* Fallback jika key tidak ditemukan — pakai entri 'gold' */
+    function getVariant(key) {
+        return COLOR_VARIANTS[key] || COLOR_VARIANTS['gold'];
     }
 
-    var creditNoteEl = document.getElementById('creditNote');
-    if (creditNoteEl && c.creditNote) {
-        creditNoteEl.textContent = c.creditNote;
+    /* Update thumbnail strip sesuai varian warna yang dipilih */
+    function updateThumbs(variant) {
+        var thumbEls  = document.querySelectorAll('.d-thumb');
+        var newSrcs   = variant.thumbs;
+        if (!newSrcs || !newSrcs.length) return;
+
+        thumbEls.forEach(function (thumb, i) {
+            var src = newSrcs[i] || newSrcs[0];
+            thumb.setAttribute('data-src', src);
+            var img = thumb.querySelector('img');
+            if (img) img.src = src;
+
+            /* Aktifkan thumbnail pertama, nonaktifkan sisanya */
+            if (i === 0) {
+                thumb.classList.add('d-thumb--active');
+            } else {
+                thumb.classList.remove('d-thumb--active');
+            }
+        });
     }
 
-// Galeri Gambar dan Thumbnail
-    var images = (c.images && c.images.length) ? c.images : ['Img/logo/Logo CARIEZ.png'];
-    var mainImg = document.getElementById('mainImg');
-    var thumbsContainer = document.querySelector('.gallery__thumbs');
+    var swatches  = document.querySelectorAll('.d-swatch');
+    var colorName = document.getElementById('colorName');
 
-    if (mainImg) {
-        mainImg.setAttribute('src', images[0]);
-        mainImg.setAttribute('alt', c.name);
+    swatches.forEach(function (swatch) {
+        swatch.addEventListener('click', function () {
+            var key     = swatch.getAttribute('data-color-key') || 'gold';
+            var name    = swatch.getAttribute('data-name') || '';
+            var variant = getVariant(key);
+
+            /* — Ring aktif — */
+            swatches.forEach(function (s) {
+                s.classList.remove('d-swatch--active');
+                s.setAttribute('aria-checked', 'false');
+            });
+            swatch.classList.add('d-swatch--active');
+            swatch.setAttribute('aria-checked', 'true');
+
+            /* — Nama warna: fade-out → ganti teks → fade-in — */
+            if (colorName) {
+                colorName.style.transition = 'opacity 0.18s ease';
+                colorName.style.opacity    = '0';
+                setTimeout(function () {
+                    colorName.textContent   = name;
+                    colorName.style.opacity = '1';
+                }, 190);
+            }
+
+            /* — Galeri utama: crossfade ke foto hero varian — */
+            switchImage(variant.hero);
+
+            /* — Thumbnail strip: ganti ke set foto varian — */
+            updateThumbs(variant);
+        });
+    });
+
+    /* ----------------------------------------------------------------
+       5. SCROLL REVEAL — sr-item dengan stagger
+       IntersectionObserver: unobserve setelah elemen muncul sekali.
+    ---------------------------------------------------------------- */
+    function initScrollReveal() {
+        var items = document.querySelectorAll('.sr-item');
+        if (!items.length) return;
+
+        if (!motionOK) {
+            items.forEach(function (el) {
+                el.classList.add('is-visible');
+            });
+            return;
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            items.forEach(function (el) { el.classList.add('is-visible'); });
+            return;
+        }
+
+        var observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target); // hemat memori
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -6% 0px'
+        });
+
+        items.forEach(function (el) { observer.observe(el); });
     }
 
-    if (thumbsContainer) {
-        thumbsContainer.innerHTML = '';
-        images.forEach(function (src, index) {
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'thumb' + (index === 0 ? ' is-active' : '');
-            btn.setAttribute('data-src', src);
-            
-            var img = document.createElement('img');
-            img.setAttribute('src', src);
-            img.setAttribute('alt', c.name + ' thumbnail ' + (index + 1));
-            
-            btn.appendChild(img);
+    /* ----------------------------------------------------------------
+       6. NUMBER COUNTER — angka naik saat kartu highlight masuk layar
+       Mendukung integer dan desimal (data-decimal="1").
+    ---------------------------------------------------------------- */
+    function easeOut(t) {
+        // ease-out cubic — terasa berat di akhir seperti pintu mobil Eropa
+        return 1 - Math.pow(1 - t, 3);
+    }
 
-            // Event klik thumbnail untuk mengganti gambar utama
-            btn.addEventListener('click', function () {
-                if (mainImg) mainImg.setAttribute('src', src);
-                
-                var allThumbs = thumbsContainer.querySelectorAll('.thumb');
-                allThumbs.forEach(function (t) { t.classList.remove('is-active'); });
-                btn.classList.add('is-active');
+    function animateCounter(el) {
+        var target   = parseFloat(el.getAttribute('data-target') || '0');
+        var suffix   = el.getAttribute('data-suffix') || '';
+        var decimals = parseInt(el.getAttribute('data-decimal') || '0', 10);
+        var duration = 1400; // ms
+        var start    = null;
+
+        function step(ts) {
+            if (!start) start = ts;
+            var elapsed  = ts - start;
+            var progress = Math.min(elapsed / duration, 1);
+            var value    = easeOut(progress) * target;
+
+            el.textContent = value.toFixed(decimals) + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = target.toFixed(decimals) + suffix;
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    function initCounters() {
+        var counters = document.querySelectorAll('.d-counter');
+        if (!counters.length) return;
+
+        if (!motionOK) {
+            counters.forEach(function (el) {
+                var target   = parseFloat(el.getAttribute('data-target') || '0');
+                var suffix   = el.getAttribute('data-suffix') || '';
+                var decimals = parseInt(el.getAttribute('data-decimal') || '0', 10);
+                el.textContent = target.toFixed(decimals) + suffix;
+            });
+            return;
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            counters.forEach(function (el) {
+                var target   = parseFloat(el.getAttribute('data-target') || '0');
+                var suffix   = el.getAttribute('data-suffix') || '';
+                var decimals = parseInt(el.getAttribute('data-decimal') || '0', 10);
+                el.textContent = target.toFixed(decimals) + suffix;
+            });
+            return;
+        }
+
+        var counterObserver = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                animateCounter(entry.target);
+                obs.unobserve(entry.target); // counter hanya berjalan sekali
+            });
+        }, { threshold: 0.4 });
+
+        counters.forEach(function (el) { counterObserver.observe(el); });
+    }
+
+    /* ----------------------------------------------------------------
+       7. TOMBOL — efek tekan scale(0.98) via JS (fallback :active)
+       Diterapkan ke semua .d-btn dan .d-promo-card__btn secara global.
+    ---------------------------------------------------------------- */
+    function initButtonPress() {
+        var btns = document.querySelectorAll('.d-btn, .d-promo-card__btn, .d-navbar__cta');
+
+        btns.forEach(function (btn) {
+            btn.addEventListener('mousedown', function () {
+                btn.style.transform = 'scale(0.98)';
+                btn.style.transitionDuration = '0.08s';
             });
 
-            thumbsContainer.appendChild(btn);
+            var reset = function () {
+                btn.style.transform = '';
+                btn.style.transitionDuration = '';
+            };
+
+            btn.addEventListener('mouseup',    reset);
+            btn.addEventListener('mouseleave', reset);
         });
     }
 
-// Ringkasan Statistik Mobil
-    var statsContainer = document.querySelector('.stats');
-    if (statsContainer && c.statsSummary) {
-        statsContainer.innerHTML = '';
-        c.statsSummary.forEach(function (stat) {
-            var statDiv = document.createElement('div');
-            statDiv.className = 'stat';
+    /* ----------------------------------------------------------------
+       8. REKOMENDASI — tombol panah (dekoratif, bisa diperluas)
+    ---------------------------------------------------------------- */
+    var recoPrev = document.getElementById('recoPrev');
+    var recoNext = document.getElementById('recoNext');
+    var recoGrid = document.querySelector('.d-reco__grid');
 
-            var labelSpan = document.createElement('span');
-            labelSpan.className = 'stat__label';
-            labelSpan.textContent = stat.label;
-
-            var valueStrong = document.createElement('strong');
-            valueStrong.className = 'stat__value';
-            valueStrong.innerHTML = stat.value + ' <small>' + stat.unit + '</small>';
-
-            statDiv.appendChild(labelSpan);
-            statDiv.appendChild(valueStrong);
-            statsContainer.appendChild(statDiv);
+    if (recoPrev && recoNext && recoGrid) {
+        // Scroll kartu rekomendasi kiri/kanan (opsional di mobile)
+        recoNext.addEventListener('click', function () {
+            recoGrid.scrollBy({ left: 320, behavior: 'smooth' });
+        });
+        recoPrev.addEventListener('click', function () {
+            recoGrid.scrollBy({ left: -320, behavior: 'smooth' });
         });
     }
 
-// Detail Spesifikasi
-    var specsContainer = document.querySelector('.specs');
-    if (specsContainer && c.specifications) {
-        specsContainer.innerHTML = '';
-        
-        // Baris judul/subtitle spesifikasi
-        if (c.specTitle) {
-            var titleRow = document.createElement('div');
-            titleRow.className = 'specs__row';
-            var titleSpan = document.createElement('span');
-            titleSpan.textContent = c.specTitle;
-            titleRow.appendChild(titleSpan);
-            specsContainer.appendChild(titleRow);
+    /* ----------------------------------------------------------------
+       9. INIT — jalankan semua setelah DOM siap
+    ---------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', function () {
+        initScrollReveal();
+        initCounters();
+        initButtonPress();
+
+        /* Ambil id mobil dari URL dan pasang ke link "Pesan Unit" */
+        var params  = new URLSearchParams(window.location.search);
+        var carId   = params.get('car');
+        if (carId) {
+            sessionStorage.setItem('id_mobil', carId);
+            var btnPesan = document.getElementById('btnPesanUnit');
+            if (btnPesan) btnPesan.href = 'pembayaran.xhtml?car=' + carId;
         }
+    });
 
-        c.specifications.forEach(function (spec) {
-            var row = document.createElement('div');
-            row.className = 'specs__row';
-
-            var labelSpan = document.createElement('span');
-            labelSpan.textContent = spec.label;
-
-            var valSpan = document.createElement('span');
-            valSpan.textContent = spec.value;
-
-            row.appendChild(labelSpan);
-            row.appendChild(valSpan);
-            specsContainer.appendChild(row);
-        });
-    }
-
-// FITUS KEUNGGULAN
-    var featuresContainer = document.querySelector('.specs.specs--features');
-    if (featuresContainer && c.features) {
-        featuresContainer.innerHTML = '';
-        c.features.forEach(function (feat) {
-            var row = document.createElement('div');
-            row.className = 'specs__row';
-
-            var labelSpan = document.createElement('span');
-            labelSpan.textContent = feat.category;
-
-            var valSpan = document.createElement('span');
-            valSpan.textContent = feat.description;
-
-            row.appendChild(labelSpan);
-            row.appendChild(valSpan);
-            featuresContainer.appendChild(row);
-        });
-    }
-});
+}());
