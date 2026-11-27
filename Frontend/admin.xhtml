@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
+
+<head>
+    <title>Admin Dashboard | CARIEZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Panel Admin CARIEZ — kelola mobil, transaksi, pembayaran, dan riwayat servis." />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/ui-polish.css" />
+</head>
+
+<body>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Navigasi admin">
+        <!-- Logo -->
+        <div class="sidebar__logo">
+            <a href="index.xhtml">
+                <span class="sidebar__logo-text">CARIEZ</span>
+                <span class="sidebar__logo-badge">Admin</span>
+            </a>
+        </div>
+
+        <!-- Nav -->
+        <nav class="sidebar__nav">
+            <p class="sidebar__section-title">Utama</p>
+
+            <button class="sidebar__link is-active" data-page="dashboard" id="navDashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                Dashboard
+            </button>
+
+            <p class="sidebar__section-title">Katalog</p>
+
+            <button class="sidebar__link" data-page="mobil">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="3" width="22" height="13" rx="2"/><polygon points="1,20 23,20 20,16 4,16"/>
+                    <circle cx="6" cy="20" r="2"/><circle cx="18" cy="20" r="2"/>
+                </svg>
+                Kelola Mobil
+            </button>
+
+            <button class="sidebar__link" data-page="riwayat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/>
+                    <line x1="8" y1="17" x2="16" y2="17"/>
+                </svg>
+                Riwayat Servis
+            </button>
+
+            <p class="sidebar__section-title">Penjualan</p>
+
+            <button class="sidebar__link" data-page="transaksi">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                Transaksi
+            </button>
+
+            <button class="sidebar__link" data-page="pembayaran">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+                Pembayaran
+            </button>
+
+            <p class="sidebar__section-title">Verifikasi</p>
+
+            <button class="sidebar__link" data-page="pengguna">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Verifikasi KTP
+            </button>
+        </nav>
+
+        <!-- Footer -->
+        <div class="sidebar__footer">
+            <div class="sidebar__user">
+                <div class="sidebar__avatar">A</div>
+                <div class="sidebar__user-info">
+                    <div class="sidebar__username" id="sidebarUsername">Admin</div>
+                    <div class="sidebar__role">Administrator</div>
+                </div>
+            </div>
+            <button class="sidebar__link" id="btnLogout" style="margin-top:8px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Keluar
+            </button>
+        </div>
+    </aside>
+
+    <!-- ===== SIDEBAR OVERLAY (mobile) ===== -->
+    <div class="sidebar-overlay" id="sidebarOverlay" style="display:none;"></div>
+
+    <!-- ===== MAIN ===== -->
+    <div class="admin-main">
+        <!-- Topbar -->
+        <header class="topbar">
+            <button class="topbar__hamburger" id="hamburger" aria-label="Buka menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <span class="topbar__title" id="topbarTitle">Dashboard</span>
+
+            <form class="topbar__search" role="search" onsubmit="return false;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <label class="visually-hidden" for="globalSearch">Cari</label>
+                <input type="search" id="globalSearch" placeholder="Cari..." autocomplete="off" />
+            </form>
+
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-content">
+
+            <!-- ===================================================
+                 PAGE: DASHBOARD
+                 =================================================== -->
+            <section class="page is-active" id="page-dashboard">
+                <div class="section-header">
+                    <div class="section-header__info">
+                        <h2>Dashboard</h2>
+                        <p>Ringkasan data showroom CARIEZ</p>
+                    </div>
+                    <a href="index.xhtml#kontak" class="btn btn-secondary">Kunjungi Kami</a>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <span class="stat-card__label">Stok Mobil</span>
+                            <span class="stat-card__icon stat-card__icon--orange">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="3" width="22" height="13" rx="2"/>
+                                    <polygon points="1,20 23,20 20,16 4,16"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="stat-card__value" id="statStokMobil">—</div>
+                        <div class="stat-card__sub">Unit tersedia di showroom</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <span class="stat-card__label">Total Transaksi</span>
+                            <span class="stat-card__icon stat-card__icon--blue">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23"/>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="stat-card__value" id="statTotalTransaksi">—</div>
+                        <div class="stat-card__sub">Semua transaksi tercatat</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <span class="stat-card__label">Sedang Diproses</span>
+                            <span class="stat-card__icon stat-card__icon--yellow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="stat-card__value" id="statDiproses">—</div>
+                        <div class="stat-card__sub">Transaksi aktif</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <span class="stat-card__label">Total Pendapatan</span>
+                            <span class="stat-card__icon stat-card__icon--green">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                    <polyline points="17 6 23 6 23 12"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="stat-card__value" id="statPendapatan" style="font-size:1.1rem">—</div>
+                        <div class="stat-card__sub">Transaksi selesai</div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Transaksi Terbaru</h3>
+                        <button class="btn btn-secondary btn-sm" data-page="transaksi">Lihat semua</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pembeli</th>
+                                    <th>Unit</th>
+                                    <th>Total Harga</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTransaksiBody">
+                                <tr><td colspan="5" class="empty-state" style="padding:40px"><p>Memuat data...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 PAGE: MOBIL
+                 =================================================== -->
+            <section class="page" id="page-mobil">
+                <div class="section-header">
+                    <div class="section-header__info">
+                        <h2>Kelola Mobil</h2>
+                        <p>Daftar unit mobil yang tersedia di CARIEZ</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Daftar Unit Mobil</h3>
+                    </div>
+                    <div class="filter-row">
+                        <input type="search" id="mobilSearch" placeholder="Cari merek / model..." style="width:220px" />
+                        <select id="mobilFilterKategori">
+                            <option value="all">Semua Kategori</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Daily Driver">Daily Driver</option>
+                            <option value="Utility">Utility</option>
+                            <option value="MPV">MPV</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Sedan">Sedan</option>
+                        </select>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Foto</th>
+                                    <th>Unit</th>
+                                    <th>Kondisi</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>KM</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mobilBody">
+                                <tr><td colspan="8" class="empty-state" style="padding:40px"><p>Memuat data...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 PAGE: TRANSAKSI
+                 =================================================== -->
+            <section class="page" id="page-transaksi">
+                <div class="section-header">
+                    <div class="section-header__info">
+                        <h2>Transaksi</h2>
+                        <p>Semua transaksi pembelian kendaraan</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Daftar Transaksi</h3>
+                    </div>
+                    <div class="filter-row">
+                        <input type="search" id="transaksiSearch" placeholder="Cari nama / unit..." style="width:220px" />
+                        <select id="transaksiFilterStatus">
+                            <option value="all">Semua Status</option>
+                            <option value="Menunggu">Menunggu</option>
+                            <option value="Diproses">Diproses</option>
+                            <option value="Selesai">Selesai</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pembeli</th>
+                                    <th>Unit</th>
+                                    <th>Total Harga</th>
+                                    <th>Metode</th>
+                                    <th>Status</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaksiBody">
+                                <tr><td colspan="7" class="empty-state" style="padding:40px"><p>Memuat data...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 PAGE: PEMBAYARAN
+                 =================================================== -->
+            <section class="page" id="page-pembayaran">
+                <div class="section-header">
+                    <div class="section-header__info">
+                        <h2>Pembayaran</h2>
+                        <p>Riwayat dan status pembayaran dari semua transaksi</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Daftar Pembayaran</h3>
+                        <div class="card-header__actions">
+                            <select id="pembayaranFilterStatus">
+                                <option value="all">Semua Status</option>
+                                <option value="Menunggu">Menunggu</option>
+                                <option value="Dikonfirmasi">Dikonfirmasi</option>
+                                <option value="Ditolak">Ditolak</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ID Transaksi</th>
+                                    <th>Pengguna</th>
+                                    <th>Jumlah</th>
+                                    <th>Metode</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pembayaranBody">
+                                <tr><td colspan="6" class="empty-state" style="padding:40px"><p>Memuat data...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 PAGE: RIWAYAT SERVIS
+                 =================================================== -->
+            <section class="page" id="page-riwayat">
+                <div class="section-header">
+                    <div class="section-header__info">
+                        <h2>Riwayat Servis</h2>
+                        <p>Catatan servis dan perawatan kendaraan</p>
+                    </div>
+                    <button class="btn btn-primary" id="btnTambahRiwayat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Tambah Riwayat
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Daftar Riwayat Servis</h3>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ID Mobil</th>
+                                    <th>Tanggal Servis</th>
+                                    <th>Deskripsi</th>
+                                    <th>Biaya</th>
+                                    <th>Bengkel</th>
+                                </tr>
+                            </thead>
+                            <tbody id="riwayatBody">
+                                <tr><td colspan="6" class="empty-state" style="padding:40px"><p>Memuat data...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 PAGE: VERIFIKASI KTP
+                 =================================================== -->
+            <section class="page" id="page-pengguna">
+                <div class="section-header">
+                    <div class="section-header__info">
+                        <h2>Verifikasi KTP</h2>
+                        <p>Periksa dokumen KTP dan tentukan status verifikasinya</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Dokumen KTP</h3>
+                        <select id="ktpFilterStatus" aria-label="Filter status verifikasi KTP">
+                            <option value="all">Semua Status</option>
+                            <option value="Menunggu">Menunggu</option>
+                            <option value="Terverifikasi">Terverifikasi</option>
+                            <option value="Ditolak">Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Akun</th>
+                                    <th>NIK</th>
+                                    <th>Dokumen</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ktpBody">
+                                <tr><td colspan="7" class="empty-state" style="padding:40px"><p>Memuat data...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===================================================
+         MODAL: TAMBAH RIWAYAT SERVIS
+         =================================================== -->
+    <div class="modal-overlay" id="modalTambahRiwayat" role="dialog" aria-modal="true" aria-labelledby="modalRiwayatTitle">
+        <div class="modal">
+            <div class="modal__header">
+                <h2 class="modal__title" id="modalRiwayatTitle">Tambah Riwayat Servis</h2>
+                <button class="modal__close" id="btnTutupModalRiwayat" aria-label="Tutup">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form class="modal__body" id="formTambahRiwayat">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rwIdMobil">ID Mobil</label>
+                        <input type="number" id="rwIdMobil" name="id_mobil" min="1" required="required" placeholder="Contoh: 1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="rwTanggal">Tanggal Servis</label>
+                        <input type="date" id="rwTanggal" name="tanggal_servis" required="required" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rwDeskripsi">Deskripsi Servis</label>
+                    <textarea id="rwDeskripsi" name="deskripsi_servis" rows="3" required="required" placeholder="Contoh: Ganti oli mesin dan filter udara"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rwBiaya">Biaya Servis (Rp)</label>
+                        <input type="number" id="rwBiaya" name="biaya_servis" min="0" step="1000" placeholder="0" />
+                    </div>
+                    <div class="form-group">
+                        <label for="rwBengkel">Nama Bengkel</label>
+                        <input type="text" id="rwBengkel" name="nama_bengkel" placeholder="Contoh: Bengkel Resmi Mazda" />
+                    </div>
+                </div>
+            </form>
+            <div class="modal__footer">
+                <button class="btn btn-secondary" id="btnBatalRiwayat" type="button">Batal</button>
+                <button class="btn btn-primary" type="submit" form="formTambahRiwayat">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -14,13 +14,18 @@ $query->execute();
 $hasil = $query->get_result()->fetch_assoc();
 
 if ($hasil && password_verify($password, $hasil['password'])) {
+    session_regenerate_id(true);
+    $role = $hasil['role'] ?? 'user';
     $_SESSION['id_pengguna'] = $hasil['id_pengguna'];
     $_SESSION['username']    = $hasil['username'];
+    $_SESSION['role']        = $role;
 
     echo json_encode([
-        'status'   => true,
-        'pesan'    => 'Login berhasil',
-        'username' => $hasil['username']
+        'status'      => true,
+        'pesan'       => 'Login berhasil',
+        'username'    => $hasil['username'],
+        'id_pengguna' => $hasil['id_pengguna'],
+        'role'        => $role
     ]);
 } else {
     echo json_encode(['status' => false, 'pesan' => 'Username atau password salah']);

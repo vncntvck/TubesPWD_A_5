@@ -70,6 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             showMessage(result.pesan || 'Login berhasil.', false);
+            /* Simpan ke sessionStorage untuk alur pembayaran */
+            if (result.id_pengguna) {
+                sessionStorage.setItem('id_pengguna', result.id_pengguna);
+                sessionStorage.setItem('username', result.username || '');
+            }
             window.location.assign('index.xhtml');
         } catch (error) {
             console.error('Gagal mengirim login:', error);

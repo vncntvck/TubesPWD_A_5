@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" />
     <link rel="stylesheet" href="css/pembayaran.css" />
     <link rel="stylesheet" href="css/dataPembayaran.css" />
+    <link rel="stylesheet" href="css/ui-polish.css" />
     <script src="js/pembayaran.js" defer="defer"></script>
     <script src="js/dataPembayaran.js" defer="defer"></script>
 </head>
@@ -126,6 +127,11 @@
                             <div class="form-field">
                                 <label for="nik">Nomor NIK</label>
                                 <input id="nik" name="nik" type="text" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" placeholder="16 digit nomor identitas" required="required" />
+                            </div>
+                            <div class="form-field form-field--full">
+                                <label for="ktpFile">Foto atau scan KTP</label>
+                                <input id="ktpFile" name="bukti_ktp" type="file" accept="image/jpeg,image/png" required="required" />
+                                <small>Format JPG atau PNG, ukuran maksimal 5 MB.</small>
                             </div>
                             <div class="form-field">
                                 <label for="whatsapp">Nomor WhatsApp</label>
