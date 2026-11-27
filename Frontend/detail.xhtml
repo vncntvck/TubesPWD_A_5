@@ -18,7 +18,9 @@
     <header class="d-navbar" id="dNavbar">
         <div class="d-navbar__inner">
 
-            <a href="index.xhtml" class="d-navbar__logo">CARIEZ</a>
+            <a href="index.xhtml" class="nav__logo">
+                <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" /> 
+            </a>
 
             <nav class="d-navbar__menu" id="dNavMenu">
                 <a href="index.xhtml" class="d-navbar__link">Beranda</a>
@@ -460,31 +462,30 @@
     <!-- ═══════════════════════════════════════════
          FOOTER GELAP
     ═══════════════════════════════════════════ -->
-    <footer class="d-footer" id="d-footer">
-        <div class="d-container">
-            <div class="d-footer__top">
-                <div class="d-footer__brand">
-                    <span class="d-footer__logo">CARIEZ</span>
-                    <p class="d-footer__tagline">Advanced Premium Automobile Experience Center.</p>
+    <footer class="site-footer" id="d-footer">
+        <div class="site-footer__inner">
+            <div class="site-footer__top">
+                <div class="site-footer__brand">
+                    <a href="index.xhtml" class="site-footer__logo">CARIEZ</a>
+                    <p class="site-footer__tagline">Find your drive. Define your character.</p>
                 </div>
-                <nav class="d-footer__nav" aria-label="Footer navigation">
-                    <a href="catalog.xhtml">Tentang Kami</a>
-                    <a href="#">Kebijakan Privasi</a>
-                    <a href="#">Syarat &amp; Ketentuan</a>
-                    <a href="#">Jaringan Dealer</a>
-                    <a href="#">Customer Care</a>
-                </nav>
+                <section class="site-footer__column" aria-label="Informasi showroom">
+                    <h2>Showroom</h2>
+                    <address>Jl. Arvino Malaya No. 88,<br />Kawasan Singa Hartono,<br />Yogyakarta, Indonesia</address>
+                </section>
+                <section class="site-footer__column" aria-label="Informasi janji temu">
+                    <h2>Buat janji</h2>
+                    <a href="tel:018100000000">0181-0000-0000</a>
+                    <a href="mailto:hi@cariez.com">hi@cariez.com</a>
+                </section>
             </div>
-            <div class="d-footer__line"></div>
-            <div class="d-footer__bottom">
-                <span>&#169; 2024 CARIEZ Automotive Group. All rights reserved.</span>
-                <div class="d-footer__bottom-links">
-                    <a href="#">Jakarta</a>
-                    <span aria-hidden="true">·</span>
-                    <a href="#">Surabaya</a>
-                    <span aria-hidden="true">·</span>
-                    <a href="#">Bali</a>
-                </div>
+            <div class="site-footer__bottom">
+                <p>&#169; <span id="tahun">2026</span> CARIEZ. All rights reserved.</p>
+                <nav class="site-footer__links" aria-label="Tautan footer">
+                    <a href="#">Kebijakan</a><span aria-hidden="true">|</span>
+                    <a href="#">Syarat</a><span aria-hidden="true">|</span>
+                    <a href="#">Showroom</a>
+                </nav>
             </div>
         </div>
     </footer>
