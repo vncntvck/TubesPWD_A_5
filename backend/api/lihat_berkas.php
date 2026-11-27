@@ -16,17 +16,20 @@ if ($id <= 0 || !in_array($jenis, ['dokumen', 'bukti'], true)) {
 }
 
 if ($jenis === 'dokumen') {
-    $query = $koneksi->prepare('SELECT file_dokumen AS file_path FROM dokumen_kendaraan WHERE id_dokumen = ?');
-    $folder = 'dokumen';
+    $query = $koneksi->prepare(
+        'SELECT file_dokumen_data AS file_data, file_dokumen_mime AS mime_type
+         FROM dokumen_kendaraan
+         WHERE id_dokumen = ?'
+    );
 } else {
     $query = $koneksi->prepare(
-        'SELECT b.file_bukti AS file_path, t.id_pengguna
+        'SELECT b.file_bukti_data AS file_data, b.file_bukti_mime AS mime_type,
+                t.id_pengguna
          FROM bukti_pembayaran b
          JOIN pembayaran p ON p.id_pembayaran = b.id_pembayaran
          JOIN transaksi t ON t.id_transaksi = p.id_transaksi
          WHERE b.id_bukti = ?'
     );
-    $folder = 'bukti';
 }
 
 if (!$query) {
@@ -52,35 +55,23 @@ if (
     exit('Akses ditolak.');
 }
 
-$relativePath = $record['file_path'] ?? '';
-$pattern = '#^private/' . preg_quote($folder, '#') . '/[a-f0-9]{32}\.(jpg|png|pdf)$#';
-if (!preg_match($pattern, $relativePath)) {
-    http_response_code(404);
-    exit('Berkas tidak ditemukan.');
+$fileData = $record['file_data'];
+if ($fileData !== null && $fileData !== '') {
+    $mime = $record['mime_type'];
+    if (!in_array($mime, ['application/pdf', 'image/jpeg', 'image/png'], true)) {
+        http_response_code(415);
+        exit('Format berkas tidak didukung.');
+    }
+
+    header('Content-Type: ' . $mime);
+    header('Content-Length: ' . strlen($fileData));
+    header('Content-Disposition: inline; filename="' . ucfirst($jenis) . '-' . $id . '"');
+    header('Cache-Control: private, no-store');
+    header('X-Content-Type-Options: nosniff');
+    echo $fileData;
+    exit;
 }
 
-$directory = realpath(__DIR__ . '/../private/' . $folder);
-$filePath = realpath(__DIR__ . '/../' . $relativePath);
-if (
-    $directory === false ||
-    $filePath === false ||
-    strpos($filePath, $directory . DIRECTORY_SEPARATOR) !== 0 ||
-    !is_file($filePath)
-) {
-    http_response_code(404);
-    exit('Berkas tidak ditemukan.');
-}
-
-$mime = (new finfo(FILEINFO_MIME_TYPE))->file($filePath);
-if (!in_array($mime, ['application/pdf', 'image/jpeg', 'image/png'], true)) {
-    http_response_code(415);
-    exit('Format berkas tidak didukung.');
-}
-
-header('Content-Type: ' . $mime);
-header('Content-Length: ' . filesize($filePath));
-header('Content-Disposition: inline; filename="' . ucfirst($jenis) . '-' . $id . '"');
-header('Cache-Control: private, no-store');
-header('X-Content-Type-Options: nosniff');
-readfile($filePath);
+http_response_code(404);
+exit('Berkas tidak ditemukan.');
 ?>

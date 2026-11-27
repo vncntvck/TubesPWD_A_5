@@ -2,7 +2,6 @@
 session_start();
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/koneksi.php';
-require_once __DIR__ . '/../config/file_storage.php';
 
 function responsBukti($status, $pesan, $data = null, $kodeHttp = 200)
 {
@@ -52,10 +51,10 @@ function pembayaranPemilik($koneksi, $idPembayaran, $idPengguna, $isAdmin)
 
 function urlBukti($baris)
 {
-    $baris['url_file'] = !empty($baris['file_bukti'])
+    $baris['url_file'] = !empty($baris['has_file'])
         ? 'lihat_berkas.php?jenis=bukti&id=' . (int) $baris['id_bukti']
         : null;
-    unset($baris['file_bukti']);
+    unset($baris['has_file']);
     return $baris;
 }
 
@@ -74,7 +73,8 @@ if ($method === 'GET') {
     pembayaranPemilik($koneksi, $idPembayaran, $idPengguna, $isAdmin);
 
     $query = $koneksi->prepare(
-        'SELECT id_bukti, id_pembayaran, nomor_bukti, file_bukti, tanggal_terbit, keterangan
+        'SELECT id_bukti, id_pembayaran, nomor_bukti, tanggal_terbit, keterangan,
+                (file_bukti_data IS NOT NULL) AS has_file
          FROM bukti_pembayaran
          WHERE id_pembayaran = ?
          ORDER BY tanggal_terbit DESC, id_bukti DESC'
@@ -133,29 +133,40 @@ if ($method === 'POST') {
         responsBukti(false, 'Keterangan maksimal 255 karakter.', null, 400);
     }
 
-    try {
-        $file = simpanFilePrivat('file_bukti', 'bukti', [
-            'application/pdf' => 'pdf',
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-        ], 10 * 1024 * 1024, true);
-    } catch (InvalidArgumentException $error) {
-        responsBukti(false, $error->getMessage(), null, 400);
-    } catch (RuntimeException $error) {
-        responsBukti(false, $error->getMessage(), null, 500);
+    $file = $_FILES['file_bukti'] ?? null;
+    if (
+        !is_array($file) ||
+        !isset($file['error'], $file['tmp_name'], $file['size']) ||
+        !is_string($file['tmp_name']) ||
+        !is_int($file['size']) ||
+        $file['error'] !== UPLOAD_ERR_OK ||
+        !is_uploaded_file($file['tmp_name'])
+    ) {
+        responsBukti(false, 'File bukti wajib dipilih dan harus berhasil diunggah.', null, 400);
+    }
+    if ($file['size'] <= 0 || $file['size'] > 10 * 1024 * 1024) {
+        responsBukti(false, 'Ukuran file bukti maksimal 10 MB.', null, 400);
+    }
+
+    $mime = (new finfo(FILEINFO_MIME_TYPE))->file($file['tmp_name']);
+    if (!in_array($mime, ['application/pdf', 'image/jpeg', 'image/png'], true)) {
+        responsBukti(false, 'File bukti harus berformat PDF, JPG, atau PNG.', null, 400);
+    }
+    $fileData = file_get_contents($file['tmp_name']);
+    if (!is_string($fileData) || strlen($fileData) !== $file['size']) {
+        responsBukti(false, 'Isi file bukti gagal dibaca.', null, 500);
     }
 
     $query = $koneksi->prepare(
-        'INSERT INTO bukti_pembayaran (id_pembayaran, nomor_bukti, file_bukti, tanggal_terbit, keterangan)
-         VALUES (?, ?, ?, NOW(), ?)'
+        'INSERT INTO bukti_pembayaran
+            (id_pembayaran, nomor_bukti, file_bukti_data, file_bukti_mime, tanggal_terbit, keterangan)
+         VALUES (?, ?, ?, ?, NOW(), ?)'
     );
     if (!$query) {
-        hapusFilePrivat($file, 'bukti');
         responsBukti(false, 'Query bukti pembayaran gagal disiapkan.', null, 500);
     }
-    $query->bind_param('isss', $idPembayaran, $nomorBukti, $file, $keterangan);
-    if (!$query->execute()) {
-        hapusFilePrivat($file, 'bukti');
+    $query->bind_param('isbss', $idPembayaran, $nomorBukti, $fileData, $mime, $keterangan);
+    if (!$query->send_long_data(2, $fileData) || !$query->execute()) {
         responsBukti(false, 'Bukti pembayaran gagal disimpan.', null, 500);
     }
 
@@ -174,7 +185,7 @@ if ($method === 'DELETE') {
     }
 
     $query = $koneksi->prepare(
-        'SELECT b.id_bukti, b.id_pembayaran, b.file_bukti, p.status, t.id_pengguna
+        'SELECT b.id_bukti, b.id_pembayaran, p.status, t.id_pengguna
          FROM bukti_pembayaran b
          JOIN pembayaran p ON p.id_pembayaran = b.id_pembayaran
          JOIN transaksi t ON t.id_transaksi = p.id_transaksi
@@ -205,9 +216,6 @@ if ($method === 'DELETE') {
     $delete->bind_param('i', $idBukti);
     if (!$delete->execute()) {
         responsBukti(false, 'Bukti pembayaran gagal dihapus.', null, 500);
-    }
-    if (!empty($bukti['file_bukti'])) {
-        hapusFilePrivat($bukti['file_bukti'], 'bukti');
     }
     responsBukti(true, 'Bukti pembayaran berhasil dihapus.');
 }

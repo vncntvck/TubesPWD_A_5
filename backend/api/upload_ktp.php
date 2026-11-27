@@ -57,34 +57,21 @@ if ($file['size'] <= 0 || $file['size'] > 5 * 1024 * 1024) {
 
 $finfo = new finfo(FILEINFO_MIME_TYPE);
 $mime = $finfo->file($file['tmp_name']);
-$ekstensi = [
-    'image/jpeg' => 'jpg',
-    'image/png' => 'png',
-][$mime] ?? null;
-if ($ekstensi === null) {
+if (!in_array($mime, ['image/jpeg', 'image/png'], true)) {
     responsKtp(false, 'File KTP harus berformat JPG atau PNG.', null, 400);
 }
 
-$direktori = __DIR__ . '/../private/ktp';
-if (!is_dir($direktori) && !mkdir($direktori, 0700, true) && !is_dir($direktori)) {
-    responsKtp(false, 'Folder penyimpanan KTP tidak dapat dibuat.', null, 500);
+$fileData = file_get_contents($file['tmp_name']);
+if (!is_string($fileData) || strlen($fileData) !== $file['size']) {
+    responsKtp(false, 'Isi file KTP gagal dibaca.', null, 500);
 }
 
-$namaFile = bin2hex(random_bytes(16)) . '.' . $ekstensi;
-$pathRelatif = 'private/ktp/' . $namaFile;
-$pathFile = $direktori . DIRECTORY_SEPARATOR . $namaFile;
-if (!move_uploaded_file($file['tmp_name'], $pathFile)) {
-    responsKtp(false, 'File KTP gagal disimpan.', null, 500);
-}
-
-$query = $koneksi->prepare('SELECT id_pembeli, foto_ktp FROM pembeli WHERE id_pengguna = ? LIMIT 1');
+$query = $koneksi->prepare('SELECT id_pembeli FROM pembeli WHERE id_pengguna = ? LIMIT 1');
 if (!$query) {
-    unlink($pathFile);
     responsKtp(false, 'Query profil pembeli gagal disiapkan.', null, 500);
 }
 $query->bind_param('i', $idPengguna);
 if (!$query->execute()) {
-    unlink($pathFile);
     responsKtp(false, 'Profil pembeli gagal diperiksa.', null, 500);
 }
 $pembeli = $query->get_result()->fetch_assoc();
@@ -92,38 +79,49 @@ $pembeli = $query->get_result()->fetch_assoc();
 if ($pembeli) {
     $simpan = $koneksi->prepare(
         "UPDATE pembeli
-         SET nama_lengkap = ?, nik = ?, alamat = ?, foto_ktp = ?, status_verifikasi = 'Menunggu'
+         SET nama_lengkap = ?, nik = ?, alamat = ?, foto_ktp = NULL, foto_ktp_data = ?,
+             foto_ktp_mime = ?, status_verifikasi = 'Menunggu'
          WHERE id_pembeli = ?"
     );
     if ($simpan) {
-        $simpan->bind_param('ssssi', $namaLengkap, $nomorKtp, $alamat, $pathRelatif, $pembeli['id_pembeli']);
+        $simpan->bind_param(
+            'sssbsi',
+            $namaLengkap,
+            $nomorKtp,
+            $alamat,
+            $fileData,
+            $mime,
+            $pembeli['id_pembeli']
+        );
     }
 } else {
     $simpan = $koneksi->prepare(
-        "INSERT INTO pembeli (id_pengguna, nama_lengkap, nik, alamat, foto_ktp, status_verifikasi)
-         VALUES (?, ?, ?, ?, ?, 'Menunggu')"
+        "INSERT INTO pembeli
+            (id_pengguna, nama_lengkap, nik, alamat, foto_ktp_data, foto_ktp_mime, status_verifikasi)
+         VALUES (?, ?, ?, ?, ?, ?, 'Menunggu')"
     );
     if ($simpan) {
-        $simpan->bind_param('issss', $idPengguna, $namaLengkap, $nomorKtp, $alamat, $pathRelatif);
+        $simpan->bind_param(
+            'isssbs',
+            $idPengguna,
+            $namaLengkap,
+            $nomorKtp,
+            $alamat,
+            $fileData,
+            $mime
+        );
     }
 }
 
-if (!$simpan || !$simpan->execute()) {
-    unlink($pathFile);
+if (
+    !$simpan ||
+    !$simpan->send_long_data($pembeli ? 3 : 4, $fileData) ||
+    !$simpan->execute()
+) {
     if ($simpan && $simpan->errno === 1062) {
         responsKtp(false, 'Nomor KTP sudah terdaftar pada akun lain.', null, 409);
     }
     responsKtp(false, 'Data KTP gagal disimpan.', null, 500);
-}
-
-if (
-    $pembeli &&
-    preg_match('#^private/ktp/[a-f0-9]{32}\.(jpg|png)$#', $pembeli['foto_ktp'] ?? '')
-) {
-    $pathLama = $direktori . DIRECTORY_SEPARATOR . basename($pembeli['foto_ktp']);
-    if (is_file($pathLama)) {
-        unlink($pathLama);
-    }
 }
 
 responsKtp(true, 'KTP berhasil diunggah dan menunggu verifikasi.');

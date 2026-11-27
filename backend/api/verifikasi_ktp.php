@@ -22,11 +22,11 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
     $query = $koneksi->prepare(
-        'SELECT b.id_pembeli, b.nama_lengkap, b.nik, b.foto_ktp, b.status_verifikasi,
+        'SELECT b.id_pembeli, b.nama_lengkap, b.nik, b.status_verifikasi,
                 u.username, u.email
          FROM pembeli b
          JOIN pengguna u ON u.id_pengguna = b.id_pengguna
-         WHERE b.foto_ktp IS NOT NULL
+         WHERE b.foto_ktp_data IS NOT NULL
          ORDER BY FIELD(b.status_verifikasi, "Menunggu", "Terverifikasi", "Ditolak"),
                   b.id_pembeli DESC'
     );
@@ -64,7 +64,9 @@ if ($method === 'PUT') {
     }
 
     $query = $koneksi->prepare(
-        'UPDATE pembeli SET status_verifikasi = ? WHERE id_pembeli = ? AND foto_ktp IS NOT NULL'
+        'UPDATE pembeli
+         SET status_verifikasi = ?
+         WHERE id_pembeli = ? AND foto_ktp_data IS NOT NULL'
     );
     if (!$query) {
         responsVerifikasiKtp(false, 'Query verifikasi gagal disiapkan.', null, 500);
@@ -74,7 +76,11 @@ if ($method === 'PUT') {
         responsVerifikasiKtp(false, 'Status KTP gagal diperbarui.', null, 500);
     }
     if ($query->affected_rows === 0) {
-        $cek = $koneksi->prepare('SELECT id_pembeli FROM pembeli WHERE id_pembeli = ? AND foto_ktp IS NOT NULL');
+        $cek = $koneksi->prepare(
+            'SELECT id_pembeli
+             FROM pembeli
+             WHERE id_pembeli = ? AND foto_ktp_data IS NOT NULL'
+        );
         if (!$cek) {
             responsVerifikasiKtp(false, 'Pemeriksaan data KTP gagal.', null, 500);
         }

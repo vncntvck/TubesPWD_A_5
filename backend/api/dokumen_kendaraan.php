@@ -2,7 +2,6 @@
 session_start();
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/koneksi.php';
-require_once __DIR__ . '/../config/file_storage.php';
 
 function responsDokumen($status, $pesan, $data = null, $kodeHttp = 200)
 {
@@ -56,10 +55,10 @@ function tanggalDokumen($value, $field)
 
 function urlDokumen($baris)
 {
-    $baris['url_file'] = !empty($baris['file_dokumen'])
+    $baris['url_file'] = !empty($baris['has_file'])
         ? 'lihat_berkas.php?jenis=dokumen&id=' . (int) $baris['id_dokumen']
         : null;
-    unset($baris['file_dokumen']);
+    unset($baris['has_file']);
     return $baris;
 }
 
@@ -78,7 +77,8 @@ if ($method === 'GET') {
 
     $query = $koneksi->prepare(
         'SELECT id_dokumen, id_mobil, jenis_dokumen, nomor_dokumen, tanggal_terbit,
-                masa_berlaku, file_dokumen, keterangan, status_valid
+                masa_berlaku, keterangan, status_valid,
+                (file_dokumen_data IS NOT NULL) AS has_file
          FROM dokumen_kendaraan
          WHERE id_mobil = ?
          ORDER BY masa_berlaku DESC, id_dokumen DESC'
@@ -125,52 +125,67 @@ if ($method === 'POST') {
         responsDokumen(false, 'Nomor dokumen maksimal 60 karakter.', null, 400);
     }
 
-    try {
-        $file = simpanFilePrivat('file_dokumen', 'dokumen', [
-            'application/pdf' => 'pdf',
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-        ], 10 * 1024 * 1024);
-    } catch (InvalidArgumentException $error) {
-        responsDokumen(false, $error->getMessage(), null, 400);
-    } catch (RuntimeException $error) {
-        responsDokumen(false, $error->getMessage(), null, 500);
+    $fileData = null;
+    $mime = null;
+    $file = $_FILES['file_dokumen'] ?? null;
+    if ($file !== null) {
+        if (!is_array($file) || !isset($file['error'])) {
+            responsDokumen(false, 'Data file tidak valid.', null, 400);
+        }
+        if ($file['error'] !== UPLOAD_ERR_NO_FILE) {
+            if (
+                !isset($file['tmp_name'], $file['size']) ||
+                !is_string($file['tmp_name']) ||
+                !is_int($file['size']) ||
+                $file['error'] !== UPLOAD_ERR_OK ||
+                !is_uploaded_file($file['tmp_name'])
+            ) {
+                responsDokumen(false, 'File gagal diunggah.', null, 400);
+            }
+            if ($file['size'] <= 0 || $file['size'] > 10 * 1024 * 1024) {
+                responsDokumen(false, 'Ukuran file maksimal 10 MB.', null, 400);
+            }
+
+            $mime = (new finfo(FILEINFO_MIME_TYPE))->file($file['tmp_name']);
+            if (!in_array($mime, ['application/pdf', 'image/jpeg', 'image/png'], true)) {
+                responsDokumen(false, 'File harus berformat PDF, JPG, atau PNG.', null, 400);
+            }
+            $fileData = file_get_contents($file['tmp_name']);
+            if (!is_string($fileData) || strlen($fileData) !== $file['size']) {
+                responsDokumen(false, 'Isi file gagal dibaca.', null, 500);
+            }
+        }
     }
 
     $query = $koneksi->prepare(
         'INSERT INTO dokumen_kendaraan
             (id_mobil, jenis_dokumen, nomor_dokumen, tanggal_terbit, masa_berlaku,
-             file_dokumen, keterangan, status_valid)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+             file_dokumen_data, file_dokumen_mime, keterangan, status_valid)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     if (!$query) {
-        if ($file !== null) {
-            hapusFilePrivat($file, 'dokumen');
-        }
         responsDokumen(false, 'Query dokumen gagal disiapkan.', null, 500);
     }
     $query->bind_param(
-        'isssssss',
+        'issssbsss',
         $idMobil,
         $jenis,
         $nomor,
         $tanggalTerbit,
         $masaBerlaku,
-        $file,
+        $fileData,
+        $mime,
         $keterangan,
         $statusValid
     );
-    if (!$query->execute()) {
-        if ($file !== null) {
-            hapusFilePrivat($file, 'dokumen');
-        }
+    if (($fileData !== null && !$query->send_long_data(5, $fileData)) || !$query->execute()) {
         responsDokumen(false, 'Dokumen kendaraan gagal disimpan.', null, 500);
     }
 
     $idDokumen = $koneksi->insert_id;
     responsDokumen(true, 'Dokumen kendaraan berhasil ditambahkan.', [
         'id_dokumen' => $idDokumen,
-        'url_file' => $file !== null ? 'lihat_berkas.php?jenis=dokumen&id=' . $idDokumen : null
+        'url_file' => $fileData !== null ? 'lihat_berkas.php?jenis=dokumen&id=' . $idDokumen : null
     ], 201);
 }
 
@@ -255,7 +270,7 @@ if ($method === 'DELETE') {
         responsDokumen(false, 'ID dokumen tidak valid.', null, 400);
     }
 
-    $query = $koneksi->prepare('SELECT file_dokumen FROM dokumen_kendaraan WHERE id_dokumen = ?');
+    $query = $koneksi->prepare('SELECT id_dokumen FROM dokumen_kendaraan WHERE id_dokumen = ?');
     if (!$query) {
         responsDokumen(false, 'Query dokumen gagal disiapkan.', null, 500);
     }
@@ -275,9 +290,6 @@ if ($method === 'DELETE') {
     $delete->bind_param('i', $idDokumen);
     if (!$delete->execute()) {
         responsDokumen(false, 'Dokumen kendaraan gagal dihapus.', null, 500);
-    }
-    if (!empty($existing['file_dokumen'])) {
-        hapusFilePrivat($existing['file_dokumen'], 'dokumen');
     }
     responsDokumen(true, 'Dokumen kendaraan berhasil dihapus.');
 }

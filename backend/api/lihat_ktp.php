@@ -13,7 +13,11 @@ if ($idPembeli <= 0) {
     exit('ID pembeli tidak valid.');
 }
 
-$query = $koneksi->prepare('SELECT foto_ktp FROM pembeli WHERE id_pembeli = ?');
+$query = $koneksi->prepare(
+    'SELECT foto_ktp_data, foto_ktp_mime
+     FROM pembeli
+     WHERE id_pembeli = ?'
+);
 if (!$query) {
     http_response_code(500);
     exit('Data KTP gagal diambil.');
@@ -24,36 +28,29 @@ if (!$query->execute()) {
     exit('Data KTP gagal diambil.');
 }
 $hasil = $query->get_result()->fetch_assoc();
-$relativePath = $hasil['foto_ktp'] ?? '';
 
-if (!preg_match('#^private/ktp/[a-f0-9]{32}\.(jpg|png)$#', $relativePath)) {
+if (!$hasil) {
     http_response_code(404);
     exit('File KTP tidak ditemukan.');
 }
 
-$privateDirectory = realpath(__DIR__ . '/../private/ktp');
-$filePath = realpath(__DIR__ . '/../' . $relativePath);
-if (
-    $privateDirectory === false ||
-    $filePath === false ||
-    strpos($filePath, $privateDirectory . DIRECTORY_SEPARATOR) !== 0 ||
-    !is_file($filePath)
-) {
-    http_response_code(404);
-    exit('File KTP tidak ditemukan.');
+$fileData = $hasil['foto_ktp_data'];
+if ($fileData !== null && $fileData !== '') {
+    $mime = $hasil['foto_ktp_mime'];
+    if (!in_array($mime, ['image/jpeg', 'image/png'], true)) {
+        http_response_code(415);
+        exit('Format file KTP tidak didukung.');
+    }
+
+    header('Content-Type: ' . $mime);
+    header('Content-Length: ' . strlen($fileData));
+    header('Content-Disposition: inline; filename="KTP-' . $idPembeli . '"');
+    header('Cache-Control: private, no-store');
+    header('X-Content-Type-Options: nosniff');
+    echo $fileData;
+    exit;
 }
 
-$finfo = new finfo(FILEINFO_MIME_TYPE);
-$mime = $finfo->file($filePath);
-if (!in_array($mime, ['image/jpeg', 'image/png'], true)) {
-    http_response_code(415);
-    exit('Format file KTP tidak didukung.');
-}
-
-header('Content-Type: ' . $mime);
-header('Content-Length: ' . filesize($filePath));
-header('Content-Disposition: inline; filename="KTP-' . $idPembeli . '"');
-header('Cache-Control: private, no-store');
-header('X-Content-Type-Options: nosniff');
-readfile($filePath);
+http_response_code(404);
+exit('File KTP tidak ditemukan.');
 ?>
