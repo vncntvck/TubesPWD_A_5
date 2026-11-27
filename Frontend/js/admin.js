@@ -153,22 +153,136 @@
     /* ============================================================
        DASHBOARD PAGE
        ============================================================ */
+    var dashboardStockCategories = [];
+
+    function renderStockDistribution(data) {
+        var list = el('stockDistributionList');
+        var total = data.length;
+        var categoryCounts = Object.create(null);
+        var categoryLabels = Object.create(null);
+        var colors = {
+            'suv & crossover': '#171717',
+            'sedan premium': '#f59e0b',
+            'electric vehicle (ev)': '#78350f',
+            'mpv keluarga': '#a3a3a3'
+        };
+        var palette = ['#2866a5', '#16845d', '#926100', '#bd3d37'];
+
+        data.forEach(function (mobil) {
+            var rawCategory = String(mobil.kategori || '').trim();
+            var normalized = rawCategory.toLowerCase();
+            var label = rawCategory || 'Lainnya';
+
+            if (normalized.indexOf('suv') !== -1 || normalized.indexOf('crossover') !== -1) {
+                label = 'SUV & Crossover';
+            } else if (normalized.indexOf('sedan') !== -1) {
+                label = 'Sedan Premium';
+            } else if (normalized === 'ev' || normalized.indexOf('electric') !== -1) {
+                label = 'Electric Vehicle (EV)';
+            } else if (normalized.indexOf('mpv') !== -1) {
+                label = 'MPV Keluarga';
+            }
+
+            categoryCounts[label] = (categoryCounts[label] || 0) + 1;
+            categoryLabels[label.toLowerCase()] = label;
+        });
+
+        dashboardStockCategories = Object.keys(categoryCounts).map(function (label) {
+            return { label: categoryLabels[label.toLowerCase()], count: categoryCounts[label] };
+        }).sort(function (a, b) {
+            return b.count - a.count || a.label.localeCompare(b.label, 'id');
+        });
+
+        if (total > 0) {
+            var roundedTotal = 0;
+            dashboardStockCategories.forEach(function (category) {
+                var exactPercentage = (category.count / total) * 100;
+                category.percentage = Math.floor(exactPercentage);
+                category.remainder = exactPercentage - category.percentage;
+                roundedTotal += category.percentage;
+            });
+
+            var remainingPercentage = 100 - roundedTotal;
+            dashboardStockCategories.slice().sort(function (a, b) {
+                return b.remainder - a.remainder || b.count - a.count || a.label.localeCompare(b.label, 'id');
+            }).forEach(function (category, index) {
+                if (index < remainingPercentage) category.percentage += 1;
+            });
+        }
+
+        if (el('statStokMobil')) el('statStokMobil').textContent = total;
+        if (el('stockDistributionTotal')) el('stockDistributionTotal').textContent = total;
+        if (el('stockDistributionAvailable')) {
+            el('stockDistributionAvailable').textContent = total + ' Unit';
+        }
+        if (el('stockDistributionPercent')) {
+            el('stockDistributionPercent').textContent = total > 0 ? '100%' : '0%';
+        }
+        if (!list) return;
+
+        if (total === 0) {
+            list.innerHTML = '<p class="stock-distribution__message">Belum ada unit tersedia.</p>';
+            return;
+        }
+
+        list.innerHTML = dashboardStockCategories.map(function (category, index) {
+            var percentage = category.percentage;
+            var color = colors[category.label.toLowerCase()] || palette[index % palette.length];
+
+            return '<div class="stock-category">' +
+                '<div class="stock-category__meta">' +
+                    '<span class="stock-category__name">' +
+                        '<span class="stock-category__dot" style="--stock-color:' + color + '"></span>' +
+                        escapeHtml(category.label) +
+                    '</span>' +
+                    '<span class="stock-category__count">' +
+                        category.count + ' Unit <span>(' + percentage + '%)</span>' +
+                    '</span>' +
+                '</div>' +
+                '<div class="stock-category__track" role="progressbar" aria-label="' +
+                    escapeHtml(category.label) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' +
+                    percentage + '">' +
+                    '<span class="stock-category__bar" style="width:' + percentage +
+                        '%;--stock-color:' + color + '"></span>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function showStockDistributionError() {
+        dashboardStockCategories = [];
+        if (el('statStokMobil')) el('statStokMobil').textContent = '—';
+        if (el('stockDistributionTotal')) el('stockDistributionTotal').textContent = '—';
+        if (el('stockDistributionAvailable')) el('stockDistributionAvailable').textContent = '— Unit';
+        if (el('stockDistributionPercent')) el('stockDistributionPercent').textContent = '—%';
+        if (el('stockDistributionList')) {
+            el('stockDistributionList').innerHTML =
+                '<p class="stock-distribution__message stock-distribution__message--error">Gagal memuat distribusi stok.</p>';
+        }
+    }
+
     function loadDashboard() {
-        /* Stats from mobil */
         fetch(API + 'mobil.php')
             .then(function (r) { return r.json(); })
             .then(function (res) {
-                if (!res.status) return;
-                var stok = res.jumlah || 0;
-                if (el('statStokMobil')) el('statStokMobil').textContent = stok;
+                if (!res.status || !Array.isArray(res.data)) {
+                    showStockDistributionError();
+                    return;
+                }
+                renderStockDistribution(res.data);
             })
-            .catch(function () {});
+            .catch(showStockDistributionError);
 
-        /* Stats from transaksi */
         fetch(API + 'transaksi.php')
             .then(function (r) { return r.json(); })
             .then(function (res) {
-                if (!res.status || !Array.isArray(res.data)) return;
+                if (!res.status || !Array.isArray(res.data)) {
+                    var invalidTbody = el('recentTransaksiBody');
+                    if (invalidTbody) {
+                        invalidTbody.innerHTML = '<tr><td colspan="5" class="empty-state" style="padding:40px"><p>Data transaksi tidak tersedia.</p></td></tr>';
+                    }
+                    return;
+                }
                 var total    = res.data.length;
                 var proses   = res.data.filter(function (t) { return t.status === 'Diproses'; }).length;
                 var pendapatan = res.data
@@ -200,7 +314,55 @@
                     );
                 });
             })
-            .catch(function () {});
+            .catch(function () {
+                var tbody = el('recentTransaksiBody');
+                if (tbody) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="empty-state" style="padding:40px"><p>Gagal memuat data transaksi.</p></td></tr>';
+                }
+            });
+    }
+
+    function downloadDashboardReport() {
+        var rows = [
+            ['Laporan Dashboard Penjualan Showroom CARIEZ'],
+            ['Dibuat pada', new Date().toLocaleString('id-ID')],
+            ['Total unit tersedia', el('statStokMobil') ? el('statStokMobil').textContent : '—'],
+            ['Total transaksi', el('statTotalTransaksi') ? el('statTotalTransaksi').textContent : '—'],
+            ['Transaksi diproses', el('statDiproses') ? el('statDiproses').textContent : '—'],
+            ['Total pendapatan', el('statPendapatan') ? el('statPendapatan').textContent : '—'],
+            [],
+            ['Distribusi stok'],
+            ['Kategori', 'Jumlah unit', 'Persentase']
+        ];
+
+        dashboardStockCategories.forEach(function (category) {
+            rows.push([category.label, category.count, category.percentage + '%']);
+        });
+
+        function escapeCsv(value) {
+            return '"' + String(value === null || value === undefined ? '' : value).replace(/"/g, '""') + '"';
+        }
+
+        var csv = '\uFEFF' + rows.map(function (row) {
+            return row.map(escapeCsv).join(',');
+        }).join('\r\n');
+        var url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+        var link = document.createElement('a');
+        link.href = url;
+        var date = new Date();
+        var dateStamp = date.getFullYear() + '-' +
+            ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + date.getDate()).slice(-2);
+        link.download = 'laporan-dashboard-cariez-' + dateStamp + '.csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+    }
+
+    var downloadReportButton = el('btnDownloadReport');
+    if (downloadReportButton) {
+        downloadReportButton.addEventListener('click', downloadDashboardReport);
     }
 
     /* ============================================================
