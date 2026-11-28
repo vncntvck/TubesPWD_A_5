@@ -496,6 +496,87 @@ img {
     background: var(--yellow);
 }
 
+/* Navigasi khusus alur pemesanan pada halaman pembayaran */
+.payment-header {
+    background: var(--putih);
+    border-bottom: 1px solid var(--garis);
+}
+
+.payment-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: min(1200px, calc(100% - 48px));
+    min-height: 68px;
+    margin-inline: auto;
+}
+
+.payment-header__back {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    flex-shrink: 0;
+    color: var(--hitam);
+    font-size: .78rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.payment-header__back span {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.payment-header__back:hover {
+    color: #985c43;
+}
+
+.payment-header__nav {
+    min-width: 0;
+}
+
+.payment-flow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    white-space: nowrap;
+}
+
+.payment-flow__step {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    color: #898989;
+    font-size: .68rem;
+}
+
+.payment-flow__number {
+    font-weight: 700;
+}
+
+.payment-flow__dash {
+    color: #a9a9a9;
+}
+
+.payment-flow__step.is-active {
+    color: var(--hitam);
+    font-weight: 700;
+}
+
+.payment-flow__step.is-active .payment-flow__number {
+    color: #985c43;
+}
+
+.payment-flow__separator {
+    color: #c5c5c5;
+    font-size: .8rem;
+}
+
 /* JUDUL HALAMN */
 .pagehead{
     background: #ece9fb;
@@ -1328,6 +1409,22 @@ img.is-missing {
         grid-template-columns: 1fr auto;
     }
 }
+@media (max-width: 900px) {
+    .payment-header__nav {
+        flex: 1 1 auto;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .payment-header__nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .payment-flow {
+        justify-content: flex-start;
+        width: max-content;
+    }
+}
 @media (max-width: 1100px) {
     .navbar {
         gap: 16px;
@@ -1348,6 +1445,35 @@ img.is-missing {
     }
 }
 @media (max-width: 640px) {
+    .payment-header__inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: .75rem;
+        width: calc(100% - 32px);
+        padding-block: .85rem;
+    }
+
+    .payment-header__nav {
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .payment-header__nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .payment-flow {
+        justify-content: flex-start;
+        width: max-content;
+        gap: .45rem;
+        padding-bottom: .15rem;
+    }
+
+    .payment-flow__step {
+        font-size: .62rem;
+    }
+
     .wrap,
     .footer__inner {
         width: calc(100% - 32px);

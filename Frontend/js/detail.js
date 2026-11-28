@@ -73,7 +73,7 @@
     ];
 
     /* Gambar default jika tidak ada yang cocok */
-    var DEFAULT_IMG    = 'Img/mobil_homepage.jpg';
+    var DEFAULT_IMG    = 'Img/unit-belum-tersedia.svg';
     var DEFAULT_THUMBS = [DEFAULT_IMG, DEFAULT_IMG, DEFAULT_IMG, DEFAULT_IMG];
 
     /**
@@ -340,7 +340,8 @@
         var permintaanKendaraan = function (judul) {
             var detailUnit = 'Unit: ' + namaLengkap + ' (ID ' + mobil.id_mobil + ')';
             return 'mailto:hi@cariez.com?subject=' + encodeURIComponent(judul + ' - ' + namaLengkap) +
-                '&body=' + encodeURIComponent('Halo CARIEZ, saya ingin informasi untuk ' + detailUnit + '.');
+                '&body=' + encodeURIComponent('Halo CARIEZ, saya ingin informasi untuk ' + detailUnit +
+                    '. Harga OTR: ' + formatRupiah(mobil.harga) + '.');
         };
         var btnTestDrive = document.getElementById('btnTestDrive');
         var btnBrosur = document.getElementById('btnBrosur');

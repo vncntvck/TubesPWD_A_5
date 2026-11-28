@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title">
+  <title id="title">Foto unit belum tersedia</title>
+  <rect width="640" height="360" fill="#f3f4f6"/>
+  <g fill="none" stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+    <path d="M142 226h25l31-64c6-12 17-19 31-19h182c15 0 27 7 34 21l31 62h22c15 0 27 12 27 27v18H115v-18c0-15 12-27 27-27z"/>
+    <path d="M210 157h191l29 62H181z"/>
+    <circle cx="205" cy="269" r="25" fill="#f3f4f6"/>
+    <circle cx="434" cy="269" r="25" fill="#f3f4f6"/>
+  </g>
+  <text x="320" y="326" fill="#6b7280" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">FOTO UNIT BELUM TERSEDIA</text>
+</svg>

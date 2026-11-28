@@ -16,53 +16,48 @@
 </head>
 
 <body>
-    <!-- NAVBAR -->
-    <header class="navbar" id="navbar">
-        <a href="index.xhtml" class="nav__logo">
-            <img src="Img/logo/Logo CARIEZ.png" alt="CARIEZ" /> 
-        </a>
-        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">&#9776;</button>
-        <nav class="nav-menu" id="navMenu">
-            <a href="catalog.xhtml">KOLEKSI MOBIL</a>
-            <a href="index.xhtml#tentang">ABOUT US</a>
-        </nav>
-        <div class="nav-actions">
-            <form class="nav-search" id="navSearch" action="catalog.xhtml" method="get" role="search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <label class="visually-hidden" for="navSearchInput">Cari mobil</label>
-                <input type="search" id="navSearchInput" name="q" placeholder="Cari mobil..." autocomplete="off" />
-            </form>
-            <a href="login.xhtml" class="nav-action nav-login" aria-label="Login" title="Login">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M5 21a7 7 0 0 1 14 0" />
-                </svg>
+    <header class="payment-header">
+        <div class="payment-header__inner">
+            <a class="payment-header__back" id="backToUnit" href="catalog.xhtml">
+                <span aria-hidden="true">&#8592;</span> Kembali ke Detail Unit
             </a>
+            <nav class="payment-header__nav" aria-label="Langkah pemesanan">
+                <ol class="payment-flow">
+                    <li class="payment-flow__step">
+                        <span class="payment-flow__number">01</span>
+                        <span class="payment-flow__dash">-</span>
+                        <span class="payment-flow__label">Spesifikasi</span>
+                    </li>
+                    <li class="payment-flow__separator" aria-hidden="true">/</li>
+                    <li class="payment-flow__step">
+                        <span class="payment-flow__number">02</span>
+                        <span class="payment-flow__dash">-</span>
+                        <span class="payment-flow__label">Harga (OTR)</span>
+                    </li>
+                    <li class="payment-flow__separator" aria-hidden="true">/</li>
+                    <li class="payment-flow__step is-active" aria-current="step">
+                        <span class="payment-flow__number">03</span>
+                        <span class="payment-flow__dash">-</span>
+                        <span class="payment-flow__label">Pembayaran &amp; Leasing</span>
+                    </li>
+                    <li class="payment-flow__separator" aria-hidden="true">/</li>
+                    <li class="payment-flow__step">
+                        <span class="payment-flow__number">04</span>
+                        <span class="payment-flow__dash">-</span>
+                        <span class="payment-flow__label">Konfirmasi SPK</span>
+                    </li>
+                </ol>
+            </nav>
         </div>
     </header>
 
     <main>
-        <!-- Judul halaman -->
-        <div class="pagehead">
-            <div class="wrap pagehead__in">
-                <div class="steps">
-                    <span class="step is-active"><b>01</b><span>Pembayaran Tunai</span></span><i class="step__line"></i>
-                    <span class="step"><b>02</b><span>Lengkapi Data</span></span><i class="step__line"></i>
-                    <span class="step"><b>03</b><span>Riwayat<br />Pemesanan</span></span><i class="step__line"></i>
-                    <span class="step"><b>04</b><span>Selesai</span></span>
-                </div>
-            </div>
-        </div>
-
         <div class="wrap main">
             <!-- sisi kiri -->
             <div class="side">
                 <div class="card car">
                     <div class="car__img">
-                        <img src="Img/mobil_homepage.jpg" alt="Unit pilihan" id="orderCarImage" />
+                        <img src="Img/unit-belum-tersedia.svg" alt="Unit pilihan" id="orderCarImage" />
                     </div>
                     <div class="car__body">
                         <h2 class="car__name" id="orderCarName">Memuat unit...</h2>

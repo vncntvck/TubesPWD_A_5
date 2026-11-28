@@ -81,14 +81,17 @@ document.addEventListener('DOMContentLoaded', function () {
         /* -- Wrapper gambar agar image zoom tidak keluar bingkai -- */
         var imgWrap = buatElemen('div', 'car-card__img-wrap');
         var gambar  = buatElemen('img', 'car-card__img');
-        if (mobil.foto_utama) {
-            var alamatFoto = mobil.foto_utama.replace(/\\/g, '/');
-            gambar.src = new URL(alamatFoto, window.location.href).href;
-        }
+        gambar.src = mobil.foto_utama
+            ? new URL(mobil.foto_utama.replace(/\\/g, '/'), window.location.href).href
+            : 'Img/unit-belum-tersedia.svg';
         gambar.alt    = namaMobil;
         gambar.loading = 'lazy';
         gambar.width  = 640;
         gambar.height = 360;
+        gambar.onerror = function () {
+            gambar.onerror = null;
+            gambar.src = 'Img/unit-belum-tersedia.svg';
+        };
         imgWrap.appendChild(gambar);
         kartu.appendChild(imgWrap);
 

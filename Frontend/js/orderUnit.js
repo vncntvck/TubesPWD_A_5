@@ -9,7 +9,7 @@
     var idParam = params.get('car') || '';
     var carId = /^\d+$/.test(idParam) ? parseInt(idParam, 10) : 0;
     var apiBase = new URL('../backend/api/', window.location.href).href;
-    var fallbackImage = 'Img/mobil_homepage.jpg';
+    var fallbackImage = 'Img/unit-belum-tersedia.svg';
     var biayaAdmin = 2500000;
     var persentaseBooking = 0.20;
     var state = {
@@ -116,6 +116,11 @@
     if (!carId || carId < 1) {
         window.location.replace('catalog.xhtml');
         return;
+    }
+
+    var backToUnit = document.getElementById('backToUnit');
+    if (backToUnit) {
+        backToUnit.href = 'detail.xhtml?id=' + encodeURIComponent(carId);
     }
 
     document.querySelectorAll('[data-order-payment-link]').forEach(function (link) {

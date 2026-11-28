@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/koneksi.php';
+require_once __DIR__ . '/../config/mobil_foto.php';
 
 function gagal($pesan, $kode = 500)
 {
@@ -44,9 +45,7 @@ if (!$mobil) {
     gagal('Mobil tidak ditemukan.', 404);
 }
 
-if (isset($mobil['foto_utama']) && $mobil['foto_utama'] !== null) {
-    $mobil['foto_utama'] = str_replace('\\', '/', $mobil['foto_utama']);
-}
+$mobil['foto_utama'] = cariezFotoMobil($mobil);
 
 echo json_encode([
     'status' => true,

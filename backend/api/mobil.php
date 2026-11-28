@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 include '../config/koneksi.php';
+require_once __DIR__ . '/../config/mobil_foto.php';
 
 function gagal($pesan, $kode = 500)
 {
@@ -98,9 +99,7 @@ if (!$hasil) {
 
 $data = [];
 while ($baris = $hasil->fetch_assoc()) {
-    if (isset($baris['foto_utama']) && $baris['foto_utama'] !== null) {
-        $baris['foto_utama'] = str_replace('\\', '/', $baris['foto_utama']);
-    }
+    $baris['foto_utama'] = cariezFotoMobil($baris);
     $data[] = $baris;
 }
 

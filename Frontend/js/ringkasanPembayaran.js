@@ -47,12 +47,12 @@ function initializeOrderHistoryPage() {
             ? vehicle.foto_utama.replace(/\\/g, '/')
             : '';
         if (!path || path.indexOf('..') !== -1 || /^(?:[a-z]+:|\/)/i.test(path)) {
-            path = 'Img/mobil_homepage.jpg';
+            path = 'Img/unit-belum-tersedia.svg';
         }
         image.alt = [vehicle.merek, vehicle.model].filter(Boolean).join(' ');
         image.onerror = function () {
             image.onerror = null;
-            image.src = 'Img/mobil_homepage.jpg';
+            image.src = 'Img/unit-belum-tersedia.svg';
         };
         image.src = path;
     }
