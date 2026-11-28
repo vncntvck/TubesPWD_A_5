@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /* -- Tombol detail dengan underline animasi -- */
         var tombolDetail = buatElemen('a', 'car-card__link', 'Tanyakan harga');
-        tombolDetail.href = 'detail.xhtml?car=' + mobil.id_mobil;
+        tombolDetail.href = 'detail.xhtml?id=' + encodeURIComponent(mobil.id_mobil);
         kartu.appendChild(tombolDetail);
 
         return kartu;

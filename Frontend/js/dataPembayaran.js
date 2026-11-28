@@ -10,6 +10,15 @@ function initializeOrdererDataPage() {
     if (!saveButton || !formStatus) return;
 
     var apiBase = new URL('../backend/api/', window.location.href).href;
+    var params = new URLSearchParams(window.location.search);
+    var carParam = params.get('car') || '';
+    var carId = /^\d+$/.test(carParam) ? parseInt(carParam, 10) : 0;
+    var orderUnit = window.orderUnit;
+
+    if (!carId || !orderUnit || orderUnit.id !== carId) {
+        window.location.replace('catalog.xhtml');
+        return;
+    }
 
     saveButton.addEventListener('click', function () {
         /* 1. Validasi semua field wajib */
@@ -38,13 +47,20 @@ function initializeOrdererDataPage() {
         var income      = (document.getElementById('monthlyIncome')|| {}).value || '';
         var duration    = (document.getElementById('employmentDuration')|| {}).value || '';
 
-        /* 3. Ambil id_mobil dari sessionStorage / URL param (dipassing dari detail.xhtml) */
-        var params      = new URLSearchParams(window.location.search);
-        var idMobil     = parseInt(params.get('car') || sessionStorage.getItem('id_mobil') || '0', 10);
+        /* Gunakan hanya unit yang sudah dimuat dari ID pada URL. */
+        var unit = orderUnit.data;
+        if (!unit || String(unit.id_mobil) !== String(carId) ||
+            !Number.isFinite(orderUnit.totalHarga) || !Number.isFinite(orderUnit.uangMuka)) {
+            formStatus.textContent = 'Data unit belum berhasil diverifikasi. Muat ulang halaman.';
+            formStatus.style.color = '#ef4444';
+            return;
+        }
+
+        var idMobil     = carId;
         var idPengguna  = parseInt(sessionStorage.getItem('id_pengguna') || '0', 10);
         var metodeBayar = sessionStorage.getItem('metode_pembayaran') || 'Virtual Account';
-        var totalHarga  = parseFloat(sessionStorage.getItem('total_harga') || '0');
-        var uangMuka    = parseFloat(sessionStorage.getItem('uang_muka') || '0');
+        var totalHarga  = orderUnit.totalHarga;
+        var uangMuka    = orderUnit.uangMuka;
 
         if (idPengguna <= 0) {
             formStatus.textContent = 'Silakan masuk ke akun sebelum mengirim data dan KTP.';
@@ -72,6 +88,8 @@ function initializeOrdererDataPage() {
         var payload = {
             id_pengguna:       idPengguna,
             id_mobil:          idMobil,
+            nama_mobil:        [unit.merek, unit.model, unit.varian].filter(Boolean).join(' '),
+            harga_unit:        Number(unit.harga),
             metode_pembayaran: metodeBayar,
             total_harga:       totalHarga,
             uang_muka:         uangMuka,
@@ -110,10 +128,15 @@ function initializeOrdererDataPage() {
                         throw new Error(res.pesan || 'Transaksi gagal disimpan.');
                     }
                     sessionStorage.setItem('id_transaksi', res.data.id_transaksi);
+                    sessionStorage.setItem('id_mobil', String(idMobil));
                     formStatus.textContent = 'KTP dan data berhasil disimpan. Mengalihkan ke ringkasan pesanan...';
                     formStatus.style.color = '#22c55e';
                     setTimeout(function () {
-                        window.location.assign('ringkasanPembayaran.xhtml');
+                        var query = new URLSearchParams({
+                            order: String(res.data.id_transaksi),
+                            car: String(idMobil)
+                        });
+                        window.location.assign('ringkasanPembayaran.xhtml?' + query.toString());
                     }, 1200);
                 });
             })

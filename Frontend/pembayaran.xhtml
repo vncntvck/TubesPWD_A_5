@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" />
     <link rel="stylesheet" href="css/pembayaran.css" />
     <link rel="stylesheet" href="css/ui-polish.css" />
+    <script src="js/orderUnit.js" defer="defer"></script>
     <script src="js/pembayaran.js" defer="defer"></script>
 </head>
 
@@ -61,40 +62,40 @@
             <div class="side">
                 <div class="card car">
                     <div class="car__img">
-                        <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="MX-5 RF" />
+                        <img src="Img/mobil_homepage.jpg" alt="Unit pilihan" id="orderCarImage" />
                     </div>
                     <div class="car__body">
-                        <h2 class="car__name">Mazda MX-5 RF</h2>
-                        <p class="car__sub">2.0L RF · Manual Transmission</p>
+                        <h2 class="car__name" id="orderCarName">Memuat unit...</h2>
+                        <p class="car__sub" id="orderCarSubtitle">Memuat varian...</p>
                         <div class="car__stats">
-                            <div><strong>1.998cc</strong><span>Kapasitas Mesin</span></div>
-                            <div><strong>184 PS</strong><span>Tenaga maksimum</span></div>
-                            <div><strong>205 Nm</strong><span>Torsi Puncak</span></div>
+                            <div>                            <strong id="orderCarEngine">Memuat...</strong><span>Kapasitas Mesin</span></div>
+                            <div>                            <strong id="orderCarPower">Memuat...</strong><span>Tenaga maksimum</span></div>
+                            <div>                            <strong id="orderCarTorque">Memuat...</strong><span>Torsi Puncak</span></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card cost">
+                <div class="card cost" id="orderCost">
                     <div class="cost__head">
-                        <h3>Ringkasan Biaya Unit</h3><a href="#" class="cost__link">Rincian biaya</a>
+                        <h3>Ringkasan Biaya Unit</h3><a href="#orderCost" class="cost__link">Rincian biaya</a>
                     </div>
                     <div class="cost__row">
                         <span>Harga On The Road (OTR)</span>
-                        <strong>Rp 948.000.000</strong>
+                        <strong id="orderOtr">Memuat...</strong>
                     </div>
                     <div class="cost__row">
                         <span>Biaya administrasi</span>
-                        <strong>Rp 2.500.000</strong>
+                        <strong id="orderAdmin">Memuat...</strong>
                     </div>
                     <div class="cost__row cost__row--sum">
                         <span>Subtotal pelunasan</span>
-                        <strong>Rp950.500.000</strong>
+                        <strong id="orderSubtotal">Memuat...</strong>
                     </div>
 
                     <div class="cost__fee">
                         <div>
                             <span class="cost__fee-label">Uang Muka</span>
-                            <strong class="cost__fee-amount">Rp 190.100.000</strong>
+                            <strong class="cost__fee-amount" id="orderDownPayment">Memuat...</strong>
                         </div>
                     </div>
                 </div>
@@ -126,7 +127,7 @@
 
                     <div class="total">
                         <div class="total__top">
-                            <div><span class="total__label">Total booking fee</span><strong class="total__amount" id="totalAmount">Rp 190.100.000</strong></div>
+                            <div><span class="total__label">Total booking fee</span><strong class="total__amount" id="orderBookingFee">Memuat...</strong></div>
                             <div class="total__deadline"><span>Batas pembayaran</span><strong id="sumDeadline">24 jam setelah konfirmasi</strong></div>
                         </div>
                         <div class="total__rows">
@@ -178,7 +179,7 @@
                         <span class="foot__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
                         <div><strong>Data Anda dilindungi</strong><span>Enkripsi berstandar industri dan hanya digunakan untuk pemrosesan pesanan.</span></div>
                     </div>
-                    <a href="data_pembayaran.xhtml" class="foot__btn" id="nextBtn">Lanjut Lengkapi Data<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+                    <a href="#" class="foot__btn" id="nextBtn" aria-disabled="true" tabindex="-1">Lanjut Lengkapi Data<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
                 </div>
                 <p class="foot__msg" id="footMsg"></p>
             </div>

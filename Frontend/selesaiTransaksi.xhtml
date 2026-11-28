@@ -158,6 +158,10 @@
                 <span class="success-card__val" id="scUnit">—</span>
             </div>
             <div class="success-card__row">
+                <span class="success-card__label">Total Pemesanan</span>
+                <span class="success-card__val" id="scTotal">—</span>
+            </div>
+            <div class="success-card__row">
                 <span class="success-card__label">Status</span>
                 <span class="success-card__val" style="color:#f59e0b;" id="scStatus">Menunggu Konfirmasi</span>
             </div>
@@ -169,41 +173,58 @@
 
         <div class="success-actions">
             <a href="catalog.xhtml" class="btn-success-primary">Lihat Katalog Lainnya</a>
-            <a href="ringkasanPembayaran.xhtml" class="btn-success-secondary">Lihat Ringkasan Pesanan</a>
+            <a href="ringkasanPembayaran.xhtml" class="btn-success-secondary" id="viewOrderSummary">Lihat Ringkasan Pesanan</a>
         </div>
     </div>
 
     <script>
         (function () {
-            var idTransaksi = sessionStorage.getItem('id_transaksi');
-            var idMobil     = sessionStorage.getItem('id_mobil');
+            var params = new URLSearchParams(window.location.search);
+            var orderParam = params.get('order') || '';
+            var carParam = params.get('car') || '';
+            var idTransaksi = /^\d+$/.test(orderParam) ? parseInt(orderParam, 10) : 0;
+            var idMobil = /^\d+$/.test(carParam) ? parseInt(carParam, 10) : 0;
 
-            if (idTransaksi) {
-                var el = document.getElementById('scOrderNo');
-                if (el) el.textContent = 'CRZ-' + String(idTransaksi).padStart(5, '0');
+            if (!idTransaksi || !idMobil) {
+                window.location.replace('catalog.xhtml');
+                return;
             }
 
-            var metode = sessionStorage.getItem('metode_pembayaran');
-            if (metode) {
-                var el2 = document.getElementById('scMetode');
-                if (el2) el2.textContent = metode;
-            }
+            sessionStorage.setItem('id_transaksi', String(idTransaksi));
+            sessionStorage.setItem('id_mobil', String(idMobil));
+            document.getElementById('scOrderNo').textContent =
+                'CRZ-' + String(idTransaksi).padStart(5, '0');
+            document.getElementById('viewOrderSummary').href =
+                'ringkasanPembayaran.xhtml?' + new URLSearchParams({
+                    order: String(idTransaksi),
+                    car: String(idMobil)
+                }).toString();
 
-            /* Ambil nama unit dari API */
-            if (idTransaksi) {
-                fetch('../backend/api/transaksi.php?id=' + idTransaksi)
-                    .then(function (r) { return r.json(); })
-                    .then(function (res) {
-                        if (res.status &amp;&amp; res.data) {
-                            var t = res.data;
-                            var unitEl = document.getElementById('scUnit');
-                            if (unitEl) unitEl.textContent = (t.merek || '') + ' ' + (t.model || '') + (t.varian ? ' ' + t.varian : '');
-                            var statusEl = document.getElementById('scStatus');
-                            if (statusEl) statusEl.textContent = t.status || 'Menunggu';
-                        }
-                    })
-                    .catch(function () {});
-            }
+            fetch('../backend/api/transaksi.php?id=' + encodeURIComponent(idTransaksi))
+                .then(function (response) {
+                    if (!response.ok) throw new Error('Data pesanan gagal dimuat.');
+                    return response.json();
+                })
+                .then(function (result) {
+                    if (!result.status || !result.data ||
+                        String(result.data.id_mobil) !== String(idMobil)) {
+                        throw new Error('Data pesanan tidak cocok dengan unit yang dipilih.');
+                    }
+                    var transaction = result.data;
+                    document.getElementById('scUnit').textContent =
+                        [transaction.merek, transaction.model, transaction.varian]
+                            .filter(Boolean).join(' ');
+                    document.getElementById('scTotal').textContent =
+                        'Rp ' + Number(transaction.total_harga).toLocaleString('id-ID');
+                    document.getElementById('scStatus').textContent =
+                        transaction.status || 'Menunggu';
+                    document.getElementById('scMetode').textContent =
+                        transaction.metode_pembayaran || 'Belum dipilih';
+                })
+                .catch(function (error) {
+                    document.getElementById('scStatus').textContent =
+                        error.message || 'Status pesanan gagal dimuat.';
+                });
         }());
     </script>
 </body>

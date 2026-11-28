@@ -61,15 +61,15 @@
             <aside class="side" aria-label="Ringkasan kendaraan dan biaya">
                 <section class="card car">
                     <div class="car__img">
-                        <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="Mazda MX-5 RF" />
+                        <img src="Img/mobil_homepage.jpg" alt="Unit pilihan" id="orderCarImage" />
                     </div>
                     <div class="car__body">
-                        <h2 class="car__name">Mazda MX-5 RF</h2>
-                        <p class="car__sub">2.0L RF Manual Transmission</p>
+                        <h2 class="car__name" id="orderCarName">Memuat unit...</h2>
+                        <p class="car__sub" id="orderCarSubtitle">Memuat varian...</p>
                         <div class="car__stats">
-                            <div><strong>1.998cc</strong><span>Kapasitas mesin</span></div>
-                            <div><strong>184 PS</strong><span>Tenaga maksimum</span></div>
-                            <div><strong>205 Nm</strong><span>Torsi puncak</span></div>
+                            <div><strong id="orderCarEngine">Memuat...</strong><span>Kapasitas mesin</span></div>
+                            <div><strong id="orderCarPower">Memuat...</strong><span>Tenaga maksimum</span></div>
+                            <div><strong id="orderCarTorque">Memuat...</strong><span>Torsi puncak</span></div>
                         </div>
                     </div>
                 </section>
@@ -77,24 +77,24 @@
                 <section class="card cost">
                     <div class="cost__head">
                         <h2>Ringkasan Biaya Unit</h2>
-                        <a href="pembayaran.xhtml" class="cost__link">Rincian biaya</a>
+                        <a href="pembayaran.xhtml" class="cost__link" id="orderPaymentLink">Rincian biaya</a>
                     </div>
                     <div class="cost__row">
                         <span>Harga On The Road (OTR)</span>
-                        <strong>Rp 948.000.000</strong>
+                        <strong id="orderOtr">Memuat...</strong>
                     </div>
                     <div class="cost__row">
                         <span>Biaya administrasi</span>
-                        <strong>Rp 2.500.000</strong>
+                        <strong id="orderAdmin">Memuat...</strong>
                     </div>
                     <div class="cost__row cost__row--sum">
                         <span>Subtotal pelunasan</span>
-                        <strong>Rp 950.500.000</strong>
+                        <strong id="orderSubtotal">Memuat...</strong>
                     </div>
                     <div class="cost__fee">
                         <div>
                             <span class="cost__fee-label">Uang tanda jadi saat ini</span>
-                            <strong class="cost__fee-amount">Rp 190.100.000</strong>
+                            <strong class="cost__fee-amount" id="orderDownPayment">Memuat...</strong>
                         </div>
                     </div>
                 </section>
@@ -119,8 +119,8 @@
                                 </svg>
                             </span>
                             <div class="order-panel__vehicle">
-                                <span>PESANAN AKTIF · CRZ-MX5-01582</span>
-                                <h3>Mazda MX-5 RF</h3>
+                                <span id="orderReference">Memuat nomor pesanan...</span>
+                                <h3 id="orderSummaryName">Memuat unit...</h3>
                             </div>
                             <span class="order-status">Menunggu verifikasi</span>
                         </div>
@@ -179,20 +179,20 @@
                         </div>
 
                         <div class="order-panel__meta">
-                            <span><i aria-hidden="true">◷</i> <span id="lastUpdated">Status pesanan contoh</span></span>
+                            <span><i aria-hidden="true">◷</i> <span id="lastUpdated">Memuat status pesanan...</span></span>
                             <span><i aria-hidden="true">⌖</i> CARIEZ · Yogyakarta</span>
                         </div>
                     </div>
 
                     <div class="order-documents">
-                        <a class="order-document" href="data_pembayaran.xhtml">
+                        <a class="order-document" href="data_pembayaran.xhtml" data-order-car-link="data">
                             <span class="order-document__icon order-document__icon--green" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /></svg>
                             </span>
                             <span class="order-document__text"><strong>Invoice booking fee</strong><small>PDF · Lihat detail pesanan</small></span>
                             <span class="order-document__action" aria-hidden="true">›</span>
                         </a>
-                        <a class="order-document" href="data_pembayaran.xhtml">
+                        <a class="order-document" href="data_pembayaran.xhtml" data-order-car-link="data">
                             <span class="order-document__icon order-document__icon--orange" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /></svg>
                             </span>
@@ -214,7 +214,7 @@
                         </div>
                     </div>
                     <div class="history-foot__actions">
-                        <a href="data_pembayaran.xhtml" class="history-back">Kembali</a>
+                        <a href="data_pembayaran.xhtml" class="history-back" data-order-car-link="data">Kembali</a>
                         <button id="finishOrder" class="history-finish" type="button">Selesaikan Proses
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
                         </button>

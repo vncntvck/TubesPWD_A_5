@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
 
 <head>
-    <title>IONIQ 5 — Detail Mobil | CARIEZ</title>
+    <title>Detail Mobil | CARIEZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" />
@@ -59,13 +59,13 @@
                             <polyline points="9 18 15 12 9 6"/>
                         </svg>
                     </li>
-                    <li><a href="catalog.xhtml?category=BEV+EV">BEV EV</a></li>
+                    <li><a href="catalog.xhtml" id="bcKategoriLink"><span id="bcKategori">Memuat kategori...</span></a></li>
                     <li aria-hidden="true">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"/>
                         </svg>
                     </li>
-                    <li aria-current="page">IONIQ 5</li>
+                    <li aria-current="page" id="bcModel">Memuat detail mobil...</li>
                 </ol>
             </div>
         </nav>
@@ -90,36 +90,15 @@
                         <!-- Dua gambar ditumpuk, crossfade lewat opacity -->
                         <img class="d-gallery__main d-gallery__main--a is-shown"
                              id="mainImgA"
-                             src="Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg"
-                             alt="IONIQ 5 — Tampak Depan" />
+                             src="Img/mobil_homepage.jpg"
+                             alt="Gambar mobil" />
                         <img class="d-gallery__main d-gallery__main--b"
                              id="mainImgB"
-                             src="Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg"
-                             alt="IONIQ 5 — tampilan" />
+                             src="Img/mobil_homepage.jpg"
+                             alt="Gambar mobil" />
                     </div>
 
-                    <div class="d-gallery__thumbs" id="dThumbs">
-                        <button type="button" class="d-thumb d-thumb--active"
-                                data-src="Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg"
-                                data-label="Eksterior Depan">
-                            <img src="Img/Mobil_New/mazzda/WhatsApp Image 2026-11-19 at 10.26.15.jpeg" alt="Eksterior depan" loading="lazy" />
-                        </button>
-                        <button type="button" class="d-thumb"
-                                data-src="Img/Mobil_New/mazzda/Mazda MX5 ND.png"
-                                data-label="Tampak Samping">
-                            <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png" alt="Tampak samping" loading="lazy" />
-                        </button>
-                        <button type="button" class="d-thumb"
-                                data-src="Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0965.webp"
-                                data-label="Interior Kokpit">
-                            <img src="Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0965.webp" alt="Interior kokpit" loading="lazy" />
-                        </button>
-                        <button type="button" class="d-thumb"
-                                data-src="Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0830.webp"
-                                data-label="Gaya Hidup">
-                            <img src="Img/Mobil_New/mazzda/Interior Mazda MX5/usnpx-26mazdamiata-jmv-0830.webp" alt="Gaya hidup" loading="lazy" />
-                        </button>
-                    </div>
+                    <div class="d-gallery__thumbs" id="dThumbs"></div>
 
                 </div>
 
@@ -128,23 +107,20 @@
 
                     <div class="d-info__meta">
                         <span class="d-badge d-badge--ev">
-                            <span class="d-badge__dot">●</span> Electric Vehicle
+                            <span class="d-badge__dot">●</span> <span id="badgeKategori">Memuat kategori...</span>
                         </span>
-                        <span class="d-info__year">Model Year 2024</span>
+                        <span class="d-info__year" id="infoTahun">Tahun belum tersedia</span>
                     </div>
 
-                    <h1 class="d-info__title">IONIQ 5</h1>
-                    <p class="d-info__desc">
-                        Desain revolusioner bertemu performa listrik masa depan.
-                        Powered-to-Pixel dengan interior minimalis, ruang kabin lega, dan teknologi pengisian ultra-cepat yang mengubah cara Anda berkendara.
-                    </p>
+                    <h1 class="d-info__title" id="infoJudul">Memuat detail mobil...</h1>
+                    <p class="d-info__desc" id="infoDesc">Informasi deskripsi belum tersedia.</p>
 
                     <!-- Kotak Harga -->
                     <div class="d-price-box">
                         <span class="d-price-box__label">HARGA OTR MULAI DARI</span>
-                        <strong class="d-price-box__amount">Rp 1.125.000.000</strong>
+                        <strong class="d-price-box__amount" id="infoHarga">Belum tersedia</strong>
                         <div class="d-price-box__cicilan">
-                            Cicilan mulai <strong>Rp 15.900.000 /bln</strong>
+                            Estimasi cicilan (DP 30%, 48 bulan) <strong id="infoCicilan">Memuat...</strong>
                             <a href="#d-promo" class="d-price-box__sim">Simulasi Cicilan</a>
                         </div>
                     </div>
@@ -153,49 +129,9 @@
                     <div class="d-color-picker">
                         <div class="d-color-picker__head">
                             <span class="d-color-picker__label">Pilihan Warna Eksterior</span>
-                            <span class="d-color-picker__active-name" id="colorName">Gravity Gold Matte</span>
+                            <span class="d-color-picker__active-name" id="colorName">Warna belum tersedia</span>
                         </div>
-                        <!--
-                            data-color-key  : kunci yang cocok dengan colorVariants di detail.js
-                            Ganti nilai src di colorVariants saat foto tiap warna sudah tersedia.
-                        -->
-                        <div class="d-swatches" role="radiogroup" aria-label="Pilih warna eksterior">
-                            <button type="button" class="d-swatch d-swatch--active"
-                                    style="background:#C9A84C;"
-                                    data-name="Gravity Gold Matte"
-                                    data-color-key="gold"
-                                    aria-label="Gravity Gold Matte"
-                                    aria-checked="true"
-                                    role="radio"></button>
-                            <button type="button" class="d-swatch"
-                                    style="background:#4A4D52;"
-                                    data-name="Cyber Gray Metallic"
-                                    data-color-key="gray"
-                                    aria-label="Cyber Gray Metallic"
-                                    aria-checked="false"
-                                    role="radio"></button>
-                            <button type="button" class="d-swatch"
-                                    style="background:#1A1A1A;"
-                                    data-name="Phantom Black Pearl"
-                                    data-color-key="black"
-                                    aria-label="Phantom Black Pearl"
-                                    aria-checked="false"
-                                    role="radio"></button>
-                            <button type="button" class="d-swatch"
-                                    style="background:#F5F5F0; border-color:#D0D0CC;"
-                                    data-name="Atlas White Matte"
-                                    data-color-key="white"
-                                    aria-label="Atlas White Matte"
-                                    aria-checked="false"
-                                    role="radio"></button>
-                            <button type="button" class="d-swatch"
-                                    style="background:#7C8FA6;"
-                                    data-name="Lucid Blue Pearl"
-                                    data-color-key="blue"
-                                    aria-label="Lucid Blue Pearl"
-                                    aria-checked="false"
-                                    role="radio"></button>
-                        </div>
+                        <div class="d-swatches" role="radiogroup" aria-label="Pilihan warna" hidden="hidden"></div>
                     </div>
 
                     <!-- CTA Buttons -->
@@ -208,19 +144,19 @@
                             </svg>
                         </a>
                         <div class="d-cta__row">
-                            <a href="#d-promo" class="d-btn d-btn--outline">
+                            <a href="#" class="d-btn d-btn--outline" id="btnTestDrive">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
                                     <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                                 </svg>
                                 Booking Test Drive
                             </a>
-                            <a href="#" class="d-btn d-btn--ghost">
+                            <a href="#" class="d-btn d-btn--ghost" id="btnBrosur">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                                     <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                                 </svg>
-                                Unduh Brosur
+                                Minta Brosur
                             </a>
                         </div>
                     </div>
@@ -243,10 +179,10 @@
                             </svg>
                         </span>
                         <strong class="d-highlight-card__num">
-                            <span class="d-counter" data-target="451" data-suffix=" km">0 km</span>
+                            <span id="highlightJarak">Belum tersedia</span>
                         </strong>
-                        <span class="d-highlight-card__title">Jarak Tempuh (WLTP)</span>
-                        <span class="d-highlight-card__sub">Baterai Long Range 72.6 kWh</span>
+                        <span class="d-highlight-card__title">Kilometer</span>
+                        <span class="d-highlight-card__sub" id="highlightJarakLabel">Kilometer kendaraan</span>
                     </div>
 
                     <div class="d-highlight-card sr-item" style="--sr-delay:0.1s">
@@ -256,10 +192,10 @@
                             </svg>
                         </span>
                         <strong class="d-highlight-card__num">
-                            <span class="d-counter" data-target="7.4" data-suffix=" dtk" data-decimal="1">0 dtk</span>
+                            <span id="highlightMesin">Belum tersedia</span>
                         </strong>
-                        <span class="d-highlight-card__title">Akselerasi (0–100 km/h)</span>
-                        <span class="d-highlight-card__sub">Respons instan motor elektrik</span>
+                        <span class="d-highlight-card__title">Kapasitas Mesin</span>
+                        <span class="d-highlight-card__sub">Spesifikasi kendaraan</span>
                     </div>
 
                     <div class="d-highlight-card sr-item" style="--sr-delay:0.2s">
@@ -270,10 +206,10 @@
                             </svg>
                         </span>
                         <strong class="d-highlight-card__num">
-                            <span class="d-counter" data-target="185" data-suffix=" km/h">0 km/h</span>
+                            <span id="highlightTenaga">Belum tersedia</span>
                         </strong>
-                        <span class="d-highlight-card__title">Top Speed</span>
-                        <span class="d-highlight-card__sub">Elektronik terbatas presisi</span>
+                        <span class="d-highlight-card__title">Tenaga Maksimum</span>
+                        <span class="d-highlight-card__sub">Spesifikasi kendaraan</span>
                     </div>
 
                     <div class="d-highlight-card sr-item" style="--sr-delay:0.3s">
@@ -284,10 +220,10 @@
                             </svg>
                         </span>
                         <strong class="d-highlight-card__num">
-                            <span class="d-counter" data-target="18" data-suffix=" mnt">0 mnt</span>
+                            <span id="highlightTorsi">Belum tersedia</span>
                         </strong>
-                        <span class="d-highlight-card__title">Ultra Fast Charging</span>
-                        <span class="d-highlight-card__sub">10% – 80%, DC 350 kW</span>
+                        <span class="d-highlight-card__title">Torsi Maksimum</span>
+                        <span class="d-highlight-card__sub">Spesifikasi kendaraan</span>
                     </div>
 
                 </div>
@@ -304,51 +240,16 @@
                 <div class="d-specs-col sr-item">
                     <div class="d-specs-col__head">
                         <h2 class="d-specs-col__title">Detail Spesifikasi</h2>
-                        <span class="d-badge d-badge--variant">Signature Long Range</span>
+                        <span class="d-badge d-badge--variant" id="specsVarian">Varian belum tersedia</span>
                     </div>
 
                     <table class="d-specs-table">
-                        <tbody>
-                            <tr>
-                                <td>Tipe Motor Listrik</td>
-                                <td>Permanent Magnet Synchronous Motor (PMSM)</td>
-                            </tr>
-                            <tr>
-                                <td>Kapasitas Baterai</td>
-                                <td>72.6 kWh Liquid-Cooled Lithium-Ion</td>
-                            </tr>
-                            <tr>
-                                <td>Tenaga Maksimum</td>
-                                <td>317 HP (483 kW)</td>
-                            </tr>
-                            <tr>
-                                <td>Torsi Puncak</td>
-                                <td>350 Nm Instan</td>
-                            </tr>
-                            <tr>
-                                <td>Sistem Penggerak</td>
-                                <td>Rear-Wheel Drive (RWD)</td>
-                            </tr>
-                            <tr>
-                                <td>Dimensi (P x L x T)</td>
-                                <td>4.635 mm × 1.890 mm × 1.605 mm</td>
-                            </tr>
-                            <tr>
-                                <td>Wheelbase</td>
-                                <td>3.000 mm (Platform E-GMP)</td>
-                            </tr>
-                            <tr>
-                                <td>Active Safety (ADAS)</td>
-                                <td>Hyundai SmartSense (FCA, LKA, LFA, BCW with BuckWa)</td>
-                            </tr>
-                            <tr>
-                                <td>Garansi Baterai</td>
-                                <td>8 Tahun / 160.000 km</td>
-                            </tr>
+                        <tbody id="specsBody">
+                            <tr><td colspan="2">Memuat spesifikasi...</td></tr>
                         </tbody>
                     </table>
 
-                    <a href="#" class="d-specs-more">
+                    <a href="#" class="d-specs-more" id="btnSpecs">
                         Lihat lembar spesifikasi selengkapnya
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="9 18 15 12 9 6"/>
@@ -363,16 +264,16 @@
                             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                         </svg>
                     </div>
-                    <span class="d-promo-card__eyebrow">PROMO EKSKLUSIF BULAN INI</span>
+                    <span class="d-promo-card__eyebrow">INFORMASI PEMBIAYAAN</span>
                     <h3 class="d-promo-card__title">Bawa pulang.<br />Bayar lebih ringan.</h3>
                     <p class="d-promo-card__desc">
-                        Dapatkan subsidi DP hingga Rp 60.000.000, bunga 0% hingga 2 tahun, dan gratis paket instalasi. Berlaku hingga akhir bulan, kuota terbatas.
+                        Hubungi tim kami untuk mendapatkan informasi skema pembayaran dan promo yang berlaku untuk kendaraan ini.
                     </p>
                     <div class="d-promo-card__footer">
-                        <span class="d-promo-card__footer-label">Skema Angsuran Mulai</span>
-                        <strong class="d-promo-card__footer-amount">Rp 15.900.000/bln</strong>
+                        <span class="d-promo-card__footer-label">Estimasi angsuran /bln</span>
+                        <strong class="d-promo-card__footer-amount" id="promoHarga">Memuat...</strong>
                     </div>
-                    <a href="#d-footer" class="d-promo-card__btn">Konsultasi Finansial</a>
+                    <a href="#d-footer" class="d-promo-card__btn" id="btnKonsultasi">Konsultasi Finansial</a>
                 </div>
 
             </div>
@@ -387,7 +288,7 @@
                 <div class="d-reco__head">
                     <div>
                         <h2 class="d-reco__title">You May Also Like</h2>
-                        <p class="d-reco__sub">Eksplorasi kendaraan listrik pilihan lainnya dari koleksi kami.</p>
+                        <p class="d-reco__sub">Eksplorasi kendaraan pilihan lainnya dari koleksi kami.</p>
                     </div>
                     <div class="d-reco__nav">
                         <button class="d-reco__nav-btn" id="recoPrev" aria-label="Sebelumnya">
@@ -403,57 +304,7 @@
                     </div>
                 </div>
 
-                <div class="d-reco__grid">
-
-                    <a href="detail.xhtml" class="d-reco-card sr-item">
-                        <div class="d-reco-card__img-wrap">
-                            <img src="Img/Mobil_New/mazzda/Mazda MX5 ND.png"
-                                 alt="IONIQ 6" loading="lazy" class="d-reco-card__img" />
-                            <span class="d-reco-card__badge d-reco-card__badge--blue">Electric Vehicle</span>
-                        </div>
-                        <div class="d-reco-card__body">
-                            <span class="d-reco-card__brand">Hyundai</span>
-                            <div class="d-reco-card__name-row">
-                                <span class="d-reco-card__name">IONIQ 6</span>
-                                <span class="d-reco-card__arrow" aria-hidden="true">→</span>
-                            </div>
-                            <span class="d-reco-card__price">Mulai Rp 1.252.000.000</span>
-                        </div>
-                    </a>
-
-                    <a href="detail.xhtml" class="d-reco-card sr-item" style="--sr-delay:0.1s">
-                        <div class="d-reco-card__img-wrap">
-                            <img src="Img/Mobil_New/toyota/GR SUPRA.png"
-                                 alt="Genesis G80 EV" loading="lazy" class="d-reco-card__img" />
-                            <span class="d-reco-card__badge d-reco-card__badge--green">Electric Vehicle</span>
-                        </div>
-                        <div class="d-reco-card__body">
-                            <span class="d-reco-card__brand">Genesis</span>
-                            <div class="d-reco-card__name-row">
-                                <span class="d-reco-card__name">G80 EV</span>
-                                <span class="d-reco-card__arrow" aria-hidden="true">→</span>
-                            </div>
-                            <span class="d-reco-card__price">Mulai Rp 2.869.000.000</span>
-                        </div>
-                    </a>
-
-                    <a href="detail.xhtml" class="d-reco-card sr-item" style="--sr-delay:0.2s">
-                        <div class="d-reco-card__img-wrap">
-                            <img src="Img/Mobil_New/toyota/Toyota MR2 SW20.png"
-                                 alt="Taycan 4S" loading="lazy" class="d-reco-card__img" />
-                            <span class="d-reco-card__badge d-reco-card__badge--purple">Electric Vehicle</span>
-                        </div>
-                        <div class="d-reco-card__body">
-                            <span class="d-reco-card__brand">Porsche</span>
-                            <div class="d-reco-card__name-row">
-                                <span class="d-reco-card__name">Taycan 4S</span>
-                                <span class="d-reco-card__arrow" aria-hidden="true">→</span>
-                            </div>
-                            <span class="d-reco-card__price">Mulai Rp 3.550.000.000</span>
-                        </div>
-                    </a>
-
-                </div>
+                <div class="d-reco__grid"></div>
             </div>
         </section>
 

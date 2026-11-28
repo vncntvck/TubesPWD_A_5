@@ -55,23 +55,6 @@ function initializePaymentPage() {
     var initialOption = document.querySelector('input[name="method"]:checked');
     if (initialOption) updateSelectedMethod(initialOption);
 
-    /* ---- Simpan info kendaraan dari URL param ---- */
-    var params  = new URLSearchParams(window.location.search);
-    var carId   = params.get('car');
-    if (carId) sessionStorage.setItem('id_mobil', carId);
-
-    /* Ambil total dari halaman (harga OTR) */
-    var totalEl = document.getElementById('totalAmount');
-    if (totalEl) {
-        var hargaText = totalEl.textContent.replace(/[^0-9]/g, '');
-        if (hargaText) sessionStorage.setItem('uang_muka', hargaText);
-    }
-
-    /* Link ke data_pembayaran — sertakan car param */
-    var nextBtn = document.getElementById('nextBtn');
-    if (nextBtn && carId) {
-        nextBtn.href = 'data_pembayaran.xhtml?car=' + carId;
-    }
 }
 
 if (document.readyState === 'loading') {

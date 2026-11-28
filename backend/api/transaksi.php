@@ -84,7 +84,8 @@ if ($method === 'POST') {
     $data = ambilInputJson();
 
     $idPenggunaSesi = (int) ($_SESSION['id_pengguna'] ?? 0);
-    $idPenggunaInput = (int) ($data['id_pengguna'] ?? 0);
+    $idPenggunaInputRaw = $data['id_pengguna'] ?? 0;
+    $idPenggunaInput = is_scalar($idPenggunaInputRaw) ? (int) $idPenggunaInputRaw : 0;
     if ($idPenggunaSesi <= 0) {
         kirimRespons(false, 'Silakan login untuk membuat transaksi.', null, 401);
     }
@@ -93,43 +94,99 @@ if ($method === 'POST') {
     }
 
     $idPengguna  = $idPenggunaSesi;
-    $idMobil     = (int) ($data['id_mobil'] ?? 0);
-    $metodeBayar = trim($data['metode_pembayaran'] ?? '');
-    $totalHarga  = $data['total_harga'] ?? 0;
-    $uangMuka    = $data['uang_muka'] ?? 0;
-    $status      = trim($data['status'] ?? 'Menunggu');
+    $idMobilInput = $data['id_mobil'] ?? '';
+    $idMobil = is_scalar($idMobilInput) && ctype_digit((string) $idMobilInput)
+        ? (int) $idMobilInput
+        : 0;
+    $namaMobilInput = $data['nama_mobil'] ?? '';
+    $namaMobil = is_string($namaMobilInput) ? trim($namaMobilInput) : '';
+    $hargaUnitInput = $data['harga_unit'] ?? null;
+    $metodeInput = $data['metode_pembayaran'] ?? '';
+    $metodeBayar = is_string($metodeInput) ? trim($metodeInput) : '';
     $catatanPemesan = $data['catatan_pemesan'] ?? null;
 
-    if ($idPengguna <= 0 || $idMobil <= 0 || $metodeBayar === '') {
-        kirimRespons(false, 'id_pengguna, id_mobil, dan metode_pembayaran wajib diisi.', null, 400);
+    if ($idPengguna <= 0 || $idMobil <= 0 || $namaMobil === '' ||
+        !is_numeric($hargaUnitInput) || $metodeBayar === '') {
+        kirimRespons(false, 'Identitas unit dan metode pembayaran wajib diisi dengan benar.', null, 400);
     }
 
-    if (!is_numeric($totalHarga) || $totalHarga < 0) {
-        kirimRespons(false, 'Total harga tidak valid.', null, 400);
-    }
-
-    if (!is_numeric($uangMuka) || $uangMuka < 0) {
-        kirimRespons(false, 'Uang muka tidak valid.', null, 400);
-    }
-
-    if (!in_array($status, ['Menunggu', 'Diproses', 'Selesai', 'Dibatalkan'], true)) {
-        kirimRespons(false, 'Status transaksi tidak valid.', null, 400);
+    if (!in_array($metodeBayar, ['Virtual Account', 'Transfer Bank', 'QRIS Instan'], true)) {
+        kirimRespons(false, 'Metode pembayaran tidak valid.', null, 400);
     }
 
     if ($catatanPemesan !== null && !is_string($catatanPemesan)) {
         kirimRespons(false, 'Catatan pemesan tidak valid.', null, 400);
     }
 
+    if (!$koneksi->begin_transaction()) {
+        kirimRespons(false, 'Transaksi database gagal dimulai.', null, 500);
+    }
+
+    $mobilQuery = $koneksi->prepare(
+        "SELECT merek, model, varian, harga
+         FROM mobil
+         WHERE id_mobil = ? AND status = 'Tersedia'
+         FOR UPDATE"
+    );
+    if (!$mobilQuery) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Data unit gagal diperiksa.', null, 500);
+    }
+    $mobilQuery->bind_param('i', $idMobil);
+    if (!$mobilQuery->execute()) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Data unit gagal diperiksa.', null, 500);
+    }
+    $mobil = $mobilQuery->get_result()->fetch_assoc();
+    if (!$mobil) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Unit tidak tersedia atau sudah dipesan.', null, 409);
+    }
+
+    $namaUnitDatabase = implode(' ', array_filter([
+        $mobil['merek'],
+        $mobil['model'],
+        $mobil['varian']
+    ], function ($bagian) {
+        return $bagian !== null && trim((string) $bagian) !== '';
+    }));
+    if ($namaMobil !== $namaUnitDatabase ||
+        (int) round((float) $hargaUnitInput * 100) !== (int) round((float) $mobil['harga'] * 100)) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Data unit berubah. Muat ulang halaman dan pilih unit kembali.', null, 409);
+    }
+
+    $biayaAdmin = 2500000.00;
+    $totalHarga = (float) $mobil['harga'] + $biayaAdmin;
+    $uangMuka = round($totalHarga * 0.20, 2);
+    $status = 'Menunggu';
+
     $query = $koneksi->prepare(
         'INSERT INTO transaksi (id_pengguna, id_mobil, metode_pembayaran, total_harga, uang_muka, status, catatan_pemesan, tanggal_transaksi)
          VALUES (?, ?, ?, ?, ?, ?, ?, NOW())'
     );
-    if (!$query) kirimRespons(false, 'Query gagal disiapkan.', null, 500);
+    if (!$query) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Query gagal disiapkan.', null, 500);
+    }
 
     $query->bind_param('iisddss', $idPengguna, $idMobil, $metodeBayar, $totalHarga, $uangMuka, $status, $catatanPemesan);
-    if (!$query->execute()) kirimRespons(false, 'Transaksi gagal disimpan.', null, 500);
+    if (!$query->execute()) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Transaksi gagal disimpan.', null, 500);
+    }
+    $idTransaksi = $koneksi->insert_id;
+    if (!$koneksi->commit()) {
+        $koneksi->rollback();
+        kirimRespons(false, 'Transaksi gagal disimpan.', null, 500);
+    }
 
-    kirimRespons(true, 'Transaksi berhasil dibuat.', ['id_transaksi' => $koneksi->insert_id], 201);
+    kirimRespons(true, 'Transaksi berhasil dibuat.', [
+        'id_transaksi' => $idTransaksi,
+        'id_mobil' => $idMobil,
+        'total_harga' => $totalHarga,
+        'uang_muka' => $uangMuka
+    ], 201);
 }
 
 // PUT — update status transaksi

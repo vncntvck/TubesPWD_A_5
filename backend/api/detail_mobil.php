@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
-include '../config/koneksi.php';
+require_once __DIR__ . '/../config/koneksi.php';
 
 function gagal($pesan, $kode = 500)
 {
@@ -9,7 +9,8 @@ function gagal($pesan, $kode = 500)
     exit;
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$idParam = $_GET['id'] ?? '';
+$id = is_scalar($idParam) && ctype_digit((string) $idParam) ? (int) $idParam : 0;
 
 if ($id <= 0) {
     gagal('ID mobil tidak valid.', 400);
@@ -17,7 +18,8 @@ if ($id <= 0) {
 
 $sql = "SELECT id_mobil, merek, model, varian, tahun_produksi, warna, jenis_transmisi,
                harga, harga_kredit, kondisi, kategori, kilometer, foto_utama, status,
-               deskripsi, kapasitas_mesin, tenaga, torsi, kapasitas_penumpang
+               deskripsi, kapasitas_cc AS kapasitas_mesin, tenaga_hp AS tenaga,
+               torsi_nm AS torsi, kapasitas_kursi AS kapasitas_penumpang
         FROM mobil
         WHERE id_mobil = ? AND status = 'Tersedia'";
 
